@@ -1,8 +1,22 @@
-
+import { useState, useEffect } from 'react'
+import {Route, Routes, useNavigate} from 'react-router-dom'
+import {Login} from './components/index'
 
 const App = () => {
+    const [token, setToken] = useState(window.localStorage.getItem('token') || '')
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        if(!token){
+            navigate('login') 
+        } 
+    }, [token])
+    
     return (
-        <h1>Hello World</h1>
+        <Routes>
+            <Route path='login' element={<Login />}/>
+
+        </Routes>
     )
 }
 
