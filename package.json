@@ -17,8 +17,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "react-scripts start index",
-    "seed": "node db/seed"
-
+    "seed": "node db/seed",
+    "seed:dev": "nodemon db/seed"
   },
   "author": "",
   "license": "ISC",
@@ -35,5 +35,8 @@
     ]
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
