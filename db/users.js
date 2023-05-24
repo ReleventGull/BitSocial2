@@ -14,6 +14,20 @@ const createUser = async({username, password}) => {
     }
 }
 
+const checkExistingUserByUsername = async(username) => {
+    try {
+        const {rows: [user]} = await client.query(`
+        SELECT * FROM users
+        WHERE users.username=$1
+        `, [username])
+        return user
+    }catch(error) {
+        console.error("There was an error checking if user exists by username", error)
+        throw error
+    }
+}
+
 module.exports = {
-    createUser
+    createUser,
+    checkExistingUserByUsername
 }
