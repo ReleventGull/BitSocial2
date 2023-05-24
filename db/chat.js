@@ -14,6 +14,22 @@ const createChat = async({user1, user2}) => {
     }
 }
 
+const getUserChatByUserId = async(userId) => {
+    try {
+        const {rows} = await client.query(`
+        SELECT chat.*, users.username
+        FROM chat
+        JOIN users ON users.id=chat.user_id_2
+        WHERE chat.user_id_1=$1
+        `, [userId])
+        return rows
+    }catch(error) {
+        console.error("There was an error getting the user chats by the user id", error)
+        throw error
+    }
+}
+
 module.exports = {
-    createChat
+    createChat,
+    getUserChatByUserId
 }
