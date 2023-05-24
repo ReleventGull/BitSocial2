@@ -5,7 +5,7 @@ const createUser = async({username, password}) => {
         const {rows: [user]} = await client.query(`
         INSERT INTO users (username, password)
         VALUES ($1, $2)
-        RETURNING *
+        RETURNING id, username
         `, [username, password])
         return user
     }catch(error) {
