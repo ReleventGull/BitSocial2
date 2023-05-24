@@ -38,10 +38,10 @@ h1, h2, h3, h4, p {
 
 .loginContainer {
     box-sizing: border-box;
-    min-height: 800px;
-    width: 700px;
+    min-height: 700px;
+    width: 800px;
     max-width: 100%;
-    padding: 15px;
+    padding: 2rem;
     background-color: var(--third);
     margin: auto;
     display: flex;;
