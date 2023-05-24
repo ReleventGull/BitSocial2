@@ -1,6 +1,6 @@
 const client = require('./index')
 
-const createUser = async() => {
+const createUser = async({username, password}) => {
     try {
         const {rows: [user]} = await client.query(`
         INSERT INTO users (username, password)
