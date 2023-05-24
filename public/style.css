@@ -138,12 +138,12 @@ h1, h2, h3, h4, p {
         width: 100%;
         min-height: 100vh;
         border-radius: 0;
-        padding: 0
+        padding: 1rem
     }
     .inputBox {
-        width: 80%
+        width: 90%
     }
     .loginButton {
-        width: 80%
+        width: 90%
     }
 }
