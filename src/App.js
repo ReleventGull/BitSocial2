@@ -8,6 +8,7 @@ const App = () => {
     
     useEffect(() => {
         if(!token){
+            console.log("I got here")
             navigate('login') 
         } 
     }, [token])
