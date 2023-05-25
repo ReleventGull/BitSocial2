@@ -1,27 +1,30 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 
-import {useState} from 'react'
+import {useEffect, } from 'react'
 
 
 const NavBar = () => {
-    const [chats, setChats] = useState('')
-    const [page, currentPage ] = useState('home')
-    
+    const navigate = useNavigate()
     const loc = useLocation()
-    console.log(loc)
+    useEffect(() => {
+        if (loc.pathname == '/') {
+            navigate('home')
+        }
+    }, [])
     return(
+    <>
         <div className="navBar">
             <div className="navBarBox">
-                <Link className={"imageBox" + (page == 'home' ? ' active' : '')} >
+                <Link className={"imageBox" + (loc.pathname == '/home' ? ' active' : '')} >
                     <img src='/images/home.png'/>
                 </Link>
-                <Link className={"imageBox" + (page == 'chat' ? ' active' : '')}>
+                <Link className={"imageBox" + (loc.pathname == '/chat' ? ' active' : '')}>
                     <img src='/images/Chat.png'/>
                 </Link>
-                <Link className={"imageBox" + (page == 'profile' ? ' active' : '')}>
+                <Link className={"imageBox" + (loc.pathname == '/profile' ? ' active' : '')}>
                     <img src='/images/Profile.png'/>
                 </Link>
-                <Link className={"imageBox" + (page == 'gear' ? ' active' : '')}>
+                <Link className={"imageBox" + (loc.pathname == '/gear' ? ' active' : '')}>
                     <img src='/images/Gear.png'/>
                 </Link>
                 <div className="imageBox">
@@ -29,6 +32,8 @@ const NavBar = () => {
                 </div>
             </div>
         </div>
+        <Outlet />
+    </>
     )
 }
 
