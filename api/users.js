@@ -2,7 +2,7 @@ const express = require('express')
 const userRouter = express.Router()
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = process.env
-const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername} = require('../db/users')
+const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch} = require('../db/users')
 
 userRouter.post('/register', async(req, res, next) => {
     try {
@@ -83,5 +83,16 @@ userRouter.post('/login', async(req, res, next) => {
     }
 })
 
+userRouter.post('/search', async(req, res, next) => {
+    try {
+        const {searchQuery, pagination} = req.body
+        const users = await getUsersFromSearch({searchQuery: searchQuery})
+        
+        res.send(users)
+    }catch(error){
+        console.error('There was an error searching users in the api', error)
+        throw error
+    }
+})
 
 module.exports = userRouter
