@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import {Route, Routes, useNavigate} from 'react-router-dom'
-import {Login} from './components/index'
+import {Login, NavBar} from './components/index'
 
 const App = () => {
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
@@ -15,8 +15,11 @@ const App = () => {
     
     return (
         <Routes>
-            <Route path='login' element={<Login />}/>
+            <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
+            
+            <Route path='/' element={<NavBar />}>
 
+            </Route>
         </Routes>
     )
 }
