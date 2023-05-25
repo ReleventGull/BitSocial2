@@ -21,6 +21,8 @@ h1, h2, h3, h4, p {
 /****************** ROOT ***************/
 :root {
     --primary: #292F36;
+    --second-primary: #171a1e;
+    --third-primary: #090c0f;
     --secondary: #4ECDC4;
     --third: #F7FFF7;
     --fourth: #cd7672;
@@ -210,5 +212,62 @@ h1, h2, h3, h4, p {
 
 .outlet {
     margin-left: 7rem;
+    height: 100%;
+    background-color: var(--second-primary);
 }
 
+.chatSelectionBox {
+    background-color: var(--third-primary);
+    min-width: 13rem;
+    width: 20rem;
+    max-width: 40%;
+    height: 100%;
+    padding: .5rem;
+    box-sizing: border-box;
+}
+
+.topChatSelection{
+    box-sizing: border-box;
+    gap: 5px;
+    padding: .5rem;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    color: var(--third);
+    width: 100%;
+    height: 5rem;
+    min-height: 5rem;
+}
+
+.chatSelectionDiv {
+    height: 100%;
+    width: 50%;
+    display: grid;
+    place-items: center;
+    transition: '.2s';
+    cursor: pointer;
+}
+.chatSelectionButtons {
+    font-size: 140%;
+}
+
+.searchInput {
+    color: var(--third);
+    font-size: 1rem;
+    border-radius: 10px;
+    height: 2.7rem;
+    box-sizing: border-box;
+    padding: .5rem;
+    padding-left: 3.5rem;
+    width: 100%;
+    background-color: var(--primary);
+    border: none;
+    outline: none;
+    background-image: url(/images/Search.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position-x: .8rem;
+    background-size: 2rem;
+    margin-top: 1rem;
+
+}
