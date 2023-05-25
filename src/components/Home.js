@@ -2,7 +2,9 @@
 
 const Home = () => {
     return (
-        <h2>Home Page</h2>
+        <div className="outlet Home">
+
+        </div>
     )
 }
 export default Home
