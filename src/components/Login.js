@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {login} from '../api/users'
+import {login, register} from '../api/users'
 const Login = ({setToken, token}) => {
     const [action, setAction] = useState('register')
     const [username, setUsername] = useState('')
@@ -22,9 +22,7 @@ const Login = ({setToken, token}) => {
     }, [action])
 
     const loginUser = async() => {
-        console.log("Did this work")
         const response = await login({username: username, password: password})
-        console.log(response)
         if(response.error) {
             setErrorMessage(response.message)
         }else {
@@ -33,9 +31,16 @@ const Login = ({setToken, token}) => {
         }
         
     }
-    const registerUser = () => {
-        console.log('hi but in register')
+    const registerUser = async() => {
+        const response = await register({username: username, password: password, password2})
+        if(response.error) {
+            setErrorMessage(response.message)
+        }else{
+            setToken(response.token)
+            window.localStorage.setItem('token', response.token)
+        }
     }
+
     return (
         <div className="loginPage">
                 <div className="loginContainer">
