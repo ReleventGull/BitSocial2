@@ -21,3 +21,22 @@ export const login = async({username, password}) => {
     }
 }
 
+export const register = async({username, password, password2}) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/register`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username, 
+                password,
+                password2
+            })
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error registering the user", error)
+        throw error
+    }
+}
