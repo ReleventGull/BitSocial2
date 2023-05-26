@@ -318,7 +318,12 @@ h1, h2, h3, h4, p {
 }
 .userSearchBox h2 {
     height: 40px;
-    width: 5rem;
+    width: 70%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  
 }
 .userSearchBox img {
     width: 40px;
