@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import {searchUsers} from '../api/users'
 const activeStyle = {
     backgroundColor: 'var(--third)',
     borderRadius: '12px',
@@ -7,7 +7,22 @@ const activeStyle = {
     transition: '.2s'
 }
 
-const Chat = () => {
+const Chat = ({token}) => {
+    const [searchedUsers, setSearchedUsers] = useState(null)
+    const [searchQuery, setSearchQuery] = useState('')
+    
+    
+    const handleSearch = async() => {
+        console.log(searchQuery)
+        const response = await searchUsers({token: token, query: searchQuery})
+        if(searchQuery.length > 0) {
+            setSearchedUsers(response)
+        }else {
+            setSearchedUsers(null)
+        }
+
+    }
+
 const [active, setActive] = useState('search')
     return (
         <div className="outlet Chat">
@@ -21,8 +36,27 @@ const [active, setActive] = useState('search')
                     </div>
                 </div>
                 {active != 'search' ? null : 
-                    <input className="searchInput" placeholder="Search..."></input>
+                <div className="searchBox">
+                    <input value={searchQuery} onChange={(e) => {setSearchQuery(e.target.value), handleSearch()}} className="searchInput" placeholder="Search..."></input>
+                   
+                </div>
                 }
+                 <div className="searchResultContainer">
+                        {
+                            !searchedUsers ? null :
+                            searchedUsers.map( user => 
+                            <div className="userSearchBox">
+                                    <h2>{user.username}</h2>
+
+                                        <div className="searchOptions">
+                                        <img src='/images/More.png'/>
+                                        <img src='/images/Chat.png'/>
+                                        </div>
+                                    
+                            </div>
+                            )
+                        }
+                    </div>
             </div>
         </div>
     )
