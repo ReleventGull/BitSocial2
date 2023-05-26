@@ -18,7 +18,7 @@ const App = () => {
             <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
             <Route path='/' element={<NavBar setToken={setToken}/>}>
                 <Route path='home' element={<Home />}/>
-                <Route path='chat' element={<Chat />}/>
+                <Route path='chat' element={<Chat token={token}/>}/>
                 <Route path='profile' element={<Profile />}/>
                 <Route path='settings' element={<Settings />}/>
             </Route>

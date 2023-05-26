@@ -40,3 +40,22 @@ export const register = async({username, password, password2}) => {
         throw error
     }
 }
+
+export const searchUsers = async({query, token}) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/search`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify ({
+                searchQuery: query
+            })
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error searching users in the front end", error)
+        throw error
+    }
+}
