@@ -355,3 +355,59 @@ h1, h2, h3, h4, p {
         width: 100%;
     }
 }
+.outlet.Chat {
+    display: flex;
+}
+
+.chatInterface {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: .9fr 7fr .6fr;
+}
+
+.interface {
+    width: 100%;
+    box-sizing: border-box
+}
+
+.interface.one {
+    border-bottom: px solid var(--third-primary);
+}
+
+.interface.two {
+
+}
+
+.interface.three {
+    display: flex;
+    align-items: center;
+    padding: .6rem;
+    gap: .5rem
+}
+.sendMessageInput {
+    color: var(--third);
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: .5rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 1.3rem;
+    background-color: var(--primary);
+}
+
+.sendMessageButton {
+    width: 4rem;
+    height: 4rem;
+    transition: .2s
+}
+
+.sendMessageButton:hover{
+    color: var(--primary);
+    background-color: gray;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s
+}

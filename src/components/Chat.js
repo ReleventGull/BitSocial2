@@ -58,6 +58,18 @@ const Chat = ({token}) => {
                         }
                     </div>
             </div>
+            <div className="chatInterface">
+                <div className="interface one">
+
+                </div>
+                <div className="interface two">
+                    
+                </div>
+                <div className="interface three">
+                    <input placeholder="Message..." className="sendMessageInput"></input>
+                    <img src='/images/Send2.png' className="sendMessageButton"/>
+                </div>
+            </div>
         </div>
     )
 }
