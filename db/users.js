@@ -75,11 +75,24 @@ const getUsersFromSearch = async({searchQuery, pagination}) => {
     }
 }
 
-
+const getUserById = async(id) => {
+    try {
+        const {rows: [user]} = await client.query(`
+        SELECT * FROM 
+        users
+        WHERE id=$1
+        `, [id])
+        return user
+    }catch(error){
+        console.error("There was an error getting the user by the id", error)
+        throw error
+    }
+}
 module.exports = {
     createUser,
     checkExistingUserByUsername,
     checkPassword,
     getUserByUsername,
-    getUsersFromSearch
+    getUsersFromSearch,
+    getUserById
 }

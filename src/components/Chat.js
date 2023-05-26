@@ -10,7 +10,7 @@ const activeStyle = {
 const Chat = ({token}) => {
     const [searchedUsers, setSearchedUsers] = useState(null)
     const [searchQuery, setSearchQuery] = useState('')
-    
+    const [active, setActive] = useState('search')
     
     const handleSearch = async() => {
         console.log(searchQuery)
@@ -23,7 +23,7 @@ const Chat = ({token}) => {
 
     }
 
-const [active, setActive] = useState('search')
+
     return (
         <div className="outlet Chat">
             <div className="chatSelectionBox">
