@@ -43,7 +43,7 @@ const [active, setActive] = useState('search')
                 }
                  <div className="searchResultContainer">
                         {
-                            !searchedUsers ? null :
+                            !searchedUsers || active !== 'search' ? null :
                             searchedUsers.map( user => 
                             <div className="userSearchBox">
                                     <h2>{user.username}</h2>
