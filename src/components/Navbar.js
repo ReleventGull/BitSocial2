@@ -25,15 +25,14 @@ const NavBar = ({setToken}) => {
                         <img src='/images/Profile.png'/>
                         <h3>Profile</h3>
                 </Link>
+                <Link to='search' className={"imageBox" + (loc.pathname == '/search' ? ' active' : '')}>
+                        <img src='/images/Friend.png'/>
+                        <h3>Search</h3>
+                </Link>
                 <Link to='settings' className={"imageBox" + (loc.pathname == '/settings' ? ' active' : '')}>
                         <img src='/images/Gear.png'/>
                         <h3>Settings</h3>
                 </Link>
-                <div onClick={() => {window.localStorage.removeItem('token'), setToken('')}} className="imageBox">
-                        <img src='/images/Logout.png'/>
-                        <h3>Logout</h3>
-                    
-                </div>
             </div>
         </div>
         <Outlet />
