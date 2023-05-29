@@ -11,7 +11,7 @@ const Chat = ({token}) => {
     const [searchedUsers, setSearchedUsers] = useState(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [active, setActive] = useState('search')
-    
+    const [currentChat, setCurrentChat] = useState('')
     const handleSearch = async() => {
         console.log(searchQuery)
         const response = await searchUsers({token: token, query: searchQuery})
@@ -20,8 +20,7 @@ const Chat = ({token}) => {
         }else {
             setSearchedUsers(null)
         }
-
-    }
+ }
 
 
     return (
@@ -66,8 +65,8 @@ const Chat = ({token}) => {
                     
                 </div>
                 <div className="interface three">
-                    <input placeholder="Message..." className="sendMessageInput"></input>
-                    <img src='/images/Send2.png' className="sendMessageButton"/>
+                    <input disabled={true} placeholder="Message..." className="sendMessageInput"></input>
+                    <img src='/images/Send2.png' className={`sendMessageButton `+ (currentChat ? 'active' : '')}/>
                 </div>
             </div>
         </div>
