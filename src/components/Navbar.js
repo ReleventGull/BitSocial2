@@ -1,35 +1,38 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
-
 import {useEffect, } from 'react'
 
 
 const NavBar = ({setToken}) => {
     const navigate = useNavigate()
     const loc = useLocation()
+
     useEffect(() => {
         if (loc.pathname == '/') {
             navigate('home')
         }
     }, [])
+
+
     return(
     <>
         <div className="navBar">
             <div className="navBarBox">
                 <Link to='home' className={"imageBox" + (loc.pathname == '/home' ? ' active' : '')} >
-                    <img src='/images/home.png'/>
-                </Link>
-                <Link to='chat' className={"imageBox" + (loc.pathname == '/chat' ? ' active' : '')}>
-                    <img src='/images/Chat.png'/>
+                        <img src='/images/home.png'/>
+                        <h3>Home</h3>
                 </Link>
                 <Link to='profile' className={"imageBox" + (loc.pathname == '/profile' ? ' active' : '')}>
-                    <img src='/images/Profile.png'/>
+                        <img src='/images/Profile.png'/>
+                        <h3>Profile</h3>
+                </Link>
+                <Link to='search' className={"imageBox" + (loc.pathname == '/search' ? ' active' : '')}>
+                        <img src='/images/Friend.png'/>
+                        <h3>Search</h3>
                 </Link>
                 <Link to='settings' className={"imageBox" + (loc.pathname == '/settings' ? ' active' : '')}>
-                    <img src='/images/Gear.png'/>
+                        <img src='/images/Gear.png'/>
+                        <h3>Settings</h3>
                 </Link>
-                <div onClick={() => {window.localStorage.removeItem('token'), setToken('')}} className="imageBox">
-                    <img src='/images/Logout.png'/>
-                </div>
             </div>
         </div>
         <Outlet />
