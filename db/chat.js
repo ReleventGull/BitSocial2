@@ -9,7 +9,7 @@ const createChat = async({user1, user2}) => {
         `, [user1, user2])  
         return chat
     }catch(error) {
-        console.lod("There was an error creating chat", error)
+        console.error("There was an error creating chat", error)
         throw error
     }
 }
@@ -31,13 +31,11 @@ const getUserChatByUserId = async(userId) => {
 
 const checkForExistingChat = async({user1Id, user2Id}) => {
     try {
-        console.log(user1Id, user2Id)
         const {rows: [chat]} = await client.query(`
             SELECT id FROM chat
             WHERE user_id_1=$1 AND user_id_2=$2
             OR user_id_1=$3 AND user_id_2=$4
         `, [user1Id, user2Id, user2Id, user1Id])
-        console.log("CHat here", chat)
         return chat
     }catch(error) {
         console.error("There was an error getting use chat by boths ids", error)

@@ -15,10 +15,16 @@ const buildTables = async() => {
         );
         CREATE TABLE message (
             id SERIAL PRIMARY KEY,
-            chat_id INTEGER REFERENCES chat(id),
-            user_id INTEGER REFERENCES users(id),
+            chat_id INTEGER REFERENCES chat(id) NOT NULL,
+            user_id INTEGER REFERENCES users(id) NOT NULL,
             message VARCHAR(255) NOT NULL,
             date VARCHAR(255) NOT NULL
+        );
+        CREATE TABLE friends (
+            id SERIAL PRIMARY KEY,
+            user_1_id INTEGER REFERENCES users(id) NOT NULL,
+            user_2_id INTEGER REFERENCES users(id) NOT NULL,
+            date_added VARCHAR(40) NOT NULL
         );
         `)
         console.log("Finished building tables")
@@ -31,6 +37,7 @@ const buildTables = async() => {
 const dropTables = async() => {
     try {
         await client.query(`
+        DROP TABLE IF EXISTS friends;
         DROP TABLE IF EXISTS message;
         DROP TABLE IF EXISTS chat;
         DROP TABLE IF EXISTS users;
