@@ -37,7 +37,6 @@ const seedData = async() => {
 
 const rebuildDb = async() => {
     client.connect()
-    await seedData()
     await dropTables()
     await buildTables()
 }
