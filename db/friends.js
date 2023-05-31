@@ -14,6 +14,21 @@ const createFriend = async({user1, user2}) => {
     }
 }
 
+const createFriendRequest = async({user1, user2}) => {
+    try {
+        const {rows: request} = await client.query(`
+            INSERT INTO friend_request (user_sent_id, user_recieved_id)
+            VALUE ($1, $2)
+            RETURNING *
+        `, [user1, user2])
+        return request
+    }catch(error) {
+        console.error('There was an erroring creating a friend request', error)
+        throw error
+    }
+}
+
 module.exports = {
-    createFriend
+    createFriend,
+    createFriendRequest
 }
