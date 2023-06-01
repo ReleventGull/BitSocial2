@@ -401,3 +401,8 @@ h1, h2, h3, h4, p {
     animation: spinClear .4s
 }
 
+.searchBody {
+    color: var(--third);
+    width: 100%;
+    padding: 15px
+}
