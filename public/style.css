@@ -242,9 +242,14 @@ h1, h2, h3, h4, p {
     margin-left: 14rem;
     height: 100%;
     background-color: var(--second-primary);
-    overflow-y: auto
-}
+    overflow-y: auto;
 
+}
+.outlet.search {
+    display: grid;
+    grid-template-rows: 1fr 99fr;
+    grid-template-columns: 1fr;
+}
 
 
 @media only screen and (max-width: 800px) {
@@ -404,5 +409,6 @@ h1, h2, h3, h4, p {
 .searchBody {
     color: var(--third);
     width: 100%;
-    padding: 15px
+    padding: 15px;
+    overflow-y: auto;
 }
