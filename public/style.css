@@ -313,3 +313,55 @@ h1, h2, h3, h4, p {
     cursor: pointer;
     transition: .2s
 }
+
+.topSearch {
+    widtH: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.searchFriendOptions{
+    box-sizing: border-box;
+    padding: 10px;;
+    display: flex;
+    gap: .5rem
+
+}
+.searchStateOptions {
+    font-size: 1.3rem;
+    text-align: center;
+    color: var(--third);
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s;
+    padding: 15px;
+}
+.searchStateOptions:hover{
+    cursor: pointer;
+}
+.searchStateOptions.active {
+    background-color: var(--third-primary);
+    border-radius: 6px;
+    transition: .2s
+}
+.searchEntryBox {
+    width: 100%;
+    height: 3.5rem;
+    background-color: var(--primary);
+    display: flex;
+    padding: 10px;
+    border-radius: 6px;
+}
+.searchEntryBox input{
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: var(--third);
+    background-color: transparent;
+    font-size: 1.3rem;
+    
+}
