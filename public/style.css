@@ -365,3 +365,37 @@ h1, h2, h3, h4, p {
     font-size: 1.3rem;
     
 }
+
+@keyFrames spinSearch {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+@keyFrames spinClear {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(-360deg)
+    }
+}
+
+.searchAnimation {
+    animation: spinSearch .4s;
+}
+
+.clearSearch {
+    animation: spinClear .4s
+}
