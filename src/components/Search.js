@@ -1,6 +1,7 @@
 import {useState} from 'react'
 const  searchStates = ['All', 'Search', 'Friend Request', 'Pending']
 const Search = () => {
+    const [searchClass, setSearchClass] = useState('')
     const [active, setActive] = useState('All')
     const [searchValue, setSearchValue] = useState('')
     return (
@@ -17,9 +18,9 @@ const Search = () => {
                     <input value={searchValue} onChange={(e) => setSearchValue(e.target.value)}></input>
                     {
                         searchValue ? 
-                        <img onClick={() => setSearchValue('')} style={{cursor: 'pointer'}} src='/images/Clear.png'/>
+                        <img className='clearSearch' onClick={() => {setSearchValue(''), setSearchClass('searchAnimation')}} style={{cursor: 'pointer'}} src='/images/Clear.png'/>
                         :
-                        <img  src='/images/Search.png'/>
+                        <img className={searchClass} src='/images/Search.png'/>
                         
                     }
                        
