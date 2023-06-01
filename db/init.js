@@ -29,7 +29,7 @@ const buildTables = async() => {
         CREATE TABLE friend_request (
             id SERIAL PRIMARY KEY,
             user_sent_id INTEGER REFERENCES users(id),
-            user_recived_id INTEGER REFERENCES users(id)
+            user_recieved_id INTEGER REFERENCES users(id)
         );
         `)
         console.log("Finished building tables")
