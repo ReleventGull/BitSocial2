@@ -3,6 +3,7 @@ const router = express.Router()
 const jwt = require('jsonwebtoken')
 const userRouter = require('./users')
 const chatRouter = require('./chat')
+const friendRouter = require('./friend')
 const {JWT_SECRET} = process.env
 router.use((req, res, next) => {
     const auth = req.header("Authorization")
@@ -32,6 +33,7 @@ router.use((req, res, next) => {
 
 router.use('/users', userRouter)
 router.use('/chat', chatRouter)
+router.use('/friends', friendRouter)
 
 module.exports = router
 

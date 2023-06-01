@@ -18,7 +18,7 @@ const createFriendRequest = async({user1, user2}) => {
     try {
         const {rows: request} = await client.query(`
             INSERT INTO friend_request (user_sent_id, user_recieved_id)
-            VALUE ($1, $2)
+            VALUES ($1, $2)
             RETURNING *
         `, [user1, user2])
         return request
@@ -28,7 +28,52 @@ const createFriendRequest = async({user1, user2}) => {
     }
 }
 
+const getRequestByUserId = async(userId) => {
+    try {
+        const {rows: [request]} = await client.query(`
+            SELECT * from friend_request
+            WHERE user_sent_id = $1
+        `, [userId])
+        return request
+    }catch(error) {
+        console.error("There was an error getting request by user id", error)
+        throw error
+    }
+}
+
+const getFriendByIds = async({user1, user2}) => {
+    try {
+        const {rows: [friend]} = await client.query(`
+            SELECT * FROM friends
+            WHERE user_1_id=$1 AND user_2_id=$2 OR user_1_id = $3 AND user_2_id=$4
+        `, [user1, user2, user2, user1])
+        return friend
+    }catch(error) {
+        console.error("There was an error getting friends by ids", error)
+        throw error
+    }
+}
+
+const deleteFriendRequest = async ({user1, user2}) => {
+    try {
+        const {rows: [request]} = await client.query(`
+        DELETE from friend_request
+        WHERE user_sent_id=$1 AND user_recieved_id=$2 OR user_sent_id = $3 AND user_recieved_id=$4
+        RETURNING *
+        `, [user1, user2, user2, user1])
+        return request
+    }catch(error) {
+        console.error("There was an error deleting the friends request", error)
+        throw error
+    }
+}
+
 module.exports = {
     createFriend,
-    createFriendRequest
+    createFriendRequest,
+    getRequestByUserId,
+    getRequestByUserId,
+    getFriendByIds,
+    createFriend,
+    deleteFriendRequest
 }
