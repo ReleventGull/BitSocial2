@@ -27,7 +27,7 @@ const NavBar = ({setToken}) => {
                 </Link>
                 <Link to='search' className={"imageBox" + (loc.pathname == '/search' ? ' active' : '')}>
                         <img src='/images/Friend.png'/>
-                        <h3>Search</h3>
+                        <h3>Friends</h3>
                 </Link>
                 <Link to='settings' className={"imageBox" + (loc.pathname == '/settings' ? ' active' : '')}>
                         <img src='/images/Gear.png'/>
