@@ -22,7 +22,18 @@ const Search = ({token}) => {
     
     return (
         <div className="searchBody">
-            Hi!erghergergerge
+            {
+                !result ? null : 
+                result.map(user => 
+                    <div className="searchUserBody">
+                        <h2>{user.username}</h2>
+                            <div className="userBodyIconBox">
+                                <img className="userBodyIconImage" src='/images/Chat.png'/>
+                                <img className="userBodyPlusImage" src='/images/Plus.png'/>
+                            </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

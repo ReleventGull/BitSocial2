@@ -412,3 +412,45 @@ h1, h2, h3, h4, p {
     padding: 15px;
     overflow-y: auto;
 }
+
+.searchUserBody {
+    border-top: 1px solid var(--third-primary);
+    padding: 15px;
+    box-sizing: border-box;
+    transition: .2s;
+    display: flex;
+}
+
+.searchUserBody:hover {
+    background-color: var(--third-primary);
+    border-radius: 6px;
+    border-top: 1px solid transparent;
+    transition: .2s;
+}
+.searchUserBody:hover > div .userBodyIconImage {
+    background-color: var(--primary);
+}
+.searchUserBody:hover > div .userBodyPlusImage {
+    background-color: rgb(3, 177, 3)
+}
+
+.searchUserBody div img {
+    width: 3rem;
+    height: 3rem;
+}
+.userBodyIconBox {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+}
+.userBodyIconImage {
+    padding: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.userBodyPlusImage {
+    padding: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
