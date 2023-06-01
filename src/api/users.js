@@ -59,3 +59,4 @@ export const searchUsers = async({query, token}) => {
         throw error
     }
 }
+

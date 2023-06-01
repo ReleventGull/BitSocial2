@@ -25,7 +25,7 @@ const NavBar = ({setToken}) => {
                         <img src='/images/Profile.png'/>
                         <h3>Profile</h3>
                 </Link>
-                <Link to='search' className={"imageBox" + (loc.pathname == '/search' ? ' active' : '')}>
+                <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/pending' || loc.pathname == '/friend/friendrequest' || loc.pathname == '/friend/search' ? ' active' : '')}>
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
