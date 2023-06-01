@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
+import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-router-dom'
 
 const  searchStates = ['All', 'Search', 'Friend Request', 'Pending']
 const Friend = () => {
@@ -23,7 +23,7 @@ const Friend = () => {
                 <div className="searchFriendOptions">
                 {
                     searchStates.map(state => 
-                        <Link to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>{state}</Link>
+                        <Link onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>{state}</Link>
                         )
                 }
                 </div>
@@ -38,7 +38,7 @@ const Friend = () => {
                     }
                 </div>
             </div>
-                    <Outlet />
+                    <Outlet context={[searchValue, setSearchValue]}/>
         </div>
     )
 }

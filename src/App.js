@@ -24,7 +24,7 @@ const App = () => {
                         <Route path='all' element={<All />}/>
                         <Route path='pending' element={<Pending />}/>
                         <Route path='friendrequest' element={<FriendRequest />}/>
-                        <Route path='search' element={<SearchFriends />}/>
+                        <Route path='search' element={<SearchFriends token={token}/>}/>
                     </Route>
                 <Route path='profile' element={<Profile />}/>
                 <Route path='settings' element={<Settings />}/>

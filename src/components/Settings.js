@@ -1,6 +1,7 @@
 
 
 const Settings = () => {
+    
     return (
         <div className="outlet Settings">
                 <div onClick={() => {window.localStorage.removeItem('token'), setToken('')}} className="imageBox">
