@@ -338,6 +338,7 @@ h1, h2, h3, h4, p {
     justify-content: center;
     transition: .2s;
     padding: 15px;
+    text-decoration: none;
 }
 .searchStateOptions:hover{
     cursor: pointer;
@@ -399,3 +400,4 @@ h1, h2, h3, h4, p {
 .clearSearch {
     animation: spinClear .4s
 }
+

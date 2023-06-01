@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import {Route, Routes, useNavigate} from 'react-router-dom'
-import {Login, NavBar, Home, Chat, Profile, Settings, Search} from './components/index'
+import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
+import { All } from './components/FriendsComponents'
 
 const App = () => {
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
@@ -19,7 +20,9 @@ const App = () => {
             <Route path='/' element={<NavBar setToken={setToken}/>}>
                 <Route path='home' element={<Home />}/>
                 <Route path='chat' element={<Chat token={token}/>}/>
-                <Route path="search" element={<Search />}/>
+                    <Route path="friend" element={<Friend />}>
+                        <Route path='all' element={<All />}/>
+                    </Route>
                 <Route path='profile' element={<Profile />}/>
                 <Route path='settings' element={<Settings />}/>
             </Route>

@@ -1,16 +1,29 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
+
 const  searchStates = ['All', 'Search', 'Friend Request', 'Pending']
-const Search = () => {
+const Friend = () => {
     const [searchClass, setSearchClass] = useState('')
-    const [active, setActive] = useState('All')
     const [searchValue, setSearchValue] = useState('')
+
+
+    const navigate = useNavigate()
+    const loc = useLocation()
+
+    useEffect(() => {
+        loc.pathname == '/search'
+        navigate('/friend/all')
+    }, [])
+
+
+    
     return (
         <div className="outlet search">
             <div className="topSearch">
                 <div className="searchFriendOptions">
                 {
                     searchStates.map(state => 
-                        <span onClick={() => setActive(state)} className={'searchStateOptions ' + (active == state ? 'active' : '' )}>{state}</span>
+                        <Link to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>{state}</Link>
                         )
                 }
                 </div>
@@ -23,13 +36,11 @@ const Search = () => {
                         <img className={searchClass} src='/images/Search.png'/>
                         
                     }
-                       
-                    
-                    
                 </div>
             </div>
+                    <Outlet />
         </div>
     )
 }
 
-export default Search
+export default Friend
