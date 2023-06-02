@@ -1,4 +1,5 @@
 
+
 const {BASE_URL = 'http://localhost:3000/api'} = process.env
 
 export const login = async({username, password}) => {
@@ -60,3 +61,22 @@ export const searchUsers = async({query, token}) => {
     }
 }
 
+export const addFriend = async({token, user2}) => {
+    try {
+
+        const response = await fetch(`${BASE_URL}/friends/sendRequest`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user2: user2
+            })
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error adding friend", error)
+        throw error
+    }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useOutletContext } from "react-router-dom"
 import {searchUsers} from '../../api/users'
-
+import { addFriend } from "../../api/users"
 
 const Search = ({token}) => {
     const [searchValue, setSearchValue] = useOutletContext()
@@ -12,6 +12,9 @@ const Search = ({token}) => {
         setResults(response)
     }   
     
+    const addFriendRequest = async(user2) => {
+        const response = await addFriend({token:token, user2: user2})
+    }
     useEffect(() => {
         if(searchValue) {
             searchForUsers()
@@ -29,7 +32,7 @@ const Search = ({token}) => {
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
                                 <img className="userBodyIconImage" src='/images/Chat.png'/>
-                                <img className="userBodyPlusImage" src='/images/Plus.png'/>
+                                <img onClick={() => addFriendRequest(user.id)} className="userBodyPlusImage" src='/images/Plus.png'/>
                             </div>
                     </div>
                 )
