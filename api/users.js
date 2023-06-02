@@ -67,6 +67,7 @@ userRouter.post('/login', async(req, res, next) => {
                     })
                 }else {
                     const user = await getUserByUsername(username)
+                    console.log("User on sign in", user)
                     const token = jwt.sign(user, JWT_SECRET)
                     res.send({
                         message: "Success, Welcome back!",

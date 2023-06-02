@@ -21,7 +21,7 @@ const getUserByUsername = async(username) => {
         FROM users
         WHERE username=$1
         `, [username])
-        return username
+        return user
     }catch(error) {
         console.error("There was an error getting the user by their username", error)
         throw error
