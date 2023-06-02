@@ -7,7 +7,7 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
         const {id: user1} = req.user
-        console.log(user2, user1)
+        console.log(user1)
         if(user2 == user1) {
             res.send({
                 error: "UserMatch",
@@ -22,19 +22,19 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
                 message:"This user is already your friend"
             })
         }else {
-            const checkDoubleRequest = await getRequestByUserId(user1)
-            if(checkDoubleRequest) {
-                res.status(401).send({
-                    error: "FrAlreadyExists",
-                    message: "You already have a pending request for this user"
+            const checkRequest = await getRequestByUserId({user1: user2, user2: user1})
+            if(checkRequest) {
+                let newFriend = await createFriend({user1: user1, user2: user2})
+                await deleteFriendRequest({user1: user1, user2: user2})
+                res.send({
+                    message: "You are now friends"
                 })
             }else {
-                const checkRequest = await getRequestByUserId(user2)
-                if(checkRequest) {
-                    let newFriend = await createFriend({user1: user1, user2: user2})
-                    await deleteFriendRequest({user1: user1, user2: user2})
-                    res.send({
-                        message: "You are now friends"
+                const checkDoubleRequest = await getRequestByUserId({user1: user1, user2: user2})
+                if(checkDoubleRequest) {
+                    res.status(401).send({
+                        error: "FrAlreadyExists",
+                        message: "You already have a pending request for this user"
                     })
                 }else {
                     const request = createFriendRequest({user1: user1, user2: user2})

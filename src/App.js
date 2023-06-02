@@ -27,7 +27,7 @@ const App = () => {
                         <Route path='search' element={<SearchFriends token={token}/>}/>
                     </Route>
                 <Route path='profile' element={<Profile />}/>
-                <Route path='settings' element={<Settings />}/>
+                <Route path='settings' element={<Settings setToken={setToken}/>}/>
             </Route>
         </Routes>
     )

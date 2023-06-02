@@ -14,6 +14,7 @@ const Search = ({token}) => {
     
     const addFriendRequest = async(user2) => {
         const response = await addFriend({token:token, user2: user2})
+        console.log(response)
     }
     useEffect(() => {
         if(searchValue) {

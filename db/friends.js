@@ -28,12 +28,12 @@ const createFriendRequest = async({user1, user2}) => {
     }
 }
 
-const getRequestByUserId = async(userId) => {
+const getRequestByUserId = async({user1, user2}) => {
     try {
         const {rows: [request]} = await client.query(`
             SELECT * from friend_request
-            WHERE user_sent_id = $1
-        `, [userId])
+            WHERE user_sent_id = $1 AND user_recieved_id=$2
+        `, [user1, user2])
         return request
     }catch(error) {
         console.error("There was an error getting request by user id", error)

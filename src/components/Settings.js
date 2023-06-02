@@ -1,6 +1,6 @@
 
 
-const Settings = () => {
+const Settings = ({setToken}) => {
     
     return (
         <div className="outlet Settings">

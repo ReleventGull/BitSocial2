@@ -63,7 +63,7 @@ export const searchUsers = async({query, token}) => {
 
 export const addFriend = async({token, user2}) => {
     try {
-
+        console.log(token)
         const response = await fetch(`${BASE_URL}/friends/sendRequest`, {
             method: 'POST',
             headers: {
