@@ -1,9 +1,20 @@
 const express = require('express')
 const friendRouter = express.Router()
+const requireUser = require('./requireUser')
 const {getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest} = require('../db/friends')
-friendRouter.post('/sendRequest', async(req, res, next) => {
+
+friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
-        const {user1, user2} = req.body
+        const {user2} = req.body
+        const {id: user1} = req.user
+        console.log(user2, user1)
+        if(user2 == user1) {
+            res.send({
+                error: "UserMatch",
+                message: "You can not friend yourself"
+            })
+            return
+        }
         const checkIfFriends = await getFriendByIds({user1: user1, user2: user2})
         if(checkIfFriends) {
             res.status(401).send({
