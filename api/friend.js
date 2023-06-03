@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest} = require('../db/friends')
+const {getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById} = require('../db/friends')
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
@@ -37,6 +37,7 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
                         message: "You already have a pending request for this user"
                     })
                 }else {
+                    console.log(user1, user2)
                     const request = createFriendRequest({user1: user1, user2: user2})
                     res.send({
                         message: "Friend request sent!"
@@ -53,5 +54,26 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
         throw error
     }
 })
+
+friendRouter.get('/requests', requireUser, async(req, res, next) => {
+    try {
+        const {id} = req.user
+        const requests = await getFriendRequestById(id)
+        console.log('requests', requests)
+        if (requests) {
+            res.send(
+                requests
+            )
+        }else {
+            res.send({
+                message: "You have no pending friend requests"
+            })
+        }
+    }catch(error) {
+        console.error("There was an error getting the users request", error)
+        throw error
+    }
+})
+
 
 module.exports = friendRouter

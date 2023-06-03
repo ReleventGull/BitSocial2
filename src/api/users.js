@@ -80,3 +80,17 @@ export const addFriend = async({token, user2}) => {
         throw error
     }
 }
+
+export const getUserFriendRequests = async(token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/requests`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error getting users friend request by id", error)
+        throw error
+    }
+}

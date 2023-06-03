@@ -71,9 +71,10 @@ const deleteFriendRequest = async ({user1, user2}) => {
 const getFriendRequestById = async(id) => {
     try {
         const {rows: requests} = await client.query(`
-            SELECT friend_request.*, users.username
+            SELECT friend_request.*, users.username as userSent
             FROM friend_request
             JOIN users ON friend_request.user_sent_id=users.id
+            WHERE
             user_recieved_id=$1
         `, [id])
         return requests
