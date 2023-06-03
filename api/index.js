@@ -5,6 +5,16 @@ const userRouter = require('./users')
 const chatRouter = require('./chat')
 const friendRouter = require('./friend')
 const {JWT_SECRET} = process.env
+
+
+
+
+
+
+
+
+
+
 router.use((req, res, next) => {
     const auth = req.header("Authorization")
     console.log("Auth", auth)
