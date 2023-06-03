@@ -428,8 +428,14 @@ h1, h2, h3, h4, p {
     border-top: 1px solid transparent;
     transition: .2s;
 }
+
 .searchUserBody:hover > div .userBodyIconImage {
     background-color: var(--primary);
+    z-index: 1
+}
+.searchUserBody div img:hover {
+    cursor: pointer;
+
 }
 .searchUserBody:hover > div .userBodyPlusImage {
     background-color: rgb(3, 177, 3)
