@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-router-dom'
 
-const  searchStates = ['All', 'Search', 'Friend Request', 'Pending']
+const  searchStates = ['All', 'Search', 'Request', 'Pending']
 const Friend = () => {
     const [searchClass, setSearchClass] = useState('')
     const [searchValue, setSearchValue] = useState('')
