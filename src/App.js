@@ -22,8 +22,8 @@ const App = () => {
                 <Route path='chat' element={<Chat token={token}/>}/>
                     <Route path="friend" element={<Friend />}>
                         <Route path='all' element={<All />}/>
-                        <Route path='pending' element={<Pending />}/>
-                        <Route path='friendrequest' element={<FriendRequest />}/>
+                        <Route path='pending' element={<Pending token={token}/>}/>
+                        <Route path='request' element={<FriendRequest token={token}/>}/>
                         <Route path='search' element={<SearchFriends token={token}/>}/>
                     </Route>
                 <Route path='profile' element={<Profile />}/>
