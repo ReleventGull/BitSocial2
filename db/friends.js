@@ -68,6 +68,21 @@ const deleteFriendRequest = async ({user1, user2}) => {
     }
 }
 
+const getFriendRequestById = async(id) => {
+    try {
+        const {rows: requests} = await client.query(`
+            SELECT friend_request.*, users.username
+            FROM friend_request
+            JOIN users ON friend_request.user_sent_id=users.id
+            user_recieved_id=$1
+        `, [id])
+        return requests
+    }catch(error) {
+        console.error("There was an error getting the friend request by id")
+        throw error
+    }
+}
+
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -75,5 +90,6 @@ module.exports = {
     getRequestByUserId,
     getFriendByIds,
     createFriend,
-    deleteFriendRequest
+    deleteFriendRequest,
+    getFriendRequestById
 }
