@@ -3,9 +3,16 @@ import {Route, Routes, useNavigate} from 'react-router-dom'
 import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends } from './components/FriendsComponents'
 
-const App = () => {
+const App = ({socket}) => {
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
     const navigate = useNavigate()
+    
+    
+    
+    
+    console.log(socket)
+    
+    
     
     useEffect(() => {
         if(!token){
