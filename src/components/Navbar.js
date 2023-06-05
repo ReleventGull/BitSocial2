@@ -2,7 +2,7 @@ import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import {useEffect, } from 'react'
 
 
-const NavBar = ({setToken}) => {
+const NavBar = ({notifClass, sentMessage}) => {
     const navigate = useNavigate()
     const loc = useLocation()
 
@@ -35,7 +35,15 @@ const NavBar = ({setToken}) => {
                 </Link>
             </div>
         </div>
+       
+       <div className="outDiv">
         <Outlet />
+        <div className={"notifPortal " + notifClass}>
+           {sentMessage}
+        </div>
+       </div>
+       
+      
     </>
     )
 }

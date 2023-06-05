@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom"
 import {searchUsers} from '../../api/users'
 import { addFriend } from "../../api/users"
 
-const Search = ({token}) => {
+const Search = ({token, setNotfifClass, setSentMessage}) => {
     const [searchValue, setSearchValue] = useOutletContext()
     const [result, setResults] = useState('')
     
@@ -14,6 +14,8 @@ const Search = ({token}) => {
     
     const addFriendRequest = async(user2) => {
         const response = await addFriend({token:token, user2: user2})
+        setNotfifClass('active')
+        setSentMessage(response.message)
         console.log(response)
     }
     useEffect(() => {
