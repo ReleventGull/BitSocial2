@@ -5,57 +5,38 @@ import { All, Pending, FriendRequest, SearchFriends, } from './components/Friend
 
 const App = ({socket}) => {
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
-    const [counter, setCounter ] = useState(0)
-    const [sentMessage, setSentMessage] = useState(' ')
+    const [sentMessage, setSentMessage] = useState('')
     const [notifClass, setNotfifClass] = useState('')
-    const [shouldContinueInterval, setShouldContinueInterval] = useState(true);
+    const [counter, setCounter] = useState(0)
     const navigate = useNavigate()
     
+    
     let intervalId = useRef(null)
-    
+   
 
-
-    const notifInterval = () => {
-         intervalId.current = setInterval(() => {
-            setCounter(pre => pre + 1)
-        }, 1000)
-    }
-    
-    
-    
-    
-useEffect(() => {
-    if(counter >= 5) {
-        console.log("I'm running", counter)
-        setCounter(0)
-        setNotfifClass('')
-        clearInterval(intervalId.current)
-        intervalId.current = null
-        setShouldContinueInterval(false);
-    }
-     if (notifClass) {
-        console.log("I should be hit once", notifClass)
-        notifInterval()
-    }else {
-            clearInterval(intervalId.current)
-            intervalId.current = null
+    useEffect(() => {
         
-    }
-    
-}, [notifClass, counter])
-    
-useEffect(() => {
-    return () => {
-      clearInterval(intervalId.current);
-    };
-  }, []);
+        if(notifClass) {
+            intervalId.current = setInterval(() => {
+                setCounter(pre => pre + 1)
+            }, 500)
+        }
+    }, [notifClass])
 
-  
-useEffect(() => {
-    if (!shouldContinueInterval) {
-      clearInterval(intervalId.current);
-    }
-  }, [shouldContinueInterval]);
+    useEffect(() => {
+        
+        if(counter >= 6) {
+            setNotfifClass('')
+            setTimeout(() => {
+                setSentMessage('')
+            }, 500)
+            setCounter(0)
+            clearInterval(intervalId.current)
+        }
+    }, [counter])
+
+
+
     
     useEffect(() => {
         if(!token){
@@ -76,7 +57,7 @@ useEffect(() => {
                         <Route path='all' element={<All />}/>
                         <Route path='pending' element={<Pending token={token}/>}/>
                         <Route path='request' element={<FriendRequest token={token}/>}/>
-                        <Route path='search' element={<SearchFriends setSentMessage={setSentMessage} setNotfifClass={setNotfifClass} token={token}/>}/>
+                        <Route path='search' element={<SearchFriends setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotfifClass={setNotfifClass} token={token}/>}/>
                     </Route>
                 <Route path='profile' element={<Profile />}/>
                 <Route path='settings' element={<Settings setToken={setToken}/>}/>
