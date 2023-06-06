@@ -18,7 +18,7 @@ const Search = ({token, setNotfifClass, setSentMessage, notifClass, setCounter})
             setCounter(0)
         }
         setNotfifClass('active')
-        setSentMessage(`${response.message} ${Math.random()} `)
+        setSentMessage(response.message)
         console.log(response)
     }
     useEffect(() => {
