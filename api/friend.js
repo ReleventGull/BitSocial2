@@ -7,6 +7,7 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
         const {id: user1} = req.user
+        console.log(user2, user1)
         console.log(user1)
         if(user2 == user1) {
             res.send({

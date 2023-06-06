@@ -37,7 +37,6 @@ const Search = ({token, setNotfifClass, setSentMessage, notifClass, setCounter})
                     <div className="searchUserBody">
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
-                                <img className="userBodyIconImage" src='/images/Chat.png'/>
                                 <img onClick={() => addFriendRequest(user.id)} className="userBodyPlusImage" src='/images/Plus.png'/>
                             </div>
                     </div>
