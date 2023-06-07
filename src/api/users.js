@@ -94,3 +94,17 @@ export const getUserFriendRequests = async(token) => {
         throw error
     }
 }
+
+export const getFriends = async(token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/retrieve`, {
+            headers : {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error fetching friends", error)
+        throw error
+    }
+}

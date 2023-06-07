@@ -19,6 +19,10 @@ html, body, #app {
     overflow-y: auto;
 }
 
+#app {
+    max-width: 100vw;
+    width: 100vw;
+}
 h1, h2, h3, h4, p {
     margin: 0;
     padding: 0
@@ -239,12 +243,11 @@ h1, h2, h3, h4, p {
 
 
 .outlet {
-   
     height: 100%;
     background-color: var(--second-primary);
     overflow-y: auto;
-
 }
+
 .outlet.search {
     display: grid;
     grid-template-rows: 1fr 99fr;
@@ -476,6 +479,7 @@ h1, h2, h3, h4, p {
     z-index: 10;
     transition: .2s;
     text-align: center;
+    max-width: 80%;
 }
 .notifPortal.active {
     opacity: 1;
@@ -487,6 +491,7 @@ h1, h2, h3, h4, p {
     height: 100%;
     width: auto;
     position: relative;
+    box-sizing: border-box;
 }
 
 @media only screen and (max-width: 600px) {

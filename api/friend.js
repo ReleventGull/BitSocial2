@@ -1,12 +1,13 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById} = require('../db/friends')
+const {getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId} = require('../db/friends')
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
         const {id: user1} = req.user
+        console.log(user2, user1)
         console.log(user1)
         if(user2 == user1) {
             res.send({
@@ -71,6 +72,19 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
         }
     }catch(error) {
         console.error("There was an error getting the users request", error)
+        throw error
+    }
+})
+
+friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
+    try {
+        const {id} = req.user
+        console.log("I got here")
+        const friends = await getFriendsByUserId(id)
+        console.log(friends)
+        res.send(friends)
+    }catch(error) {
+        console.error("There was an error getting users friends")
         throw error
     }
 })
