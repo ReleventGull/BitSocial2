@@ -27,9 +27,7 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
                     request.splice(i ,1)
                 }
             }
-
         }
-        
     }
     
 

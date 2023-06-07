@@ -54,7 +54,7 @@ const App = ({socket}) => {
                 <Route path='home' element={<Home />}/>
                 <Route path='chat' element={<Chat token={token}/>}/>
                     <Route path="friend" element={<Friend />}>
-                        <Route path='all' element={<All />}/>
+                        <Route path='all' element={<All token={token} />}/>
                         <Route path='pending' element={<Pending token={token}/>}/>
                         <Route path='request' element={<FriendRequest setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotfifClass={setNotfifClass} token={token}/>}/>
                         <Route path='search' element={<SearchFriends setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotfifClass={setNotfifClass} token={token}/>}/>
