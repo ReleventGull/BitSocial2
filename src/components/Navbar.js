@@ -25,7 +25,7 @@ const NavBar = ({notifClass, sentMessage}) => {
                         <img src='/images/Profile.png'/>
                         <h3>Profile</h3>
                 </Link>
-                <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/friendrequest' || loc.pathname == '/friend/search' ? ' active' : '')}>
+                <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
