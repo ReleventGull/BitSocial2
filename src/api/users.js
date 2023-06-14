@@ -108,3 +108,17 @@ export const getFriends = async(token) => {
         throw error
     }
 }
+
+export const getPendingRequest = async (token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/pending`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error getting pending request", error)
+        throw error
+    }
+}

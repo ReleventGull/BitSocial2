@@ -3,10 +3,16 @@ import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-ro
 
 const  searchStates = ['All', 'Search', 'Request', 'Pending']
 const Friend = () => {
+    const [index, setIndex] = useState(null)
+    
+    let hoverStyle = {
+        borderTop: '1px solid transparent'
+    }
+    
     const [searchClass, setSearchClass] = useState('')
     const [searchValue, setSearchValue] = useState('')
 
-
+    console.log(searchValue)
     const navigate = useNavigate()
     const loc = useLocation()
 
@@ -38,7 +44,7 @@ const Friend = () => {
                     }
                 </div>
             </div>
-                    <Outlet context={[searchValue, setSearchValue]}/>
+            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle}}  />
         </div>
     )
 }

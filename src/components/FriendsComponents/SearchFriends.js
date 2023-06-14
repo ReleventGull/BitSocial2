@@ -4,9 +4,9 @@ import {searchUsers} from '../../api/users'
 import { addFriend } from "../../api/users"
 
 const Search = ({token, setNotfifClass, setSentMessage, notifClass, setCounter}) => {
-    const [searchValue, setSearchValue] = useOutletContext()
+    const {searchValue, setSearchValue} = useOutletContext()
     const [result, setResults] = useState('')
-    
+    const {index, setIndex, hoverStyle} = useOutletContext()
     const searchForUsers = async() => {
         const response = await searchUsers({query: searchValue, token: token})
         setResults(response)
@@ -33,8 +33,8 @@ const Search = ({token, setNotfifClass, setSentMessage, notifClass, setCounter})
         <div className="searchBody">
             {
                 !result ? null : 
-                result.map(user => 
-                    <div className="searchUserBody">
+                result.map((user, i) => 
+                    <div style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
                                 <img onClick={() => addFriendRequest(user.id)} className="userBodyPlusImage" src='/images/Plus.png'/>
