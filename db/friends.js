@@ -103,6 +103,21 @@ const getFriendsByUserId = async(userId) => {
     }
 }
 
+const getPendingRequest = async(userId) => {
+    try {
+        const {rows: pending} = await client.query(
+            `
+            SELECT friend_request.*, username
+            FROM friend_request
+            JOIN users ON friend_request.user_recieved_id=users.id
+            WHERE friend_request.user_sent_id=$1
+            `, [userId])
+            return pending
+    }catch(error) {
+        console.error("There was an error getting pending friend request", error)
+        throw error
+    }
+}
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -112,5 +127,6 @@ module.exports = {
     createFriend,
     deleteFriendRequest,
     getFriendRequestById,
-    getFriendsByUserId
+    getFriendsByUserId,
+    getPendingRequest
 }

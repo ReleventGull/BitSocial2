@@ -421,15 +421,16 @@ h1, h2, h3, h4, p {
     border-top: 1px solid var(--third-primary);
     padding: 15px;
     box-sizing: border-box;
-    transition: .2s;
+    min-height: 80px;
     display: flex;
+    align-items: center;
 }
 
 .searchUserBody:hover {
     background-color: var(--third-primary);
     border-radius: 6px;
     border-top: 1px solid transparent;
-    transition: .2s;
+    
 }
 
 .searchUserBody:hover > div .userBodyIconImage {

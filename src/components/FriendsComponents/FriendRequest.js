@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
+import { useOutletContext } from "react-router-dom"
 import {getUserFriendRequests} from '../../api/users'
 import { addFriend } from "../../api/users"
 
 const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCounter}) => {
     const [request, setRequest] = useState('')
-    console.log(request)
+    const {index, setIndex, hoverStyle} = useOutletContext()
+    
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
         if(!response.message) {
-            console.log(response)
             setRequest(response)
         }
     }
@@ -39,8 +40,8 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
         <div className="searchBody">
              {
                 !request ? null : 
-                request.map(user => 
-                    <div className="searchUserBody">
+                request.map((user, i) => 
+                    <div style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.usersent}</h2>
                             <div className="userBodyIconBox">
                             <img onClick={() => addFriendRequest(user.user_sent_id)} className="userBodyIconImage check" src='/images/Check.png'/>
