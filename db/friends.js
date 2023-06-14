@@ -86,17 +86,18 @@ const getFriendRequestById = async(id) => {
 
 const getFriendsByUserId = async(userId) => {
     try {
-        const {rows: friends} = await client.query(`
+        const result = await client.query(`
             SELECT friends.*, users.username
             FROM friends
-            WHEN friends.user_1_id=$1 THEN 
-            JOIN users ON friends.user_2_id=users.id;
-            ELSE 
-            JOIN users ON friends.user_1_id=users.id;
-            END IF;
-            WHERE friends.user_1_id=$3 OR friends.user_2_id=$4
-        `, [userId, userId, userId, userId])
-        return friends
+            JOIN users ON
+            CASE
+                WHEN friends.user_1_id=$1 THEN friends.user_2_id=users.id
+                ELSE friends.user_1_id=users.id
+            END
+            WHERE friends.user_1_id=$2 OR friends.user_2_id=$3
+        `, [userId,userId,userId])
+        console.log('rows here', result.rows)
+        return 'h'
     }catch(error) {
         console.error("There was an error getting friends by user id", error)
         throw error
