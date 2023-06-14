@@ -2,18 +2,28 @@ import { useState, useEffect } from 'react'
 import {getFriends} from '../../api/users'
 
 const All = ({token}) => {
-    const [friends, setFriends] = useState('')
+    const [friends, setFriends] = useState(null)
 
     const fetchFriends = async () => {
         const response = await getFriends(token)
-        console.log('Friends here', response)
+        setFriends(response)
     }
     useEffect(() => {
         fetchFriends()
     }, [])
     return (
         <div className="searchBody">
-            Hi!erghergergerge
+            {
+                !friends ? null : 
+                friends.map(user => 
+                    <div className="searchUserBody">
+                        <h2>{user.username}</h2>
+                            <div className="userBodyIconBox">
+                            <img  className="userBodyIconImage check" src='/images/Chat.png'/>
+                            </div>
+                    </div>
+                )
+            }
         </div>
     )
 }
