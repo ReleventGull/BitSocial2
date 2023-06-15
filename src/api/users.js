@@ -122,3 +122,16 @@ export const getPendingRequest = async (token) => {
         throw error
     }
 }
+
+export const deleteRequest = async(id) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/delete/${id}`,{
+            method: "DELETE"
+        })
+        .then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error deleting request", error)
+        throw error
+    }
+}

@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react'
-import {getPendingRequest} from '../../api/users'
+import {getPendingRequest, deleteRequest} from '../../api/users'
 import { useOutletContext } from 'react-router-dom'
 
 
-const Pending = ({token}) => {
+const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass}) => {
     const [pending, setPending] = useState('')
     const {index, setIndex, hoverStyle} = useOutletContext()
 
-    
-    
-    console.log(index)
     const getPending = async() => {
             const response = await getPendingRequest(token)
             setPending(response)
@@ -19,7 +16,20 @@ const Pending = ({token}) => {
         getPending()  
     }, [])
 
-
+    const deleteR = async(id) => {
+        for(let i = 0; i < pending.length; i++) {
+            if (pending[i].id == id) {
+                pending.splice(i, 1)
+            }
+        }
+        const response = await deleteRequest(id)
+        if(notifClass) {
+            setCounter(0)
+        }else {
+            setNotifClass('active')
+        }
+        setSentMessage(response.message)
+    }
     return (
         <div className="searchBody">
              {
@@ -28,7 +38,7 @@ const Pending = ({token}) => {
                     <div style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className={"searchUserBody " + i}>
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
-                                
+                            <img onClick={() => deleteR(user.id)}className="userBodyIconImage" src='/images/Clear.png'/>
                             </div>
                     </div>
                 )
