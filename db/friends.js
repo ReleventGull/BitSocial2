@@ -54,13 +54,13 @@ const getFriendByIds = async({user1, user2}) => {
     }
 }
 
-const deleteFriendRequest = async ({user1, user2}) => {
+const deleteFriendRequest = async (id) => {
     try {
         const {rows: [request]} = await client.query(`
         DELETE from friend_request
-        WHERE user_sent_id=$1 AND user_recieved_id=$2 OR user_sent_id = $3 AND user_recieved_id=$4
+        WHERE id=$1
         RETURNING *
-        `, [user1, user2, user2, user1])
+        `, [id])
         return request
     }catch(error) {
         console.error("There was an error deleting the friends request", error)
@@ -118,6 +118,8 @@ const getPendingRequest = async(userId) => {
         throw error
     }
 }
+
+
 module.exports = {
     createFriend,
     createFriendRequest,

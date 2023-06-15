@@ -26,7 +26,7 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
             const checkRequest = await getRequestByUserId({user1: user2, user2: user1})
             if(checkRequest) {
                 let newFriend = await createFriend({user1: user1, user2: user2})
-                await deleteFriendRequest({user1: user1, user2: user2})
+                await deleteFriendRequest(checkRequest.id)
                 res.send({
                     message: "You are now friends"
                 })
@@ -97,6 +97,20 @@ friendRouter.get('/pending', async(req, res, next) => {
         throw error
     }
 })
+
+friendRouter.delete('/delete/:id', async(req, res, next) => {
+    try {
+        const {id} = req.params
+        const response = await deleteFriendRequest(id)
+        res.send({
+            message: "Friend Request Deleted!"
+        })
+    }catch(error){
+        console.error("There was an error deleting the friend request", error)
+        throw error
+    }
+})
+
 
 
 module.exports = friendRouter

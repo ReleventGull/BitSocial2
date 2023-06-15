@@ -12,7 +12,7 @@ const Friend = () => {
     const [searchClass, setSearchClass] = useState('')
     const [searchValue, setSearchValue] = useState('')
 
-    console.log(searchValue)
+
     const navigate = useNavigate()
     const loc = useLocation()
 
