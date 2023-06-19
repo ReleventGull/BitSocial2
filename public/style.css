@@ -497,18 +497,27 @@ h1, h2, h3, h4, p {
 
 @media only screen and (max-width: 600px) {
     .navBar {
-        min-width: 6rem;
-        width: 6rem;
-        max-width: 6rem;
+        height: 7rem;
+        width: 100%;
+        z-index: 1000;
+        padding: 10px;
+        bottom: 0;
     }
-    .navBar a h3{
+    .navBarBox a h3 {
         display: none;
-        min-width: none;
+    }
+    .navBarBox {
+        flex-direction: row;
+        height: 100%;
+        justify-content: space-around;
+    }
+    .outDiv {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 7rem;
     }
     .imageBox {
-        justify-content: center;
+        width: auto
     }
-  .outDiv {
-    margin-left: 6rem;
-  }
+
 }
