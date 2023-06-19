@@ -4,16 +4,22 @@ import { useOutletContext } from 'react-router-dom'
 
 const All = ({token}) => {
     const [friends, setFriends] = useState(null)
+    const [count, setCount] = useState(null)
     const {index, setIndex, hoverStyle} = useOutletContext()
+    
+    
     const fetchFriends = async () => {
         const response = await getFriends(token)
-        setFriends(response)
+        console.log(response)
+        setFriends(response.friends)
+        setCount(response.count)
     }
     useEffect(() => {
         fetchFriends()
     }, [])
     return (
         <div className="searchBody">
+            <p className='countFriends'>Friends - {count}</p>
             {
                 !friends ? null : 
                 friends.map((user, i) => 
