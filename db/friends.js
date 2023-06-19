@@ -119,6 +119,21 @@ const getPendingRequest = async(userId) => {
     }
 }
 
+const getFriendsCount = async (userId) => {
+    try {
+        const {rows} = await client.query(`
+            SELECT COUNT(friends.id) 
+            FROM
+            friends
+            WHERE user_1_id=$1 OR user_2_id=$2
+        `, [userId, userId])
+        return rows
+    }catch(error) {
+        console.error("There was an error getting the count" , error) 
+        throw error
+    }
+}
+
 
 module.exports = {
     createFriend,
@@ -130,5 +145,6 @@ module.exports = {
     deleteFriendRequest,
     getFriendRequestById,
     getFriendsByUserId,
-    getPendingRequest
+    getPendingRequest,
+    getFriendsCount
 }

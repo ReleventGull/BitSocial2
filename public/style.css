@@ -54,6 +54,7 @@ h1, h2, h3, h4, p {
     --primary: #1e2124;
     --second-primary: #282b30;
     --third-primary: #36393e;
+    --fourt-primary: #d3d3d3;
     --secondary: #4ECDC4;
     --third: #F7FFF7;
     --fourth: #cd7672;
@@ -497,10 +498,10 @@ h1, h2, h3, h4, p {
 
 @media only screen and (max-width: 600px) {
     .navBar {
-        height: 7rem;
+        height: 6rem;
         width: 100%;
         z-index: 1000;
-        padding: 10px;
+
         bottom: 0;
     }
     .navBarBox a h3 {
@@ -510,14 +511,18 @@ h1, h2, h3, h4, p {
         flex-direction: row;
         height: 100%;
         justify-content: space-around;
+        margin: 0;
     }
     .outDiv {
         width: 100%;
         margin: 0;
-        margin-bottom: 7rem;
+        margin-bottom: 6rem;
     }
     .imageBox {
         width: auto
     }
-
+}
+.countFriends {
+    color: var(--fourt-primary);
+    margin: 1rem 0 1rem 0
 }
