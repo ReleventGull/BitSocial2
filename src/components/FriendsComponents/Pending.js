@@ -30,6 +30,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass})
             setNotifClass('active')
         }
         setSentMessage(response.message)
+        setMessage((pre) => pre -= 1)
     }
     return (
         <div className="searchBody">
