@@ -6,7 +6,8 @@ import { addFriend } from "../../api/users"
 const Search = ({token, setNotfifClass, setSentMessage, notifClass, setCounter}) => {
     const {searchValue, setSearchValue} = useOutletContext()
     const [result, setResults] = useState('')
-    const {index, setIndex, hoverStyle} = useOutletContext()
+    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    
     const searchForUsers = async() => {
         const response = await searchUsers({query: searchValue, token: token})
         setResults(response)
@@ -21,6 +22,11 @@ const Search = ({token, setNotfifClass, setSentMessage, notifClass, setCounter})
         setSentMessage(response.message)
         console.log(response)
     }
+
+    useEffect(() => {
+        setMessage('')
+    }, [])
+
     useEffect(() => {
         if(searchValue) {
             searchForUsers()

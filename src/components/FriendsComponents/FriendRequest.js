@@ -5,13 +5,12 @@ import { addFriend } from "../../api/users"
 
 const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCounter}) => {
     const [request, setRequest] = useState('')
-    const {index, setIndex, hoverStyle} = useOutletContext()
+    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
     
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
-        if(!response.message) {
-            setRequest(response)
-        }
+        setRequest(response.requests)
+        setMessage(response.count)
     }
 
     const addFriendRequest = async(user2) => {
@@ -38,6 +37,7 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
 
     return (
         <div className="searchBody">
+             
              {
                 !request ? null : 
                 request.map((user, i) => 

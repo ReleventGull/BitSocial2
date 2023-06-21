@@ -5,12 +5,11 @@ import { useOutletContext } from 'react-router-dom'
 
 const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass}) => {
     const [pending, setPending] = useState('')
-    const [count, setCount] = useState('')
-    const {index, setIndex, hoverStyle} = useOutletContext()
+    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
 
     const getPending = async() => {
             const response = await getPendingRequest(token)
-            setCount(response.count)
+            setMessage(response.count)
             setPending(response.response)
     }
 
@@ -34,7 +33,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass})
     }
     return (
         <div className="searchBody">
-             <p className='countFriends'>Pending - {count}</p>
+
              {
                 !pending ? null : 
                 pending.map((user, i) => 
