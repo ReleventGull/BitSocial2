@@ -524,5 +524,6 @@ h1, h2, h3, h4, p {
 }
 .countFriends {
     color: var(--fourt-primary);
-    margin: 1rem 0 1rem 0
+    margin: 10px 0 1rem 10px;
+    height: 1rem
 }

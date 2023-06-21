@@ -4,7 +4,7 @@ import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-ro
 const  searchStates = ['All', 'Search', 'Request', 'Pending']
 const Friend = () => {
     const [index, setIndex] = useState(null)
-    
+    const [message, setMessage] = useState('')
     let hoverStyle = {
         borderTop: '1px solid transparent'
     }
@@ -43,8 +43,10 @@ const Friend = () => {
                         
                     }
                 </div>
+                <p className='countFriends'>{message}</p>
             </div>
-            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle}}  />
+            
+            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setMessage}}  />
         </div>
     )
 }

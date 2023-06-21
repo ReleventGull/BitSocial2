@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
@@ -60,16 +60,8 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
     try {
         const {id} = req.user
         const requests = await getFriendRequestById(id)
-        console.log('requests', requests)
-        if (requests) {
-            res.send(
-                requests
-            )
-        }else {
-            res.send({
-                message: "You have no pending friend requests"
-            })
-        }
+        const [count] = await getRequestCount(id)
+            res.send({requests:requests, count: `Requests - ${count.count}`})
     }catch(error) {
         console.error("There was an error getting the users request", error)
         throw error
@@ -82,7 +74,7 @@ friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
         const friends = await getFriendsByUserId(id)
         const [count] = await getFriendsCount(id)
         console.log(count)
-        res.send({friends: friends, count: count.count})
+        res.send({friends: friends, count: `Friends - ${count.count}`})
     }catch(error) {
         console.error("There was an error getting users friends")
         throw error
@@ -92,8 +84,9 @@ friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
 friendRouter.get('/pending', async(req, res, next) => {
     try {
         const {id} = req.user
+        const [pendingCount] = await getPendingCount(id)
         const response = await getPendingRequest(id)
-        res.send(response)
+        res.send({response: response, count: `Pending - ${pendingCount.count}`})
     }catch(error) {
         console.error("There was an error getting pending request", error)
         throw error
