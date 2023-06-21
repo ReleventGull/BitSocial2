@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
@@ -92,8 +92,9 @@ friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
 friendRouter.get('/pending', async(req, res, next) => {
     try {
         const {id} = req.user
+        const [pendingCount] = await getPendingCount(id)
         const response = await getPendingRequest(id)
-        res.send(response)
+        res.send({response: response, count: pendingCount.count})
     }catch(error) {
         console.error("There was an error getting pending request", error)
         throw error
