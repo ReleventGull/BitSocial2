@@ -61,7 +61,7 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
         const {id} = req.user
         const requests = await getFriendRequestById(id)
         const [count] = await getRequestCount(id)
-            res.send({requests:requests, count: `Requests - ${count.count}`})
+            res.send({requests:requests, count: count.count})
     }catch(error) {
         console.error("There was an error getting the users request", error)
         throw error
@@ -74,7 +74,7 @@ friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
         const friends = await getFriendsByUserId(id)
         const [count] = await getFriendsCount(id)
         console.log(count)
-        res.send({friends: friends, count: `Friends - ${count.count}`})
+        res.send({friends: friends, count: count.count})
     }catch(error) {
         console.error("There was an error getting users friends")
         throw error
@@ -86,7 +86,7 @@ friendRouter.get('/pending', async(req, res, next) => {
         const {id} = req.user
         const [pendingCount] = await getPendingCount(id)
         const response = await getPendingRequest(id)
-        res.send({response: response, count: `Pending - ${pendingCount.count}`})
+        res.send({response: response, count: pendingCount.count})
     }catch(error) {
         console.error("There was an error getting pending request", error)
         throw error

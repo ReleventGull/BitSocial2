@@ -5,6 +5,8 @@ const  searchStates = ['All', 'Search', 'Request', 'Pending']
 const Friend = () => {
     const [index, setIndex] = useState(null)
     const [message, setMessage] = useState('')
+    const [header, setHeader ] = useState('')
+    
     let hoverStyle = {
         borderTop: '1px solid transparent'
     }
@@ -17,10 +19,25 @@ const Friend = () => {
     const loc = useLocation()
 
     useEffect(() => {
-        loc.pathname == '/search'
         navigate('/friend/all')
     }, [])
 
+    useEffect(() => {
+        switch(loc.pathname) {
+            case '/friend/all' :
+                setHeader('Friends - ')
+                break;
+            case '/friend/request':
+                setHeader("Requests - ")
+                break;
+            case '/friend/pending':
+                setHeader("Pending - ")
+                break;
+            default:
+                setHeader('')
+
+        }
+    }, [loc])
 
     
     return (
@@ -43,7 +60,7 @@ const Friend = () => {
                         
                     }
                 </div>
-                <p className='countFriends'>{message}</p>
+                <p className='countFriends'>{header}{message}</p>
             </div>
             
             <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setMessage}}  />

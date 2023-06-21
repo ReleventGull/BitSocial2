@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext } from "react-router-dom"
-import {getUserFriendRequests} from '../../api/users'
-import { addFriend } from "../../api/users"
+import {getUserFriendRequests, deleteRequest, addFriend} from '../../api/users'
 
 const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCounter}) => {
     const [request, setRequest] = useState('')
@@ -30,6 +29,20 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
         }
     }
     
+    const deleteFriendFr = async(id) => {
+        const response = await deleteRequest(id)
+        if (setNotfifClass) {
+            setCounter(0)
+        }
+        setNotfifClass('active')
+        setSentMessage(response.message)
+        for(let i = 0; i < request.length; i++) {
+            if (request[i].id == id) {
+                request.splice(i, 1)
+                setMessage((pre) => pre -= 1)
+            }
+        }
+    }
 
     useEffect(() => {
         fetchRequest()
@@ -45,6 +58,7 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
                         <h2>{user.usersent}</h2>
                             <div className="userBodyIconBox">
                             <img onClick={() => addFriendRequest(user.user_sent_id)} className="userBodyIconImage check" src='/images/Check.png'/>
+                            <img onClick={() => deleteFriendFr(user.id)} className="userBodyIconImage check" src='/images/Clear.png'/>
                             </div>
                     </div>
                 )

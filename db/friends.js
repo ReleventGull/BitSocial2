@@ -173,7 +173,6 @@ module.exports = {
     getFriendRequestById,
     getFriendsByUserId,
     getPendingRequest,
-    
     getFriendsCount,
     getRequestCount,
     getPendingCount,
