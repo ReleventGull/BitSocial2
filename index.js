@@ -4,6 +4,8 @@ const app = express()
 const cors = require('cors')
 const morgan = require('morgan')
 const client = require('./db/index')
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET} = process.env
 client.connect()
 
 app.use(morgan('dev'))
@@ -29,17 +31,25 @@ const io = new Server(server, {
 
 
 
-let users = []
+let users = {}
 
 io.on('connection', (socket) => {
-    users.push(socket.handshake.auth.token)
-    console.log('Auth is here bitch', )
-    console.log(users)
+    const user = jwt.verify(socket.handshake.auth.token, JWT_SECRET)
+    users[`${user.id}`] = {
+        socketId: socket.id,
+        username: user.username
+    }
     console.log("I connected")
     console.log(socket.id)
     socket.on('delete', (arg) => {
         console.log('Id here', socket.id)
         io.to(socket.id).emit('success', 'I was successful in delete')
+    })
+    socket.on('disconnect', () => {
+        console.log("I fcking dced")
+        console.log('before', users)
+        delete users[`${user.id}`]
+        console.log('after', users)
     })
     
 })
