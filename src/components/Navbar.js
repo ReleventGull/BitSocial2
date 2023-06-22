@@ -1,9 +1,10 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import { friendRequestCount } from "../api/users"
-import {useEffect, } from 'react'
+import {useEffect, useState} from 'react'
 
 
 const NavBar = ({notifClass, sentMessage, token}) => {
+    const [unread, setUnread] = useState('')
     const navigate = useNavigate()
     const loc = useLocation()
 
@@ -15,6 +16,7 @@ const NavBar = ({notifClass, sentMessage, token}) => {
 
     const frCount = async() => {
         const response = await friendRequestCount(token)
+        setUnread(response.count)
     }
     useEffect(() => {
         frCount()
@@ -33,6 +35,9 @@ const NavBar = ({notifClass, sentMessage, token}) => {
                         <h3>Profile</h3>
                 </Link>
                 <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
+                        <div className="frBubble">
+                            {unread}
+                        </div>
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
@@ -44,13 +49,11 @@ const NavBar = ({notifClass, sentMessage, token}) => {
         </div>
        
        <div className="outDiv">
-        <Outlet />
+        <Outlet context={{unread}}/>
         <div className={"notifPortal " + notifClass}>
            {sentMessage}
         </div>
        </div>
-       
-      
     </>
     )
 }
