@@ -7,6 +7,7 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
         const {id: user1} = req.user
+        console.log(user2, user1)
         if(user2 == user1) {
             res.send({
                 error: "UserMatch",
@@ -106,7 +107,7 @@ friendRouter.get('/frCount', requireUser, async(req, res, next) => {
     try {
         const {id} = req.user
         const count = await getUnreadFriendRequestByUserId(req.user.id)
-        res.send(count)
+        res.send({count : Number(count.count)})
     }catch(error) {
         console.error("There was an error getting the fr count", error)
         throw error

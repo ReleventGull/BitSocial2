@@ -43,12 +43,29 @@ io.on('connection', (socket) => {
         console.log('Id here', socket.id)
         io.to(socket.id).emit('success', 'I was successful in delete')
     })
+    socket.on('friend_request', ({recieving}) => {
+        const user_recieving = users[`${recieving}`]
+        console.log("Friend reqeust hit")
+        if(user_recieving) {
+            io.to(user_recieving.socketId).emit('notifyFr', 'fr_recieved')
+        }
+    })
+    socket.on('delete_friend_request', ({recieving}) => {
+        console.log("BOOM DELETED")
+        console.log('got it here', recieving, users)
+        const user_recieving = users[`${recieving}`]
+        if (user_recieving) {
+            io.to(user_recieving.socketId).emit('notifyDeleteFr')
+        }
+    })
     socket.on('disconnect', () => {
         console.log("I fcking dced")
         console.log('before', users)
         delete users[`${user.id}`]
         console.log('after', users)
     })
+
+    
 })
 
 

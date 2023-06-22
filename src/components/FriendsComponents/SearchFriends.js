@@ -3,7 +3,8 @@ import { useOutletContext } from "react-router-dom"
 import {searchUsers} from '../../api/users'
 import { addFriend } from "../../api/users"
 
-const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter}) => {
+
+const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter, socket}) => {
     const {searchValue, setSearchValue} = useOutletContext()
     const [result, setResults] = useState('')
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
@@ -20,6 +21,9 @@ const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter}) 
         }
         setNotifClass('active')
         setSentMessage(response.message)
+        if(!response.error) {
+            socket.emit('friend_request', {recieving: user2})
+        }
     }
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import {getUserFriendRequests, deleteRequest, addFriend} from '../../api/users'
 
 const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCounter, socket}) => {
     const [request, setRequest] = useState('')
-    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    const {index, setIndex, hoverStyle, setMessage, setUnread} = useOutletContext()
     
     
     const fetchRequest = async() => {
@@ -25,6 +25,7 @@ const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCou
                 if (request[i].user_sent_id == user2) {
                     request.splice(i ,1)
                     setMessage((pre) => pre -= 1)
+                    setUnread((pre) => pre -= 1)
                 }
             }
         }
@@ -41,6 +42,7 @@ const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCou
             if (request[i].id == id) {
                 request.splice(i, 1)
                 setMessage((pre) => pre -= 1)
+                setUnread((pre) => pre -= 1)
             }
         }
         

@@ -3,10 +3,25 @@ import { friendRequestCount } from "../api/users"
 import {useEffect, useState} from 'react'
 
 
-const NavBar = ({notifClass, sentMessage, token}) => {
+const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const [unread, setUnread] = useState('')
     const navigate = useNavigate()
     const loc = useLocation()
+
+   useEffect(() => {
+    
+    socket.on('notifyFr' , () => {
+        console.log('I was hit here')
+        setUnread((pre) => pre += 1)
+    })
+    socket.on('notifyDeleteFr', () => {
+       setUnread((pre) => pre -= 1)
+    })
+   }, [])
+
+
+ 
+
 
     useEffect(() => {
         if (loc.pathname == '/') {
@@ -35,9 +50,15 @@ const NavBar = ({notifClass, sentMessage, token}) => {
                         <h3>Profile</h3>
                 </Link>
                 <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
-                        <div className="frBubble">
+                        {unread > 0 ? 
+                            <div className="frBubble">
                             {unread}
-                        </div>
+                            </div>
+                            :
+                            null
+                    
+                        }
+                        
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
@@ -49,7 +70,7 @@ const NavBar = ({notifClass, sentMessage, token}) => {
         </div>
        
        <div className="outDiv">
-        <Outlet context={{unread}}/>
+        <Outlet context={{unread, setUnread}}/>
         <div className={"notifPortal " + notifClass}>
            {sentMessage}
         </div>

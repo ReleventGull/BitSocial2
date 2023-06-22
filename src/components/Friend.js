@@ -8,8 +8,7 @@ const Friend = () => {
     const [header, setHeader ] = useState('')
     const [searchClass, setSearchClass] = useState('')
     const [searchValue, setSearchValue] = useState('')
-    const {unread} = useOutletContext()
-    console.log(unread)
+    const {unread, setUnread} = useOutletContext()
     let hoverStyle = {
         borderTop: '1px solid transparent'
     }
@@ -47,9 +46,9 @@ const Friend = () => {
                     searchStates.map(state => 
                         
                         <Link onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>
-                            {state == 'Request' ? 
+                           
+                            {state == 'Request' && unread > 0? 
                             <div className='frBubble2'>
-                                
                                 {unread} 
                             </div>
                             : null}
@@ -71,7 +70,7 @@ const Friend = () => {
                 <p className='countFriends'>{header}{message}</p>
             </div>
             
-            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setMessage}}  />
+            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setMessage, setUnread}}  />
         </div>
     )
 }

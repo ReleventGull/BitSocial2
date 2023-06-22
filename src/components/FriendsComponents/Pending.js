@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router-dom'
 const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket}) => {
     const [pending, setPending] = useState('')
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
-
+    console.log(pending)
     const getPending = async() => {
             const response = await getPendingRequest(token)
             setMessage(response.count)
@@ -17,7 +17,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
         getPending()  
     }, [])
 
-    const deleteR = async(id) => {
+    const deleteR = async(id, userId) => {
         for(let i = 0; i < pending.length; i++) {
             if (pending[i].id == id) {
                 pending.splice(i, 1)
@@ -31,7 +31,8 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
         }
         setSentMessage(response.message)
         setMessage((pre) => pre -= 1)
-        socket.emit("delete", {message: "I was deleted"})
+
+        socket.emit("delete_friend_request", {recieving: userId})
     }
 
     return (
@@ -43,7 +44,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
                     <div style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className={"searchUserBody " + i}>
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
-                            <img onClick={() => deleteR(user.id)}className="userBodyIconImage" src='/images/Clear.png'/>
+                            <img onClick={() => deleteR(user.id, user.user_recieved_id)}className="userBodyIconImage" src='/images/Clear.png'/>
                             </div>
                     </div>
                 )
