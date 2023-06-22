@@ -5,7 +5,6 @@ import { All, Pending, FriendRequest, SearchFriends, } from './components/Friend
 import {io} from 'socket.io-client'
 let socket;
 const App = () => {
-    const [userSet, setUserSet ] = useState(false)
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
     const [sentMessage, setSentMessage] = useState('')
     const [notifClass, setNotifClass] = useState('')
@@ -24,11 +23,10 @@ const App = () => {
                     }
                 })
         }
-    }, [])
+    }, [token])
 
- 
+
     let intervalId = useRef(null)
-   
 
     useEffect(() => {
         if(notifClass) {
@@ -53,10 +51,9 @@ const App = () => {
     
     return (
         <>
-      
         <Routes>
             <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
-            <Route path='/' element={<NavBar sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
+            <Route path='/' element={<NavBar token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
                 <Route path='home' element={<Home />}/>
                 <Route path='chat' element={<Chat token={token}/>}/>
                     <Route path="friend" element={<Friend />}>

@@ -1,8 +1,9 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
+import { friendRequestCount } from "../api/users"
 import {useEffect, } from 'react'
 
 
-const NavBar = ({notifClass, sentMessage}) => {
+const NavBar = ({notifClass, sentMessage, token}) => {
     const navigate = useNavigate()
     const loc = useLocation()
 
@@ -12,6 +13,13 @@ const NavBar = ({notifClass, sentMessage}) => {
         }
     }, [])
 
+    const frCount = async() => {
+        const response = await friendRequestCount(token)
+        console.log(response)
+    }
+    useEffect(() => {
+        frCount()
+    }, [])
 
     return(
     <>

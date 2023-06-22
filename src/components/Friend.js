@@ -6,14 +6,14 @@ const Friend = () => {
     const [index, setIndex] = useState(null)
     const [message, setMessage] = useState('')
     const [header, setHeader ] = useState('')
+    const [searchClass, setSearchClass] = useState('')
+    const [searchValue, setSearchValue] = useState('')
     
+
     let hoverStyle = {
         borderTop: '1px solid transparent'
     }
     
-    const [searchClass, setSearchClass] = useState('')
-    const [searchValue, setSearchValue] = useState('')
-
 
     const navigate = useNavigate()
     const loc = useLocation()
@@ -35,7 +35,6 @@ const Friend = () => {
                 break;
             default:
                 setHeader('')
-
         }
     }, [loc])
 

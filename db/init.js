@@ -29,7 +29,8 @@ const buildTables = async() => {
         CREATE TABLE friend_request (
             id SERIAL PRIMARY KEY,
             user_sent_id INTEGER REFERENCES users(id),
-            user_recieved_id INTEGER REFERENCES users(id)
+            user_recieved_id INTEGER REFERENCES users(id),
+            unread BOOLEAN DEFAULT TRUE
         );
         `)
         console.log("Finished building tables")

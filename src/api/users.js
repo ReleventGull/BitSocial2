@@ -148,3 +148,18 @@ export const deleteRequest = async(id) => {
         throw error
     }
 }
+
+export const friendRequestCount = async (token) => {
+    try {
+        
+        const response = await fetch(`${BASE_URL}/friends/frCount`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error fetchingthe fr count", error)
+        throw error
+    }
+}
