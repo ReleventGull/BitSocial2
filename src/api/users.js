@@ -42,6 +42,19 @@ export const register = async({username, password, password2}) => {
     }
 }
 
+export const getMe = async(token) => {
+    try {   
+        const response = await fetch(`${BASE_URL}/users/me`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error getting me", error)
+        throw error
+    }
+}
 export const searchUsers = async({query, token}) => {
     try {
         const response = await fetch(`${BASE_URL}/users/search`, {

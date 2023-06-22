@@ -75,7 +75,7 @@ const getUsersFromSearch = async({searchQuery, pagination}) => {
 const getUserById = async(id) => {
     try {
         const {rows: [user]} = await client.query(`
-        SELECT * FROM 
+        SELECT users.id, users.username
         users
         WHERE id=$1
         `, [id])

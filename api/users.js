@@ -2,9 +2,17 @@ const express = require('express')
 const userRouter = express.Router()
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = process.env
-const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch} = require('../db/users')
+const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch, getUserById} = require('../db/users')
+const requireUser = require('./requireUser')
 
-
+userRouter.get('/me', requireUser, (req, res, next) => {
+    try {
+        res.send(req.user)
+    }catch(error) {
+        console.error("There was an error getting the user", error)
+        throw error
+    }
+})
 userRouter.post('/register', async(req, res, next) => {
     try {
         const {username, password, password2} = req.body

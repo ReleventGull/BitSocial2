@@ -24,9 +24,17 @@ const io = new Server(server, {
 })
 
 
+
+
+
+
+
 let users = []
+
 io.on('connection', (socket) => {
-    users.push(socket.id)
+    users.push(socket.handshake.auth.token)
+    console.log('Auth is here bitch', )
+    console.log(users)
     console.log("I connected")
     console.log(socket.id)
     socket.on('delete', (arg) => {
