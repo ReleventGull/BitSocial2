@@ -23,7 +23,6 @@ chatRouter.post('/create', requireUser, async(req, res, next) => {
                 })
             }else {
                 const checkExisiting = await checkForExistingChat({user1Id: id, user2Id: user2})
-                console.log(checkExisiting)
                 if(checkExisiting) {
                     res.status(401).send({
                         error: 'ChatAlreadyExists',

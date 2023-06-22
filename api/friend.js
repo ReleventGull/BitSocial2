@@ -7,8 +7,6 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
         const {id: user1} = req.user
-        console.log(user2, user1)
-        console.log(user1)
         if(user2 == user1) {
             res.send({
                 error: "UserMatch",
@@ -38,7 +36,6 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
                         message: "You already have a pending request for this user"
                     })
                 }else {
-                    console.log(user1, user2)
                     const request = createFriendRequest({user1: user1, user2: user2})
                     res.send({
                         message: "Friend request sent!"
@@ -73,7 +70,6 @@ friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
         const {id} = req.user
         const friends = await getFriendsByUserId(id)
         const [count] = await getFriendsCount(id)
-        console.log(count)
         res.send({friends: friends, count: count.count})
     }catch(error) {
         console.error("There was an error getting users friends")
@@ -109,7 +105,6 @@ friendRouter.delete('/delete/:id', async(req, res, next) => {
 friendRouter.get('/frCount', requireUser, async(req, res, next) => {
     try {
         const {id} = req.user
-        console.log(id)
         const count = await getUnreadFriendRequestByUserId(req.user.id)
         res.send(count)
     }catch(error) {

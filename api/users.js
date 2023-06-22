@@ -52,9 +52,7 @@ userRouter.post('/register', async(req, res, next) => {
 
 userRouter.post('/login', async(req, res, next) => {
     try {
-        console.log("I get to login")
         const {username, password} = req.body
-        console.log("Body: ", req.body)
         if(!username || !password) {
             res.status(401).send({
                 error: "MissingCredentials",
@@ -76,7 +74,6 @@ userRouter.post('/login', async(req, res, next) => {
                     })
                 }else {
                     const user = await getUserByUsername(username)
-                    console.log("User on sign in", user)
                     const token = jwt.sign(user, JWT_SECRET)
                     res.send({
                         message: "Success, Welcome back!",

@@ -4,7 +4,6 @@ const {BASE_URL = 'http://localhost:3000/api'} = process.env
 
 export const login = async({username, password}) => {
     try {
-        console.log(username)
         const response = await fetch(`${BASE_URL}/users/login`, {
             method: "POST",
             headers: {
@@ -76,7 +75,6 @@ export const searchUsers = async({query, token}) => {
 
 export const addFriend = async({token, user2}) => {
     try {
-        console.log(token)
         const response = await fetch(`${BASE_URL}/friends/sendRequest`, {
             method: 'POST',
             headers: {

@@ -14,7 +14,6 @@ const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCou
     }
 
     const addFriendRequest = async(user2) => {
-        console.log(user2)
         const response = await addFriend({token:token, user2: user2})
         if(notifClass) {
             setCounter(0)
