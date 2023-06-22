@@ -2,23 +2,35 @@ import React, { useState, useEffect, useRef } from 'react'
 import {Route, Routes, useNavigate} from 'react-router-dom'
 import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
-
-const App = ({socket}) => {
+import {io} from 'socket.io-client'
+let socket;
+const App = () => {
+    const [userSet, setUserSet ] = useState(false)
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
     const [sentMessage, setSentMessage] = useState('')
     const [notifClass, setNotifClass] = useState('')
     const [counter, setCounter] = useState(0)
     const navigate = useNavigate()
     
+
+
     useEffect(() => {
-        console.log(socket)
-    }, [socket])
+        if(!token){
+            navigate('login')
+        }else {
+                 socket = io.connect('http://localhost:3000', {
+                    auth: {
+                    token: token
+                    }
+                })
+        }
+    }, [])
+
  
     let intervalId = useRef(null)
    
 
     useEffect(() => {
-        
         if(notifClass) {
             intervalId.current = setInterval(() => {
                 setCounter(pre => pre + 1)
@@ -27,7 +39,6 @@ const App = ({socket}) => {
     }, [notifClass])
 
     useEffect(() => {
-        
         if(counter >= 6) {
             setNotifClass('')
             setTimeout(() => {
@@ -39,17 +50,6 @@ const App = ({socket}) => {
     }, [counter])
 
 
-
-    
-    useEffect(() => {
-        if(!token){
-            console.log("I got here")
-            navigate('login') 
-        }else {
-            socket.emit('login' , () => {
-            })
-        }
-    }, [token])
     
     return (
         <>

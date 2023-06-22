@@ -8,16 +8,8 @@ const {JWT_SECRET} = process.env
 
 
 
-
-
-
-
-
-
-
 router.use((req, res, next) => {
     const auth = req.header("Authorization")
-    console.log("Auth", auth)
     if(auth) {
             const [bearer, token] = auth.split(" ")
             if(bearer == 'Bearer') {
@@ -40,6 +32,14 @@ router.use((req, res, next) => {
         next()
     }
 })
+
+
+
+
+
+
+
+
 
 router.use('/users', userRouter)
 router.use('/chat', chatRouter)
