@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend} from '../../api/users'
 
-const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCounter}) => {
+const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCounter, socket}) => {
     const [request, setRequest] = useState('')
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    
     
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
@@ -18,12 +19,13 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
         if(notifClass) {
             setCounter(0)
         }
-        setNotfifClass('active')
-        setSentMessage(`${response.message} ${Math.random()} `)
+        setNotifClass('active')
+        setSentMessage(`${response.message}`)
         if(!response.error) {
             for(let i = 0; i < request.length; i++) {
                 if (request[i].user_sent_id == user2) {
                     request.splice(i ,1)
+                    setMessage((pre) => pre -= 1)
                 }
             }
         }
@@ -31,10 +33,10 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
     
     const deleteFriendFr = async(id) => {
         const response = await deleteRequest(id)
-        if (setNotfifClass) {
+        if (setNotifClass) {
             setCounter(0)
         }
-        setNotfifClass('active')
+        setNotifClass('active')
         setSentMessage(response.message)
         for(let i = 0; i < request.length; i++) {
             if (request[i].id == id) {
@@ -42,6 +44,7 @@ const FriendRequest = ({token, setNotfifClass, setSentMessage, notifClass, setCo
                 setMessage((pre) => pre -= 1)
             }
         }
+        
     }
 
     useEffect(() => {

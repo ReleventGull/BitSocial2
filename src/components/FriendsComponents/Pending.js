@@ -3,7 +3,7 @@ import {getPendingRequest, deleteRequest} from '../../api/users'
 import { useOutletContext } from 'react-router-dom'
 
 
-const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass}) => {
+const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket}) => {
     const [pending, setPending] = useState('')
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
 
@@ -31,7 +31,9 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass})
         }
         setSentMessage(response.message)
         setMessage((pre) => pre -= 1)
+        socket.emit("delete", {message: "I was deleted"})
     }
+
     return (
         <div className="searchBody">
 

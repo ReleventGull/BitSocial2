@@ -347,7 +347,7 @@ h1, h2, h3, h4, p {
     align-items: center;
     justify-content: center;
     transition: .2s;
-    padding: 15px;
+    padding: .5rem;
     text-decoration: none;
 }
 .searchStateOptions:hover{
@@ -524,6 +524,7 @@ h1, h2, h3, h4, p {
     .searchFriendOptions {
         gap: 0;
         justify-content: space-around;
+        padding: 0;
     }
 }
 .countFriends {

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = process.env
 const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch} = require('../db/users')
 
+
 userRouter.post('/register', async(req, res, next) => {
     try {
         const {username, password, password2} = req.body
