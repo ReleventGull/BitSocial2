@@ -15,7 +15,6 @@ const NavBar = ({notifClass, sentMessage, token}) => {
 
     const frCount = async() => {
         const response = await friendRequestCount(token)
-        console.log(response)
     }
     useEffect(() => {
         frCount()

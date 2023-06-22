@@ -20,7 +20,6 @@ const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter}) 
         }
         setNotifClass('active')
         setSentMessage(response.message)
-        console.log(response)
     }
 
     useEffect(() => {

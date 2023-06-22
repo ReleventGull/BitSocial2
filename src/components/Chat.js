@@ -8,7 +8,6 @@ const Chat = ({token}) => {
     const [active, setActive] = useState('search')
     const [currentChat, setCurrentChat] = useState('')
     const handleSearch = async() => {
-        console.log(searchQuery)
         const response = await searchUsers({token: token, query: searchQuery})
         if(searchQuery.length > 0) {
             setSearchedUsers(response)
