@@ -39,8 +39,6 @@ io.on('connection', (socket) => {
         socketId: socket.id,
         username: user.username
     }
-    console.log("I connected")
-    console.log(socket.id)
     socket.on('delete', (arg) => {
         console.log('Id here', socket.id)
         io.to(socket.id).emit('success', 'I was successful in delete')
@@ -51,7 +49,6 @@ io.on('connection', (socket) => {
         delete users[`${user.id}`]
         console.log('after', users)
     })
-    
 })
 
 
