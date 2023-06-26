@@ -1,13 +1,12 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
         const {id: user1} = req.user
-        console.log(user2, user1)
         if(user2 == user1) {
             res.send({
                 error: "UserMatch",
@@ -59,19 +58,30 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
         const {id} = req.user
         const requests = await getFriendRequestById(id)
         const [count] = await getRequestCount(id)
-            res.send({requests:requests, count: count.count})
+            res.send({requests:requests, count: Number(count.count)})
     }catch(error) {
         console.error("There was an error getting the users request", error)
         throw error
     }
 })
 
+friendRouter.get('/retrieve/:userId', async(req, res, next) => {
+    try {
+        const {userId} = req.params
+        const {id} = req.user
+        const friendRequest = await getRequestByBothIds({user2: id, user1: userId})
+        res.send(friendRequest)
+    }catch(error) {
+        console.error("There was an error retrieving the single request", error)
+        throw error
+    }
+})
 friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
     try {
         const {id} = req.user
         const friends = await getFriendsByUserId(id)
         const [count] = await getFriendsCount(id)
-        res.send({friends: friends, count: count.count})
+        res.send({friends: friends, count: Number(count.count)})
     }catch(error) {
         console.error("There was an error getting users friends")
         throw error
@@ -83,7 +93,7 @@ friendRouter.get('/pending', async(req, res, next) => {
         const {id} = req.user
         const [pendingCount] = await getPendingCount(id)
         const response = await getPendingRequest(id)
-        res.send({response: response, count: pendingCount.count})
+        res.send({response: response, count: Number(pendingCount.count)})
     }catch(error) {
         console.error("There was an error getting pending request", error)
         throw error

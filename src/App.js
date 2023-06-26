@@ -12,22 +12,23 @@ const App = () => {
     const [socket, setSocket] = useState('')
     const navigate = useNavigate()
     
-
+    useEffect(() => {
+        if(!token) {
+            navigate('/login')
+        }
+    }, [token])
 
     useEffect(() => {
-        if(!token){
-            navigate('login')
-        }else {
+        if(token){
                  setSocket(
                     io.connect('http://localhost:3000', {
                     auth: {
                     token: token
                     }
                 })
-
-                 ) 
+            ) 
         }
-    }, [token])
+    }, [])
 
 
     let intervalId = useRef(null)
@@ -58,16 +59,16 @@ const App = () => {
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
         <Route path='/' element={<NavBar socket={socket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
-            <Route path='home' element={<Home />}/>
-            <Route path='chat' element={<Chat token={token}/>}/>
-                <Route path="friend" element={<Friend />}>
-                    <Route path='all' element={<All token={token} />}/>
+            <Route path='home' element={<Home socket={socket}/>}/>
+            <Route path='chat' element={<Chat socket={socket} token={token}/>}/>
+                <Route path="friend" element={<Friend socket={socket} />}>
+                    <Route path='all' element={<All socket={socket} token={token} />}/>
                     <Route path='pending' element={<Pending socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='request' element={<FriendRequest socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='search' element={<SearchFriends socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                 </Route>
-            <Route path='profile' element={<Profile />}/>
-            <Route path='settings' element={<Settings setToken={setToken}/>}/>
+            <Route path='profile' element={<Profile socket={socket}/>}/>
+            <Route path='settings' element={<Settings socket={socket} setToken={setToken}/>}/>
         </Route>
     </Routes>
         

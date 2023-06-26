@@ -9,7 +9,6 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const loc = useLocation()
 
    useEffect(() => {
-    
     socket.on('notifyFr' , () => {
         console.log('I was hit here')
         setUnread((pre) => pre += 1)

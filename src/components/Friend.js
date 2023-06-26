@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-router-dom'
 
 const  searchStates = ['All', 'Search', 'Request', 'Pending']
-const Friend = () => {
+const Friend = ({socket}) => {
     const [index, setIndex] = useState(null)
     const [message, setMessage] = useState('')
     const [header, setHeader ] = useState('')
@@ -15,11 +15,18 @@ const Friend = () => {
     
 
     const navigate = useNavigate()
+
     const loc = useLocation()
 
     useEffect(() => {
-        navigate('/friend/all')
-    }, [])
+        
+        if(loc.pathname == '/friend'){
+            navigate('/friend/all')
+            socket.emit('pathname', {
+                path: loc.pathname
+            })
+        } 
+    }, [loc.pathname])
 
     useEffect(() => {
         switch(loc.pathname) {
@@ -43,9 +50,9 @@ const Friend = () => {
             <div className="topSearch">
                 <div className="searchFriendOptions">
                 {
-                    searchStates.map(state => 
+                    searchStates.map((state, i) => 
                         
-                        <Link onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>
+                        <Link key={i} onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>
                            
                             {state == 'Request' && unread > 0? 
                             <div className='frBubble2'>
@@ -70,7 +77,7 @@ const Friend = () => {
                 <p className='countFriends'>{header}{message}</p>
             </div>
             
-            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setMessage, setUnread}}  />
+            <Outlet context={{searchValue, setMessage, setSearchClass, index, setIndex, hoverStyle, setMessage, setUnread}}  />
         </div>
     )
 }

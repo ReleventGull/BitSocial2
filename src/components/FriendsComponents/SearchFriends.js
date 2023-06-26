@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useOutletContext } from "react-router-dom"
+import { useOutletContext, useLocation } from "react-router-dom"
 import {searchUsers} from '../../api/users'
 import { addFriend } from "../../api/users"
 
@@ -8,6 +8,7 @@ const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter, s
     const {searchValue, setSearchValue} = useOutletContext()
     const [result, setResults] = useState('')
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    const loc = useLocation()
     
     const searchForUsers = async() => {
         const response = await searchUsers({query: searchValue, token: token})
@@ -27,6 +28,9 @@ const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter, s
     }
 
     useEffect(() => {
+        socket.emit('pathname', {
+        path: loc.pathname
+        })
         setMessage('')
     }, [])
 
