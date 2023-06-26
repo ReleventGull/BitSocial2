@@ -107,7 +107,7 @@ const getPendingRequest = async(userId) => {
     try {
         const {rows: pending} = await client.query(
             `
-            SELECT friend_request.*, username
+            SELECT friend_request.*, users.username
             FROM friend_request
             JOIN users ON friend_request.user_recieved_id=users.id
             WHERE friend_request.user_sent_id=$1
@@ -175,6 +175,21 @@ const getUnreadFriendRequestByUserId = async(id) => {
         throw error
     }
 }
+
+const getRequestByBothIds = async({user1, user2}) => {
+    try {
+        const {rows: [request]} = await client.query(`
+            SELECT friend_request.*, users.username AS usersent
+            from friend_request
+            JOIN users ON friend_request.user_sent_id=users.id
+            WHERE friend_request.user_sent_id=$1 AND friend_request.user_recieved_id=$2
+        `, [user1, user2])
+        return request
+    }catch(error) {
+        console.error("There was an error getting request by both ids", error)
+        throw error
+    }
+}
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -189,5 +204,6 @@ module.exports = {
     getFriendsCount,
     getRequestCount,
     getPendingCount,
-    getUnreadFriendRequestByUserId
+    getUnreadFriendRequestByUserId,
+    getRequestByBothIds
 }

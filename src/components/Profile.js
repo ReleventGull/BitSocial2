@@ -1,6 +1,14 @@
+import { useEffect } from "react"
+import {useLocation} from 'react-router-dom'
 
+const Profile = ({socket}) => {
+    const loc = useLocation()
 
-const Profile = () => {
+    useEffect(() => {
+        socket.emit('pathname', {
+            path: loc.pathname
+        })
+    }, [])
     return (
         <div className="outlet Profile">
 

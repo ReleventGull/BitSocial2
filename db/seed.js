@@ -12,7 +12,6 @@ const seedData = async() => {
     const user3 = await createUser({username: "David", password: "trok2"})
     
     const friend1 = await createFriend({user1: user1.id, user2:user2.id})
-    console.log(friend1)
     const chat1 = await createChat({user1: user1.id, user2: user2.id})
     const chat2 = await createChat({user1: user1.id, user2: user3.id})
     

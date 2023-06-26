@@ -39,20 +39,28 @@ io.on('connection', (socket) => {
         socketId: socket.id,
         username: user.username
     }
+    socket.on('pathname', (args) => {
+        console.log(args)
+        users[`${user.id}`]['path'] = args.path
+        console.log(users)
+    })
     socket.on('delete', (arg) => {
         console.log('Id here', socket.id)
         io.to(socket.id).emit('success', 'I was successful in delete')
     })
     socket.on('friend_request', ({recieving}) => {
+        console.log('I got it here', recieving)
         const user_recieving = users[`${recieving}`]
         console.log("Friend reqeust hit")
         if(user_recieving) {
-            io.to(user_recieving.socketId).emit('notifyFr', 'fr_recieved')
+            console.log(user_recieving)
+            io.to(user_recieving.socketId).emit('notifyFr', {
+                userId: user.id,
+                path: user_recieving.path
+            })
         }
     })
     socket.on('delete_friend_request', ({recieving}) => {
-        console.log("BOOM DELETED")
-        console.log('got it here', recieving, users)
         const user_recieving = users[`${recieving}`]
         if (user_recieving) {
             io.to(user_recieving.socketId).emit('notifyDeleteFr')

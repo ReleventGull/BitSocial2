@@ -161,3 +161,17 @@ export const friendRequestCount = async (token) => {
         throw error
     }
 }
+
+export const retrieveSingleRequest = async(token, user2) => {
+    try {
+         const response = await fetch(`${BASE_URL}/friends/retrieve/${user2}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+         }).then(result => result.json())
+         return response
+    }catch(error) {
+        console.error("There was an error retrieving a single request", error)
+        throw error
+    }
+}

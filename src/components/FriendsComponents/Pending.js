@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import {getPendingRequest, deleteRequest} from '../../api/users'
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext, useLocation } from 'react-router-dom'
 
 
 const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket}) => {
     const [pending, setPending] = useState('')
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
-    console.log(pending)
+    const loc = useLocation()
     const getPending = async() => {
             const response = await getPendingRequest(token)
             setMessage(response.count)
@@ -14,6 +14,9 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
     }
 
     useEffect(() => {
+        socket.emit('pathname', {
+            path: loc.pathname
+            })
         getPending()  
     }, [])
 
