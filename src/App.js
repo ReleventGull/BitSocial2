@@ -28,7 +28,7 @@ const App = () => {
                 })
             ) 
         }
-    }, [])
+    }, [token])
 
 
     let intervalId = useRef(null)
@@ -55,9 +55,10 @@ const App = () => {
 
     return (
         <>
-        {!socket ? null :
+               
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
+        {!socket ? null : 
         <Route path='/' element={<NavBar socket={socket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
             <Route path='home' element={<Home socket={socket}/>}/>
             <Route path='chat' element={<Chat socket={socket} token={token}/>}/>
@@ -70,12 +71,13 @@ const App = () => {
             <Route path='profile' element={<Profile socket={socket}/>}/>
             <Route path='settings' element={<Settings socket={socket} setToken={setToken}/>}/>
         </Route>
-    </Routes>
+            }
+        </Routes>
         
         
         
         
-        }
+        
         
         </>
     )
