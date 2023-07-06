@@ -2,35 +2,31 @@ import { useEffect, useState } from 'react'
 import { useOutletContext, useNavigate, useLocation   } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest} from '../../api/users'
 
-const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCounter, socket}) => {
+const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
     const [request, setRequest] = useState([])
     const {index, setIndex, hoverStyle, setMessage, setUnread, }  = useOutletContext()
-        
+    console.log("Global level request", request)
     const loc = useLocation()
     useEffect(() => {
-        console.log("I triggered again for some fucking reason")
+        setIncreaseFrSocket(true)
         socket.emit('pathname', {
             path: loc.pathname
             })
     }, [])
+    
+    const addSingleRequest = async(id) => {
+        const friendRequest = await retrieveSingleRequest(token, id)
+        console.log('friend request here', friendRequest)
+        setRequest((pre) => [friendRequest, ...pre])
+        console.log(request)
+    }
+
     useEffect(() => {
-        socket.on('notifyFr', async(args) => {
-            console.log('I was hit')
-            const friendRequest = await retrieveSingleRequest(token, args.userId)
-            if(args.path == '/friend/request') {
-                console.log(args.path)
-                setMessage((pre) => pre += 1)
-                setRequest((pre) => [friendRequest, ...pre])
-            }
-        })
-        return () => {
-            socket.removeListener('notifyFr', async(args) => {
-                console.log('I was hit')
-                const friendRequest = await retrieveSingleRequest(token, args.userId)
+        if (!increaseFrSocket) {
+            socket.on('increaseFr', async(args) => {
                 if(args.path == '/friend/request') {
-                    console.log(args.path)
                     setMessage((pre) => pre += 1)
-                    setRequest((pre) => [friendRequest, ...pre])
+                    await addSingleRequest(args.userId)
                 }
             })
         }
@@ -86,7 +82,7 @@ const FriendRequest = ({token, setNotifClass, setSentMessage, notifClass, setCou
         <div className="searchBody">
              
              {
-                !request ? null : 
+                request.length < 1 ? null : 
                 request.map((user, i) => 
                     <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.usersent}</h2>
