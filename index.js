@@ -58,6 +58,13 @@ io.on('connection', (socket) => {
                 userId: user.id,
                 path: user_recieving.path
             })
+            if(user_recieving.path == '/friend/request') {
+                io.to(user_recieving.socketId).emit('increaseFr', {
+                    message: "IncreaseFriendRequest",
+                    userId: user.id,
+                    path: user_recieving.path
+                })
+            }
         }
     })
     socket.on('delete_friend_request', ({recieving}) => {

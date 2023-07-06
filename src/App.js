@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {Route, Routes, useNavigate} from 'react-router-dom'
+import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
 import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
 import {io} from 'socket.io-client'
@@ -10,8 +10,22 @@ const App = () => {
     const [notifClass, setNotifClass] = useState('')
     const [counter, setCounter] = useState(0)
     const [socket, setSocket] = useState('')
+
+    //UseStates for establishing socket connections
+    const [increaseFrSocket, setIncreaseFrSocket] = useState(false)
     const navigate = useNavigate()
-    
+    const loc = useLocation()
+
+    useEffect(() => {
+        
+            if(loc !== '/friend/request' && socket) {
+                socket.off('increaseFr')
+                console.log("I turned off")
+            
+        }
+        
+    }, [loc])
+
     useEffect(() => {
         if(!token) {
             navigate('/login')
@@ -28,7 +42,7 @@ const App = () => {
                 })
             ) 
         }
-    }, [])
+    }, [token])
 
 
     let intervalId = useRef(null)
@@ -55,27 +69,29 @@ const App = () => {
 
     return (
         <>
-        {!socket ? null :
+               
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
+        {!socket ? null : 
         <Route path='/' element={<NavBar socket={socket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
             <Route path='home' element={<Home socket={socket}/>}/>
             <Route path='chat' element={<Chat socket={socket} token={token}/>}/>
                 <Route path="friend" element={<Friend socket={socket} />}>
                     <Route path='all' element={<All socket={socket} token={token} />}/>
                     <Route path='pending' element={<Pending socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
-                    <Route path='request' element={<FriendRequest socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
+                    <Route path='request' element={<FriendRequest increaseFrSocket={increaseFrSocket} setIncreaseFrSocket={setIncreaseFrSocket} socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='search' element={<SearchFriends socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                 </Route>
             <Route path='profile' element={<Profile socket={socket}/>}/>
             <Route path='settings' element={<Settings socket={socket} setToken={setToken}/>}/>
         </Route>
-    </Routes>
+            }
+        </Routes>
         
         
         
         
-        }
+        
         
         </>
     )
