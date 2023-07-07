@@ -68,10 +68,13 @@ io.on('connection', (socket) => {
             }
         }
     })
-    socket.on('delete_friend_request', ({recieving}) => {
+    socket.on('delete_friend_request', ({recieving, requestId}) => {
         const user_recieving = users[`${recieving}`]
+        console.log("Delete attempt", user_recieving)
         if (user_recieving) {
-            io.to(user_recieving.socketId).emit('notifyDeleteFr')
+            console.log("I should have triggered")
+            io.to(user_recieving.socketId).emit('decreaseFr',
+            {message: "Delete friend request", requestId: requestId})
         }
     })
     socket.on('disconnect', () => {

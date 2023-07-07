@@ -17,6 +17,7 @@ export const friendRequestSlice = createSlice({
             state.count += 1
         },
         removeRequest: (state, action) => {
+            console.log(state.arr, action.payload)
             for(let i = 0; i < state.arr.length; i++) {
                 if (state.arr[i].id == action.payload) {
                     state.arr.splice(i, 1)

@@ -13,7 +13,6 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
 
     const getPending = async() => {
             const response = await getPendingRequest(token)
-            console.log(response)
             dispatch(setRequest({requests: response.response, count: response.count}))
     }
 
@@ -33,13 +32,14 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
             setNotifClass('active')
         }
         setSentMessage(response.message)
-        socket.emit("delete_friend_request", {recieving: userId})
+        console.log(response)
+        socket.emit("delete_friend_request", {recieving: userId, requestId: response.requestId})
     }
 
     return (
         <div className="searchBody">
             <p className='countFriends'>Pending - {count}</p>
-             {
+            {
                 !arr ? null : 
                 arr.map((user, i) => 
                     <div style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className={"searchUserBody " + i}>

@@ -13,6 +13,9 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     useEffect(() => {
         if (!increaseFrSocket) {
             setIncreaseFrSocket(true)
+            socket.on('decreaseFr', (args) => {
+                dispatch(removeRequest(args.requestId))
+            })
             socket.on('increaseFr', async(args) => {
                 if(args.path == '/friend/request') {
                     const friendRequest = await retrieveSingleRequest(token, args.userId)
@@ -28,11 +31,6 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
             })
     }, [])
     
- 
-
-  
-
-
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
         dispatch(setRequest(response))
@@ -47,12 +45,11 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         setNotifClass('active')
         setSentMessage(`${response.message}`)
         if(!response.error) {
-          dispatch(removeRequest(requestId))
+        dispatch(removeRequest(requestId))
         }
     }
     
     const deleteFriendFr = async(id) => {
-   
         const response = await deleteRequest(id)
         if (setNotifClass) {
             setCounter(0)
@@ -68,9 +65,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     }, [])
 
     return (
-        <div className="searchBody">
-             <p className='countFriends'>Request - {count}</p>
-             {
+        <div className="searchBody"> <p className='countFriends'>Request - {count}</p>{
                 arr.length < 1 ? null : 
                 arr.map((user, i) => 
                     <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">

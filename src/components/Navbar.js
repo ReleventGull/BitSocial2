@@ -13,9 +13,6 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
         console.log('I was hit here')
         setUnread((pre) => pre += 1)
     })
-    socket.on('notifyDeleteFr', () => {
-       setUnread((pre) => pre -= 1)
-    })
    }, [])
 
 
