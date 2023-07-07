@@ -5,11 +5,11 @@ import { useOutletContext, useLocation } from 'react-router-dom'
 
 const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket}) => {
     const [pending, setPending] = useState('')
-    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    const {index, setIndex, hoverStyle,} = useOutletContext()
     const loc = useLocation()
+
     const getPending = async() => {
             const response = await getPendingRequest(token)
-            setMessage(response.count)
             setPending(response.response)
     }
 
@@ -33,14 +33,11 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
             setNotifClass('active')
         }
         setSentMessage(response.message)
-        setMessage((pre) => pre -= 1)
-
         socket.emit("delete_friend_request", {recieving: userId})
     }
 
     return (
         <div className="searchBody">
-
              {
                 !pending ? null : 
                 pending.map((user, i) => 

@@ -34,6 +34,7 @@ const io = new Server(server, {
 let users = {}
 
 io.on('connection', (socket) => {
+    console.log(users)
     const user = jwt.verify(socket.handshake.auth.token, JWT_SECRET)
     users[`${user.id}`] = {
         socketId: socket.id,

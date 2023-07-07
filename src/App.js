@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
+
+import store from './redux/store'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
 import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
@@ -13,22 +15,15 @@ const App = () => {
 
     //UseStates for establishing socket connections
     const [increaseFrSocket, setIncreaseFrSocket] = useState(false)
+    console.log('increaseSocket here', increaseFrSocket)
     const navigate = useNavigate()
     const loc = useLocation()
 
-    useEffect(() => {
-        
-            if(loc !== '/friend/request' && socket) {
-                socket.off('increaseFr')
-                console.log("I turned off")
-            
-        }
-        
-    }, [loc])
 
     useEffect(() => {
         if(!token) {
             navigate('/login')
+            setIncreaseFrSocket(false)
         }
     }, [token])
 
@@ -69,7 +64,7 @@ const App = () => {
 
     return (
         <>
-               
+ 
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
         {!socket ? null : 
@@ -83,14 +78,12 @@ const App = () => {
                     <Route path='search' element={<SearchFriends socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                 </Route>
             <Route path='profile' element={<Profile socket={socket}/>}/>
-            <Route path='settings' element={<Settings socket={socket} setToken={setToken}/>}/>
+            <Route path='settings' element={<Settings setIncreaseFrSocket={setIncreaseFrSocket}socket={socket} setToken={setToken}/>}/>
         </Route>
             }
         </Routes>
-        
-        
-        
-        
+
+    
         
         
         </>

@@ -10,7 +10,6 @@ const All = ({token, socket}) => {
     const fetchFriends = async () => {
         const response = await getFriends(token)
         setFriends(response.friends)
-        setMessage(response.count)
     }
     useEffect(() => {
         socket.emit('pathname', {

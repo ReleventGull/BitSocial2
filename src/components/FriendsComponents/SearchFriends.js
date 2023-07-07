@@ -7,7 +7,7 @@ import { addFriend } from "../../api/users"
 const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter, socket}) => {
     const {searchValue, setSearchValue} = useOutletContext()
     const [result, setResults] = useState('')
-    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    const {index, setIndex, hoverStyle} = useOutletContext()
     const loc = useLocation()
     
     const searchForUsers = async() => {
@@ -31,7 +31,6 @@ const Search = ({token, setNotifClass, setSentMessage, notifClass, setCounter, s
         socket.emit('pathname', {
         path: loc.pathname
         })
-        setMessage('')
     }, [])
 
     useEffect(() => {

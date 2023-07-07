@@ -1,42 +1,44 @@
-import { useEffect, useState } from 'react'
-import { useOutletContext, useNavigate, useLocation   } from "react-router-dom"
+import { useEffect } from 'react'
+import { useOutletContext, useLocation } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest} from '../../api/users'
+import { useSelector, useDispatch } from 'react-redux'
+import { setRequest, addRequest, deleteFriendRequest } from '../../redux/FriendActions'
 
 const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
-    const [request, setRequest] = useState([])
-    const {index, setIndex, hoverStyle, setMessage, setUnread, }  = useOutletContext()
-    console.log("Global level request", request)
+    const { arr, count} = useSelector((state) => state.friendCount)
+    const {index, setIndex, hoverStyle, setUnread, }  = useOutletContext()
     const loc = useLocation()
-    useEffect(() => {
-        setIncreaseFrSocket(true)
-        socket.emit('pathname', {
-            path: loc.pathname
-            })
-    }, [])
+    const dispatch = useDispatch()
     
-    const addSingleRequest = async(id) => {
-        const friendRequest = await retrieveSingleRequest(token, id)
-        console.log('friend request here', friendRequest)
-        setRequest((pre) => [friendRequest, ...pre])
-        console.log(request)
-    }
-
     useEffect(() => {
+        console.log(increaseFrSocket)
         if (!increaseFrSocket) {
+            setIncreaseFrSocket(true)
             socket.on('increaseFr', async(args) => {
+                console.log("Increase hit")
                 if(args.path == '/friend/request') {
-                    setMessage((pre) => pre += 1)
-                    await addSingleRequest(args.userId)
+                    const friendRequest = await retrieveSingleRequest(token, args.userId)
+                    dispatch(addRequest(friendRequest))
                 }
             })
         }
     }, [])
 
+    useEffect(() => {
+        socket.emit('pathname', {
+            path: loc.pathname
+            })
+    }, [])
+    
+ 
+
+  
+
 
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
-        setRequest(response.requests)
-        setMessage(response.count)
+        dispatch(setRequest(response))
+        
     }
 
     const addFriendRequest = async(user2) => {
@@ -64,14 +66,8 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         }
         setNotifClass('active')
         setSentMessage(response.message)
-        for(let i = 0; i < request.length; i++) {
-            if (request[i].id == id) {
-                request.splice(i, 1)
-                setMessage((pre) => pre -= 1)
-                setUnread((pre) => pre -= 1)
-            }
-        }
-        
+        dispatch(deleteFriendRequest(id))
+        setUnread((pre) => pre -= 1)
     }
 
     useEffect(() => {
@@ -80,10 +76,10 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
 
     return (
         <div className="searchBody">
-             
+             <p className='countFriends'>Request - {count}</p>
              {
-                request.length < 1 ? null : 
-                request.map((user, i) => 
+                arr.length < 1 ? null : 
+                arr.map((user, i) => 
                     <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.usersent}</h2>
                             <div className="userBodyIconBox">
