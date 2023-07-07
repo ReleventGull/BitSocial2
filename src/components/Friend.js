@@ -4,8 +4,6 @@ import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-ro
 const  searchStates = ['All', 'Search', 'Request', 'Pending']
 const Friend = ({socket}) => {
     const [index, setIndex] = useState(null)
-    const [message, setMessage] = useState('')
-    const [header, setHeader ] = useState('')
     const [searchClass, setSearchClass] = useState('')
     const [searchValue, setSearchValue] = useState('')
     const {unread, setUnread} = useOutletContext()
@@ -19,7 +17,6 @@ const Friend = ({socket}) => {
     const loc = useLocation()
 
     useEffect(() => {
-        
         if(loc.pathname == '/friend'){
             navigate('/friend/all')
             socket.emit('pathname', {
@@ -28,23 +25,8 @@ const Friend = ({socket}) => {
         } 
     }, [loc.pathname])
 
-    useEffect(() => {
-        switch(loc.pathname) {
-            case '/friend/all' :
-                setHeader('Friends - ')
-                break;
-            case '/friend/request':
-                setHeader("Requests - ")
-                break;
-            case '/friend/pending':
-                setHeader("Pending - ")
-                break;
-            default:
-                setHeader('')
-        }
-    }, [loc])
 
-    
+
     return (
         <div className="outlet search">
             <div className="topSearch">
@@ -74,10 +56,10 @@ const Friend = ({socket}) => {
                         
                     }
                 </div>
-                <p className='countFriends'>{header}{message}</p>
+                
             </div>
             
-            <Outlet context={{searchValue, setMessage, setSearchClass, index, setIndex, hoverStyle, setMessage, setUnread}}  />
+            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setUnread}}  />
         </div>
     )
 }
