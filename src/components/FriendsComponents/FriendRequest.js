@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useOutletContext, useLocation } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest} from '../../api/users'
 import { useSelector, useDispatch } from 'react-redux'
-import { setRequest, addRequest, deleteFriendRequest } from '../../redux/FriendActions'
+import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
 
 const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
     const { arr, count} = useSelector((state) => state.friendCount)
@@ -11,11 +11,9 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     const dispatch = useDispatch()
     
     useEffect(() => {
-        console.log(increaseFrSocket)
         if (!increaseFrSocket) {
             setIncreaseFrSocket(true)
             socket.on('increaseFr', async(args) => {
-                console.log("Increase hit")
                 if(args.path == '/friend/request') {
                     const friendRequest = await retrieveSingleRequest(token, args.userId)
                     dispatch(addRequest(friendRequest))
@@ -41,7 +39,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         
     }
 
-    const addFriendRequest = async(user2) => {
+    const addFriendRequest = async(user2, requestId) => {
         const response = await addFriend({token:token, user2: user2})
         if(notifClass) {
             setCounter(0)
@@ -49,24 +47,19 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         setNotifClass('active')
         setSentMessage(`${response.message}`)
         if(!response.error) {
-            for(let i = 0; i < request.length; i++) {
-                if (request[i].user_sent_id == user2) {
-                    request.splice(i ,1)
-                    setMessage((pre) => pre -= 1)
-                    setUnread((pre) => pre -= 1)
-                }
-            }
+          dispatch(removeRequest(requestId))
         }
     }
     
     const deleteFriendFr = async(id) => {
+   
         const response = await deleteRequest(id)
         if (setNotifClass) {
             setCounter(0)
         }
         setNotifClass('active')
         setSentMessage(response.message)
-        dispatch(deleteFriendRequest(id))
+        dispatch(removeRequest(id))
         setUnread((pre) => pre -= 1)
     }
 
@@ -83,7 +76,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
                     <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.usersent}</h2>
                             <div className="userBodyIconBox">
-                            <img onClick={() => addFriendRequest(user.user_sent_id)} className="userBodyIconImage check" src='/images/Check.png'/>
+                            <img onClick={() => addFriendRequest(user.user_sent_id, user.id)} className="userBodyIconImage check" src='/images/Check.png'/>
                             <img onClick={() => deleteFriendFr(user.id)} className="userBodyIconImage check" src='/images/Clear.png'/>
                             </div>
                     </div>
