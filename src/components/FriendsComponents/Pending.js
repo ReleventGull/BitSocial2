@@ -4,18 +4,28 @@ import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
 
-const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket}) => {
+
+const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket, pendingSocket, setPendingSocket}) => {
     const [pending, setPending] = useState('')
     const {arr, count} = useSelector(state => state.friendCount)
     const {index, setIndex, hoverStyle,} = useOutletContext()
     const dispatch = useDispatch()
     const loc = useLocation()
-
+    console.log(typeof(count))
     const getPending = async() => {
             const response = await getPendingRequest(token)
             dispatch(setRequest({requests: response.response, count: response.count}))
     }
 
+    useEffect(() => {
+        if (!pendingSocket) {
+            setPendingSocket(true)
+            socket.on('delete_pending', ({requestId}) => {
+                dispatch(removeRequest(requestId))
+            })
+        }
+    }, [])
+    
     useEffect(() => {
         socket.emit('pathname', {
             path: loc.pathname
@@ -33,7 +43,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
         }
         setSentMessage(response.message)
         console.log(response)
-        socket.emit("delete_friend_request", {recieving: userId, requestId: response.requestId})
+        socket.emit("delete_pending_request", {recieving: userId, requestId: response.requestId})
     }
 
     return (

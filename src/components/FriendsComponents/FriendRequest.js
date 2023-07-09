@@ -49,7 +49,8 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         }
     }
     
-    const deleteFriendFr = async(id) => {
+
+    const deleteFriendFr = async(userId, id) => {
         const response = await deleteRequest(id)
         if (setNotifClass) {
             setCounter(0)
@@ -58,6 +59,11 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         setSentMessage(response.message)
         dispatch(removeRequest(id))
         setUnread((pre) => pre -= 1)
+        socket.emit('delete_friend_request', {
+            message: "Deleting friend request",
+            userId: userId,
+            requestId: id
+        })
     }
 
     useEffect(() => {
@@ -72,7 +78,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
                         <h2>{user.usersent}</h2>
                             <div className="userBodyIconBox">
                             <img onClick={() => addFriendRequest(user.user_sent_id, user.id)} className="userBodyIconImage check" src='/images/Check.png'/>
-                            <img onClick={() => deleteFriendFr(user.id)} className="userBodyIconImage check" src='/images/Clear.png'/>
+                            <img onClick={() => deleteFriendFr(user.user_sent_id, user.id)} className="userBodyIconImage check" src='/images/Clear.png'/>
                             </div>
                     </div>
                 )
