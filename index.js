@@ -41,18 +41,13 @@ io.on('connection', (socket) => {
         username: user.username
     }
     socket.on('pathname', (args) => {
-        console.log(args)
         users[`${user.id}`]['path'] = args.path
-        console.log(users)
     })
     socket.on('delete', (arg) => {
-        console.log('Id here', socket.id)
         io.to(socket.id).emit('success', 'I was successful in delete')
     })
     socket.on('friend_request', ({recieving}) => {
-        console.log('I got it here', recieving)
         const user_recieving = users[`${recieving}`]
-        console.log("Friend reqeust hit")
         if(user_recieving) {
             console.log(user_recieving)
             io.to(user_recieving.socketId).emit('notifyFr', {
@@ -71,16 +66,16 @@ io.on('connection', (socket) => {
    socket.on('delete_pending_request', ({recieving, requestId}) => {
         const user_recieving = users[`${recieving}`]
         if (user_recieving) {
-            console.log("I should have triggered")
             io.to(user_recieving.socketId).emit('decreaseFr',
-            {message: "Delete friend request", requestId: requestId})
+            {message: "Delete friend request", requestId: requestId, path: user_recieving.path})
         }
     })
     socket.on('delete_friend_request', ({userId, requestId}) => {
         const user_recieving = users[`${userId}`]
         if (user_recieving) {
             io.to(user_recieving.socketId).emit('delete_pending', {
-                requestId: requestId
+                requestId: requestId,
+                path: user_recieving.path
             })
         }
     })

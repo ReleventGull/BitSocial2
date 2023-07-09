@@ -11,7 +11,6 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
     const {index, setIndex, hoverStyle,} = useOutletContext()
     const dispatch = useDispatch()
     const loc = useLocation()
-    console.log(typeof(count))
     const getPending = async() => {
             const response = await getPendingRequest(token)
             dispatch(setRequest({requests: response.response, count: response.count}))
@@ -20,8 +19,11 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
     useEffect(() => {
         if (!pendingSocket) {
             setPendingSocket(true)
-            socket.on('delete_pending', ({requestId}) => {
-                dispatch(removeRequest(requestId))
+            socket.on('delete_pending', ({requestId, path}) => {
+                console.log("Path here", path)
+                if(path == '/friend/pending') {
+                    dispatch(removeRequest(requestId))
+                }
             })
         }
     }, [])
@@ -42,7 +44,6 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
             setNotifClass('active')
         }
         setSentMessage(response.message)
-        console.log(response)
         socket.emit("delete_pending_request", {recieving: userId, requestId: response.requestId})
     }
 

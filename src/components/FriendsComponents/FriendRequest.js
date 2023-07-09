@@ -14,7 +14,9 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         if (!increaseFrSocket) {
             setIncreaseFrSocket(true)
             socket.on('decreaseFr', (args) => {
+                if(args.path == '/friend/request') {
                 dispatch(removeRequest(args.requestId))
+                }
             })
             socket.on('increaseFr', async(args) => {
                 if(args.path == '/friend/request') {
@@ -47,6 +49,11 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         if(!response.error) {
         dispatch(removeRequest(requestId))
         }
+        socket.emit('delete_friend_request', {
+            message: "Deleting friend request",
+            userId: user2,
+            requestId: requestId
+        })
     }
     
 

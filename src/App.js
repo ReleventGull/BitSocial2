@@ -25,6 +25,7 @@ const App = () => {
         if(!token) {
             navigate('/login')
             setIncreaseFrSocket(false)
+            setPendingSocket(false)
         }
     }, [token])
 
