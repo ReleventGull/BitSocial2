@@ -105,7 +105,8 @@ friendRouter.delete('/delete/:id', async(req, res, next) => {
         const {id} = req.params
         const response = await deleteFriendRequest(id)
         res.send({
-            message: "Friend Request Deleted!"
+            message: "Friend Request Deleted!",
+            requestId: response.id
         })
     }catch(error){
         console.error("There was an error deleting the friend request", error)

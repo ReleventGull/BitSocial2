@@ -15,6 +15,7 @@ const App = () => {
 
     //UseStates for establishing socket connections
     const [increaseFrSocket, setIncreaseFrSocket] = useState(false)
+    const [pendingSocket, setPendingSocket] = useState(false)
     console.log('increaseSocket here', increaseFrSocket)
     const navigate = useNavigate()
     const loc = useLocation()
@@ -73,7 +74,7 @@ const App = () => {
             <Route path='chat' element={<Chat socket={socket} token={token}/>}/>
                 <Route path="friend" element={<Friend socket={socket} />}>
                     <Route path='all' element={<All socket={socket} token={token} />}/>
-                    <Route path='pending' element={<Pending socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
+                    <Route path='pending' element={<Pending pendingSocket={pendingSocket} setPendingSocket={setPendingSocket} socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='request' element={<FriendRequest increaseFrSocket={increaseFrSocket} setIncreaseFrSocket={setIncreaseFrSocket} socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='search' element={<SearchFriends socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                 </Route>
