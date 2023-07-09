@@ -49,6 +49,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         }
     }
     
+
     const deleteFriendFr = async(userId, id) => {
         const response = await deleteRequest(id)
         if (setNotifClass) {

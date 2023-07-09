@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
             }
         }
     })
-    socket.on('delete_pending_request', ({recieving, requestId}) => {
+   socket.on('delete_pending_request', ({recieving, requestId}) => {
         const user_recieving = users[`${recieving}`]
         if (user_recieving) {
             console.log("I should have triggered")

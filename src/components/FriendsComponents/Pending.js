@@ -4,6 +4,7 @@ import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
 
+
 const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, socket, pendingSocket, setPendingSocket}) => {
     const [pending, setPending] = useState('')
     const {arr, count} = useSelector(state => state.friendCount)
