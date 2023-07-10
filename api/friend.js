@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
@@ -101,6 +101,30 @@ friendRouter.get('/pending', async(req, res, next) => {
     }
 })
 
+friendRouter.delete('delete/friend/:id', requireUser, async(req, res, next) => {
+    try {
+        const {id} = req.params
+        const {id: userId} = req.user
+        const checkUser = await getFriendById(id)
+        if(checkUser.user_1_id  !== userId || checkUser.user_2_id !== userId) {
+            res.status(401).send({
+                error: "IncorectCredentials",
+                message: "You do not have permission to do that"
+            })
+        }else {
+            const deletedFriend = deleteFriendById(id)
+            res.send({
+                mesage: "Success! Friend Deleted",
+                friend: deletedFriend
+
+            })
+        }
+    }catch(error) {
+        console.error("There was an error deleting friend in the api", error)
+        throw error
+    }
+})
+
 friendRouter.delete('/delete/:id', async(req, res, next) => {
     try {
         const {id} = req.params
@@ -125,6 +149,8 @@ friendRouter.get('/frCount', requireUser, async(req, res, next) => {
         throw error
     }
 })
+
+
 
 
 module.exports = friendRouter
