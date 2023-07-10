@@ -8,7 +8,7 @@ export const friendRequestSlice = createSlice({
     },
     reducers: {
         setRequest: (state, action) => {
-            console.log(action)
+            console.log('im not running,',action)
             state.arr = action.payload.requests
             state.count = action.payload.count
         },

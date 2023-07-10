@@ -26,7 +26,8 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
                 let newFriend = await createFriend({user1: user1, user2: user2})
                 await deleteFriendRequest(checkRequest.id)
                 res.send({
-                    message: "You are now friends"
+                    message: "You are now friends",
+                    friend: newFriend
                 })
             }else {
                 const checkDoubleRequest = await getRequestByUserId({user1: user1, user2: user2})
