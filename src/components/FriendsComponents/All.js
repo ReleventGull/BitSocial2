@@ -3,6 +3,7 @@ import {getFriends, deleteFriend} from '../../api/users'
 import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
+import FriendItem from './FriendItem'
 const All = ({token, socket}) => {
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
     const {arr, count} = useSelector((state) => state.friendCount)
@@ -22,7 +23,6 @@ const All = ({token, socket}) => {
     
     const removeFriend = async (id) => {
         const response = await deleteFriend({id: id, token:token})
-        console.log(response)
     }
 
     useEffect(() => {
@@ -38,12 +38,7 @@ const All = ({token, socket}) => {
             {
                 arr.length < 1 ? null : 
                 arr.map((user, i) => 
-                    <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
-                        <h2>{user.username}</h2>
-                            <div className="userBodyIconBox">
-                            <img onClick={() => removeFriend(user.id)} className="userBodyIconImage" src='/images/Chat.png'/>
-                            </div>
-                    </div>
+                    <FriendItem user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
                 )
             }
         </div>

@@ -562,3 +562,36 @@ h1, h2, h3, h4, p {
     margin: 10px 0 1rem 10px;
     height: 1rem
 }
+.friendMenuBox {
+    position: relative;
+}
+.dropDownFriendMenu {
+    position: absolute;
+    background-color: var(--primary);
+    right: 0;
+    top: 85%;
+    margin: 0;
+    padding: 0;
+    padding: .4rem;
+    border-radius: 5px;
+    
+}
+.dropDownFriendMenu li {
+    list-style: none;
+    white-space: nowrap;
+    width: 100%;
+}
+.removeFriendButton {
+    padding: .2em;
+    color: var(--fourth)
+}
+.removeFriendButton:hover {
+    background-color: var(--fourth);
+    color: var(--third);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.userBodyIconImage.menu:hover + ul {
+    display: block;
+}
