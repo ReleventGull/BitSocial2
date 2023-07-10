@@ -101,12 +101,13 @@ friendRouter.get('/pending', async(req, res, next) => {
     }
 })
 
-friendRouter.delete('delete/friend/:id', requireUser, async(req, res, next) => {
+friendRouter.delete('/delete/friend/:id', requireUser, async(req, res, next) => {
     try {
         const {id} = req.params
         const {id: userId} = req.user
         const checkUser = await getFriendById(id)
-        if(checkUser.user_1_id  !== userId || checkUser.user_2_id !== userId) {
+        console.log('userId: ', userId, checkUser)
+        if(checkUser.user_1_id  !== userId && checkUser.user_2_id !== userId) {
             res.status(401).send({
                 error: "IncorectCredentials",
                 message: "You do not have permission to do that"
