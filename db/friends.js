@@ -190,6 +190,34 @@ const getRequestByBothIds = async({user1, user2}) => {
         throw error
     }
 }
+
+const getFriendById = async(id) => {
+    try {
+        const {rows: [friend]} = await client.query(`
+        SELECT * FROM friends
+        WHERE
+        id=$1
+        `, [id])
+        return friend
+    }catch(error) {
+        console.error("There was an error getting friedn by id", error)
+        throw error
+    }
+}
+const deleteFriendById = async(id) => {
+    try {
+        const {rows: [friend]} = await client.query(`
+        DELETE FROM friends
+        WHERE
+        id=$1
+        RETURNING *
+        `, [id])
+    }catch(error) {
+        console.error("There was an error deleting the friend request", error) 
+        throw error
+        
+    }
+}
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -205,5 +233,7 @@ module.exports = {
     getRequestCount,
     getPendingCount,
     getUnreadFriendRequestByUserId,
-    getRequestByBothIds
+    getRequestByBothIds,
+    getFriendById,
+    deleteFriendById
 }

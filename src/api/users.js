@@ -1,5 +1,6 @@
 
 
+
 const {BASE_URL = 'http://localhost:3000/api'} = process.env
 
 export const login = async({username, password}) => {
@@ -172,6 +173,21 @@ export const retrieveSingleRequest = async(token, user2) => {
          return response
     }catch(error) {
         console.error("There was an error retrieving a single request", error)
+        throw error
+    }
+}
+
+export const deleteFriend = async({id, token}) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/delete/friend/${id}`, {
+            method: "DELETE" ,
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        }).then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error deleting friend by id", error)
         throw error
     }
 }

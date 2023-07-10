@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {getFriends} from '../../api/users'
+import {getFriends, deleteFriend} from '../../api/users'
 import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
@@ -20,6 +20,11 @@ const All = ({token, socket}) => {
         console.log(arr)
     }
     
+    const removeFriend = async (id) => {
+        const response = await deleteFriend({id: id, token:token})
+        console.log(response)
+    }
+
     useEffect(() => {
         socket.emit('pathname', {
             path: loc.pathname
@@ -36,7 +41,7 @@ const All = ({token, socket}) => {
                     <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => setIndex(null)}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
-                            <img  className="userBodyIconImage check" src='/images/Chat.png'/>
+                            <img onClick={() => removeFriend(user.id)} className="userBodyIconImage" src='/images/Chat.png'/>
                             </div>
                     </div>
                 )
