@@ -90,11 +90,10 @@ userRouter.post('/login', async(req, res, next) => {
     }
 })
 
-userRouter.post('/search', async(req, res, next) => {
+userRouter.post('/search', requireUser, async(req, res, next) => {
     try {
         const {searchQuery, pagination} = req.body
-        const users = await getUsersFromSearch({searchQuery: searchQuery})
-        
+        const users = await getUsersFromSearch({searchQuery: searchQuery, userId: req.user.id})
         res.send(users)
     }catch(error){
         console.error('There was an error searching users in the api', error)

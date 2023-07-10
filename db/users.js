@@ -58,13 +58,13 @@ const checkPassword = async ({username, password}) => {
     }
 }
 
-const getUsersFromSearch = async({searchQuery, pagination}) => {
+const getUsersFromSearch = async({searchQuery, userId, pagination}) => {
     try {
         const {rows: users} = await client.query(`
             SELECT * FROM users
-            WHERE LOWER(users.username) LIKE LOWER('%${searchQuery}%')
+            WHERE LOWER(users.username) LIKE LOWER('%${searchQuery}%') AND users.id!=$1
             Limit 10
-        `)
+        `, [userId])
         return users
     }catch(error) {
         console.error("There was an error getting users", error)
