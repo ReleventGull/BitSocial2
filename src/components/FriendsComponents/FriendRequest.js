@@ -55,6 +55,12 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
             userId: user2,
             requestId: requestId
         })
+        console.log(response)
+        socket.emit('accept_friend', {
+            message: "Request accepted",
+            userId: user2,
+            friendId: response.friend.id
+        })
     }
     
 

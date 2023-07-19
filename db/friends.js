@@ -2,7 +2,7 @@ const client = require('./index')
 
 const createFriend = async({user1, user2}) => {
     try {
-        const {rows: friend} = await client.query(`
+        const {rows: [friend]} = await client.query(`
             INSERT INTO friends (user_1_id, user_2_id, date_added)
             VALUES($1, $2, $3) 
             RETURNING *

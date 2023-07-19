@@ -79,14 +79,21 @@ io.on('connection', (socket) => {
             })
         }
     })
-    socket.on('disconnect', () => {
-        console.log("I fcking dced")
-        console.log('before', users)
-        delete users[`${user.id}`]
-        console.log('after', users)
+    socket.on('accept_friend', ({userId, friendId}) => {
+        console.log("I'm on friend bro", userId)
+        const user_recieving = users[`${userId}`]
+        console.log(user_recieving)
+        if(user_recieving) {
+            io.to(user_recieving.socketId).emit('add_friend', {
+                path: user_recieving.path,
+                friendId: friendId
+            })
+        }
     })
 
-    
+    socket.on('disconnect', () => {
+        delete users[`${user.id}`]
+    })
 })
 
 

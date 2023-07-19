@@ -4,21 +4,30 @@ import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
 import FriendItem from './FriendItem'
-const All = ({token, socket}) => {
+const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
     const {arr, count} = useSelector((state) => state.friendCount)
     const dispatch = useDispatch()
     const loc = useLocation()
     
+    useEffect(() => {
+        if(!addFriendSocket) {
+            console.log("I'm not on")
+            socket.on('add_friend', (args) => {
+                console.log(args)
+            })
+            setAddFriendSocket(true)
+        } 
+    }, [])
+    
+    
     const fetchFriends = async () => {
-        console.log("Am I fucking running")
         const response = await getFriends(token)
         const obj = {
             requests: response.friends,
             count: response.count
         }
         dispatch(setRequest(obj))
-        console.log(arr)
     }
     
     const removeFriend = async (id) => {
