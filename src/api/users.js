@@ -191,3 +191,14 @@ export const deleteFriend = async({id, token}) => {
         throw error
     }
 }
+
+export const getFriendById = async(id) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/retrieve/${id}`)
+        .then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error getting friend by id", error)
+        throw error
+    }
+}
