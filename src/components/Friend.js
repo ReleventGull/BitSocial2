@@ -1,12 +1,12 @@
 import {useState, useEffect} from 'react'
 import {Link, Outlet, useLocation, useNavigate, useOutletContext} from 'react-router-dom'
-
+import { useSelector} from 'react-redux'
 const  searchStates = ['All', 'Search', 'Request', 'Pending']
 const Friend = ({socket}) => {
     const [index, setIndex] = useState(null)
     const [searchClass, setSearchClass] = useState('')
     const [searchValue, setSearchValue] = useState('')
-    const {unread, setUnread} = useOutletContext()
+    const {count} = useSelector(state => state.unreadCount)
     let hoverStyle = {
         borderTop: '1px solid transparent'
     }
@@ -35,10 +35,9 @@ const Friend = ({socket}) => {
                     searchStates.map((state, i) => 
                         
                         <Link key={i} onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>
-                           
-                            {state == 'Request' && unread > 0? 
+                            {state == 'Request' && count > 0? 
                             <div className='frBubble2'>
-                                {unread} 
+                                {count} 
                             </div>
                             : null}
                             {state}
@@ -59,7 +58,7 @@ const Friend = ({socket}) => {
                 
             </div>
             
-            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle, setUnread}}  />
+            <Outlet context={{searchValue, setSearchClass, index, setIndex, hoverStyle}}  />
         </div>
     )
 }

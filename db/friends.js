@@ -227,6 +227,20 @@ const deleteFriendById = async(id) => {
         
     }
 }
+
+const updateReadStatus = async(userId) => {
+    try {
+        const {rows} = client.query(`
+        UPDATE friend_request
+        SET unread=false
+        WHERE user_recieved_id=$1
+        `, [userId])
+        return 'done'
+    }catch(error) {
+        console.error("There was an error updating the read status", error)
+        throw error
+    }
+}
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -244,5 +258,6 @@ module.exports = {
     getUnreadFriendRequestByUserId,
     getRequestByBothIds,
     getFriendById,
-    deleteFriendById
+    deleteFriendById,
+    updateReadStatus
 }

@@ -3,12 +3,14 @@ import { useOutletContext, useLocation } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest} from '../../api/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
-
+import { deleteCount } from '../../redux/Unread'
 const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
     const { arr, count} = useSelector((state) => state.friendCount)
-    const {index, setIndex, hoverStyle, setUnread, }  = useOutletContext()
+    const {count: bubbleCount} = useSelector(state => state.unreadCount)
+    const {index, setIndex, hoverStyle}  = useOutletContext()
     const loc = useLocation()
     const dispatch = useDispatch()
+    
     useEffect(() => {
         if (!increaseFrSocket) {
             setIncreaseFrSocket(true)
@@ -25,11 +27,13 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
             })
         }
     }, [])
-
+    
     useEffect(() => {
         socket.emit('pathname', {
             path: loc.pathname
             })
+        dispatch(deleteCount())
+        
     }, [])
     
     const fetchRequest = async() => {
@@ -69,7 +73,6 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         setNotifClass('active')
         setSentMessage(response.message)
         dispatch(removeRequest(id))
-        setUnread((pre) => pre -= 1)
         socket.emit('delete_friend_request', {
             message: "Deleting friend request",
             userId: userId,

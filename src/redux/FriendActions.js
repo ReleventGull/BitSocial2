@@ -20,7 +20,7 @@ export const friendRequestSlice = createSlice({
             for(let i = 0; i < state.arr.length; i++) {
                 if (state.arr[i].id == action.payload) {
                     state.arr.splice(i, 1)
-                }
+                }   
             }
             state.count -= 1
         },

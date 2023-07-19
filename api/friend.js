@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -57,9 +57,10 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
 
 friendRouter.get('/requests', requireUser, async(req, res, next) => {
     try {
-        const {id} = req.user
+        const {id} = req.user 
         const requests = await getFriendRequestById(id)
         const [count] = await getRequestCount(id)
+        const request = await updateReadStatus(id)
             res.send({requests:requests, count: Number(count.count)})
     }catch(error) {
         console.error("There was an error getting the users request", error)
