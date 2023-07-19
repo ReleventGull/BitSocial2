@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const FriendItem = ({user, i, setIndex, index, hoverStyle}) => {
+const FriendItem = ({user, i, setIndex, index, hoverStyle, removeFriend}) => {
     const [viewMenu, setViewMenu] = useState(false)
     return (
         <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => {setIndex(null), setViewMenu(false)}}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
@@ -10,7 +10,7 @@ const FriendItem = ({user, i, setIndex, index, hoverStyle}) => {
                                     <img onClick={() => setViewMenu((pre) => !pre)} className="userBodyIconImage menu" src='/images/Menu.png'/>
                                     { !viewMenu ? null : 
                                         <ul className='dropDownFriendMenu'>
-                                            <li className='removeFriendButton'>Remove Friend</li>
+                                            <li onClick={() => removeFriend(user.id)}className='removeFriendButton'>Remove Friend</li>
                                         </ul>
                                     }
                                         

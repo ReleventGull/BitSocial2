@@ -9,15 +9,11 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     const {arr, count} = useSelector((state) => state.friendCount)
     const dispatch = useDispatch()
     const loc = useLocation()
-    
     useEffect(() => {
         if(!addFriendSocket) {
             socket.on('add_friend', async(args) => {
-                console.log("I made it")
                 if(args.path === '/friend/all') {
-                    console.log("I made it")
                     const friendObj = await getFriendById(args.friendId, token)
-                    console.log(friendObj)
                     dispatch(addRequest(friendObj))
                 }
             })
@@ -37,6 +33,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     
     const removeFriend = async (id) => {
         const response = await deleteFriend({id: id, token:token})
+        dispatch(removeRequest(response.friend.id))
     }
 
     useEffect(() => {
@@ -52,7 +49,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             {
                 arr.length < 1 ? null : 
                 arr.map((user, i) => 
-                    <FriendItem key={i} user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
+                    <FriendItem removeFriend={removeFriend} key={i} user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
                 )
             }
         </div>
