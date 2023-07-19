@@ -2,7 +2,7 @@ const client = require('./index')
 
 const createFriend = async({user1, user2}) => {
     try {
-        const {rows: friend} = await client.query(`
+        const {rows: [friend]} = await client.query(`
             INSERT INTO friends (user_1_id, user_2_id, date_added)
             VALUES($1, $2, $3) 
             RETURNING *
@@ -103,6 +103,26 @@ const getFriendsByUserId = async(userId) => {
     }
 }
 
+const getFriendById = async({id, userId}) => {
+    try {
+        const {rows: [friend]} = await client.query(`
+        SELECT friends.*, users.username
+        FROM friends
+        JOIN users ON 
+            CASE
+                WHEN friends.user_1_id=$2 THEN friends.user_2_id=users.id
+                ELSE friends.user_1_id=users.id
+            END
+        WHERE friends.id=$1
+        `, [id, userId])
+        console.log('Firned here mf', friend)
+        return friend
+    }catch(error) {
+        console.error("There was an error getting friedn by id", error)
+        throw error
+    }
+}
+
 const getPendingRequest = async(userId) => {
     try {
         const {rows: pending} = await client.query(
@@ -191,19 +211,6 @@ const getRequestByBothIds = async({user1, user2}) => {
     }
 }
 
-const getFriendById = async(id) => {
-    try {
-        const {rows: [friend]} = await client.query(`
-        SELECT * FROM friends
-        WHERE
-        id=$1
-        `, [id])
-        return friend
-    }catch(error) {
-        console.error("There was an error getting friedn by id", error)
-        throw error
-    }
-}
 const deleteFriendById = async(id) => {
     try {
         const {rows: [friend]} = await client.query(`
