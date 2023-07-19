@@ -66,10 +66,12 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
     }
 })
 
-friendRouter.get('/retrieve/:id', async(req, res, next) => {
+friendRouter.get('/retrieve/:id', requireUser, async(req, res, next) => {
     try {
+        console.log("Hit these batlls")
         const {id} = req.params
-        const friend = await getFriendById(id)
+        const {id: userId} = req.user
+        const friend = await getFriendById({id: id, userId: userId})
         res.send(friend)
     }catch(error) {
         console.error("There was an error retrieving the friend by id", error)

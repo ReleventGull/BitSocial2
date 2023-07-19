@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {getFriends, deleteFriend} from '../../api/users'
+import {getFriends, deleteFriend, getFriendById} from '../../api/users'
 import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
@@ -12,9 +12,14 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     
     useEffect(() => {
         if(!addFriendSocket) {
-            console.log("I'm not on")
-            socket.on('add_friend', (args) => {
-                console.log(args)
+            socket.on('add_friend', async(args) => {
+                console.log("I made it")
+                if(args.path === '/friend/all') {
+                    console.log("I made it")
+                    const friendObj = await getFriendById(args.friendId, token)
+                    console.log(friendObj)
+                    dispatch(addRequest(friendObj))
+                }
             })
             setAddFriendSocket(true)
         } 
@@ -47,7 +52,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             {
                 arr.length < 1 ? null : 
                 arr.map((user, i) => 
-                    <FriendItem user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
+                    <FriendItem key={i} user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
                 )
             }
         </div>
