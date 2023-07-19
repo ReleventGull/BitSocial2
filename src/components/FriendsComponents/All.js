@@ -33,7 +33,8 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     
     const removeFriend = async (id) => {
         const response = await deleteFriend({id: id, token:token})
-        dispatch(removeRequest(response.friend.id))
+        console.log(response)
+        dispatch(removeRequest(response.id))
     }
 
     useEffect(() => {
