@@ -206,3 +206,4 @@ export const getFriendById = async(id, token) => {
         throw error
     }
 }
+

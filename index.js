@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
             }
         }
     })
-   socket.on('delete_pending_request', ({recieving, requestId}) => {
+   socket.on('delete_pending_request', ({recieving, requestId, unread}) => {
         const user_receiving = users[`${recieving}`]
         if (user_receiving) {
             io.to(user_receiving.socketId).emit('decreaseFr',
@@ -75,6 +75,7 @@ io.on('connection', (socket) => {
             io.to(user_receiving.socketId).emit('notifyFr', {
                 requestId: requestId,
                 path: user_receiving.path,
+                unread: unread,
                 action: 'decrease',
             })
     })

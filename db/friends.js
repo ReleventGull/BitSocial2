@@ -115,7 +115,6 @@ const getFriendById = async({id, userId}) => {
             END
         WHERE friends.id=$1
         `, [id, userId])
-        console.log('Firned here mf', friend)
         return friend
     }catch(error) {
         console.error("There was an error getting friedn by id", error)
@@ -219,7 +218,6 @@ const deleteFriendById = async(id) => {
         id=$1
         RETURNING *
         `, [id])
-        console.log("friend after delete", friend)
         return friend
     }catch(error) {
         console.error("There was an error deleting the friend request", error) 
