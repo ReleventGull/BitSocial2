@@ -241,6 +241,19 @@ const updateReadStatus = async(userId) => {
         throw error
     }
 }
+
+const getRequestById = async(id) => {
+    try {
+        const {rows: [request]} = await client.query(`
+            SELECT * FROM friend_request
+            WHERE id=$1
+        `, [id])
+        return request 
+    }catch(error) {
+        console.error("There was an error getting request by id", error)
+        throw error
+    }
+}
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -259,5 +272,6 @@ module.exports = {
     getRequestByBothIds,
     getFriendById,
     deleteFriendById,
-    updateReadStatus
+    updateReadStatus,
+    getRequestById
 }
