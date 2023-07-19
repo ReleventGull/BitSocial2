@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {getRequestById, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -70,7 +70,6 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
 
 friendRouter.get('/friend/:id', requireUser, async(req, res, next) => {
     try {
-        console.log("Hit these batlls")
         const {id} = req.params
         const {id: userId} = req.user
         const friend = await getFriendById({id: id, userId: userId})
@@ -82,7 +81,6 @@ friendRouter.get('/friend/:id', requireUser, async(req, res, next) => {
 })
 friendRouter.get('/retrieve/:userId', async(req, res, next) => {
     try {
-        console.log("I'm getting it")
         const {userId} = req.params
         const {id} = req.user
         const friendRequest = await getRequestByBothIds({user2: id, user1: userId})
@@ -148,7 +146,8 @@ friendRouter.delete('/delete/:id', async(req, res, next) => {
         const response = await deleteFriendRequest(id)
         res.send({
             message: "Friend Request Deleted!",
-            requestId: response.id
+            requestId: response.id,
+            unread: response.unread
         })
     }catch(error){
         console.error("There was an error deleting the friend request", error)

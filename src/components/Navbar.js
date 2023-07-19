@@ -1,10 +1,9 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
-import { friendRequestCount } from "../api/users"
+import { friendRequestCount, getRequestById } from "../api/users"
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import { increaseCount, setCount } from "../redux/Unread"
+import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
 const NavBar = ({notifClass, sentMessage, token, socket}) => {
-    const [unread, setUnread] = useState('')
     const navigate = useNavigate()
     const loc = useLocation()
     const dispatch = useDispatch()
@@ -12,9 +11,11 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
 
 
 useEffect(() => {
-    socket.on('notifyFr' , ({path}) => {
-        if(path !== '/friend/request') {
+    socket.on('notifyFr' , async(args) => {
+        if(args.path !== '/friend/request' && args.action == 'increase') {
             dispatch(increaseCount())
+        }else if(args.action == 'decrease' && args.unread == true && args.path !== '/friend/request'){
+            dispatch(decreaseCount())
         }
     })
 }, [])

@@ -20,7 +20,6 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
         if (!pendingSocket) {
             setPendingSocket(true)
             socket.on('delete_pending', ({requestId, path}) => {
-                console.log("Path here", path)
                 if(path == '/friend/pending') {
                     dispatch(removeRequest(requestId))
                 }
@@ -44,7 +43,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
             setNotifClass('active')
         }
         setSentMessage(response.message)
-        socket.emit("delete_pending_request", {recieving: userId, requestId: response.requestId})
+        socket.emit("delete_pending_request", {recieving: userId, requestId: response.requestId, unread: response.unread})
     }
 
     return (
