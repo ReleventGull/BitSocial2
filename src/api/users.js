@@ -194,7 +194,7 @@ export const deleteFriend = async({id, token}) => {
 
 export const getFriendById = async(id, token) => {
     try {
-        const response = await fetch(`${BASE_URL}/friends/retrieve/${id}`, {
+        const response = await fetch(`${BASE_URL}/friends/friend/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

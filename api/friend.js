@@ -66,7 +66,7 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
     }
 })
 
-friendRouter.get('/retrieve/:id', requireUser, async(req, res, next) => {
+friendRouter.get('/friend/:id', requireUser, async(req, res, next) => {
     try {
         console.log("Hit these batlls")
         const {id} = req.params
@@ -80,6 +80,7 @@ friendRouter.get('/retrieve/:id', requireUser, async(req, res, next) => {
 })
 friendRouter.get('/retrieve/:userId', async(req, res, next) => {
     try {
+        console.log("I'm getting it")
         const {userId} = req.params
         const {id} = req.user
         const friendRequest = await getRequestByBothIds({user2: id, user1: userId})

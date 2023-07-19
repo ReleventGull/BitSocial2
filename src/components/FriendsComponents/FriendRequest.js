@@ -9,7 +9,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     const {index, setIndex, hoverStyle, setUnread, }  = useOutletContext()
     const loc = useLocation()
     const dispatch = useDispatch()
-    
+    console.log(arr)
     useEffect(() => {
         if (!increaseFrSocket) {
             setIncreaseFrSocket(true)
