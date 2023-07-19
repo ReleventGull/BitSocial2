@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-
-import store from './redux/store'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
 import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
@@ -19,7 +17,6 @@ const App = () => {
     const [addFriendSocket, setAddFriendSocket] = useState(false)
     const navigate = useNavigate()
     const loc = useLocation()
-
 
     useEffect(() => {
         if(!token) {
@@ -42,9 +39,7 @@ const App = () => {
         }
     }, [token])
 
-
     let intervalId = useRef(null)
-
     useEffect(() => {
         if(notifClass) {
             intervalId.current = setInterval(() => {
@@ -67,7 +62,6 @@ const App = () => {
 
     return (
         <>
- 
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
         {!socket ? null : 
@@ -85,10 +79,6 @@ const App = () => {
         </Route>
             }
         </Routes>
-
-    
-        
-        
         </>
     )
 }

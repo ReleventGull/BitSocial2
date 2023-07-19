@@ -7,6 +7,7 @@ export const unRead = createSlice ({
     },
     reducers: {
         setCount: (state, action) => {
+            console.log("COUNT HERE", action)
             state.count = action.payload
         },
         increaseCount: (state) => {

@@ -1,23 +1,23 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import { friendRequestCount } from "../api/users"
 import {useEffect, useState} from 'react'
-
-
+import { useSelector, useDispatch } from "react-redux"
+import { increaseCount, setCount } from "../redux/Unread"
 const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const [unread, setUnread] = useState('')
     const navigate = useNavigate()
     const loc = useLocation()
+    const dispatch = useDispatch()
+    const {count} = useSelector((state) => state.unreadCount)
 
-   useEffect(() => {
-    socket.on('notifyFr' , () => {
-        console.log('I was hit here')
-        setUnread((pre) => pre += 1)
+
+useEffect(() => {
+    socket.on('notifyFr' , ({path}) => {
+        if(path !== '/friend/request') {
+            dispatch(increaseCount())
+        }
     })
-   }, [])
-
-
- 
-
+}, [])
 
     useEffect(() => {
         if (loc.pathname == '/') {
@@ -27,7 +27,8 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
 
     const frCount = async() => {
         const response = await friendRequestCount(token)
-        setUnread(response.count)
+        dispatch(setCount(response.count))
+
     }
     useEffect(() => {
         frCount()
@@ -46,9 +47,9 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
                         <h3>Profile</h3>
                 </Link>
                 <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
-                        {unread > 0 ? 
+                        {count > 0 ? 
                             <div className="frBubble">
-                            {unread}
+                            {count}
                             </div>
                             :
                             null
@@ -66,7 +67,7 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
         </div>
        
        <div className="outDiv">
-        <Outlet context={{unread, setUnread}}/>
+        <Outlet />
         <div className={"notifPortal " + notifClass}>
            {sentMessage}
         </div>
