@@ -17,6 +17,11 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
                     dispatch(addRequest(friendObj))
                 }
             })
+            socket.on('remove_friend', async(args) => {
+                if(args.path === '/friend/all') {
+                    dispatch(removeRequest(args.removedId))
+                }
+            })
             setAddFriendSocket(true)
         } 
     }, [])
@@ -33,8 +38,11 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     
     const removeFriend = async (id) => {
         const response = await deleteFriend({id: id, token:token})
-        console.log(response)
         dispatch(removeRequest(response.id))
+        socket.emit('delete_friend', {
+            userId: response.userId,
+            friendId: response.id
+        })
     }
 
     useEffect(() => {
