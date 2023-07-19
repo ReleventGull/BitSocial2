@@ -235,6 +235,7 @@ const updateReadStatus = async(userId) => {
         SET unread=false
         WHERE user_recieved_id=$1
         `, [userId])
+        return 'done'
     }catch(error) {
         console.error("There was an error updating the read status", error)
         throw error
