@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount } from "../redux/Unread"
 const NavBar = ({notifClass, sentMessage, token, socket}) => {
-    const [unread, setUnread] = useState('')
     const navigate = useNavigate()
     const loc = useLocation()
     const dispatch = useDispatch()
@@ -12,8 +11,9 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
 
 
 useEffect(() => {
-    socket.on('notifyFr' , ({path}) => {
-        if(path !== '/friend/request') {
+    socket.on('notifyFr' , (args) => {
+        console.log("Hit delete", args)
+        if(args.path !== '/friend/request' && args.action == 'increase') {
             dispatch(increaseCount())
         }
     })

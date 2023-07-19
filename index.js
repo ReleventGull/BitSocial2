@@ -52,7 +52,8 @@ io.on('connection', (socket) => {
             console.log(user_receiving)
             io.to(user_receiving.socketId).emit('notifyFr', {
                 userId: user.id,
-                path: user_receiving.path
+                path: user_receiving.path,
+                action: 'increase'
             })
             if(user_receiving.path == '/friend/request') {
                 io.to(user_receiving.socketId).emit('increaseFr', {
@@ -67,8 +68,15 @@ io.on('connection', (socket) => {
         const user_receiving = users[`${recieving}`]
         if (user_receiving) {
             io.to(user_receiving.socketId).emit('decreaseFr',
-            {message: "Delete friend request", requestId: requestId, path: user_receiving.path})
-        }
+            {message: "Delete friend request", 
+            requestId: requestId, 
+            path: user_receiving.path}
+            )}
+            io.to(user_receiving.socketId).emit('notifyFr', {
+                requestId: requestId,
+                path: user_receiving.path,
+                action: 'decrease',
+            })
     })
     socket.on('delete_friend_request', ({userId, requestId}) => {
         const user_receiving = users[`${userId}`]
