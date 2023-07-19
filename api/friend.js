@@ -3,6 +3,7 @@ const friendRouter = express.Router()
 const requireUser = require('./requireUser')
 const {getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
+
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
     try {
         const {user2} = req.body
@@ -66,7 +67,7 @@ friendRouter.get('/requests', requireUser, async(req, res, next) => {
     }
 })
 
-friendRouter.get('/retrieve/:id', requireUser, async(req, res, next) => {
+friendRouter.get('/friend/:id', requireUser, async(req, res, next) => {
     try {
         console.log("Hit these batlls")
         const {id} = req.params
@@ -80,6 +81,7 @@ friendRouter.get('/retrieve/:id', requireUser, async(req, res, next) => {
 })
 friendRouter.get('/retrieve/:userId', async(req, res, next) => {
     try {
+        console.log("I'm getting it")
         const {userId} = req.params
         const {id} = req.user
         const friendRequest = await getRequestByBothIds({user2: id, user1: userId})
@@ -117,19 +119,20 @@ friendRouter.delete('/delete/friend/:id', requireUser, async(req, res, next) => 
     try {
         const {id} = req.params
         const {id: userId} = req.user
-        const checkUser = await getFriendById(id)
-        console.log('userId: ', userId, checkUser)
+        const checkUser = await getFriendById({id: id, userId: userId})
         if(checkUser.user_1_id  !== userId && checkUser.user_2_id !== userId) {
             res.status(401).send({
                 error: "IncorectCredentials",
                 message: "You do not have permission to do that"
             })
         }else {
-            const deletedFriend = deleteFriendById(id)
+            let userId2
+            const deletedFriend = await deleteFriendById(id)
+            deletedFriend.user_1_id == userId ? userId2 = deletedFriend.user_2_id : userId2 = deletedFriend.user_1_id
             res.send({
-                mesage: "Success! Friend Deleted",
-                friend: deletedFriend
-
+                message: "Success! Friend Deleted",
+                id: deletedFriend.id,
+                userId: userId2
             })
         }
     }catch(error) {

@@ -219,6 +219,8 @@ const deleteFriendById = async(id) => {
         id=$1
         RETURNING *
         `, [id])
+        console.log("friend after delete", friend)
+        return friend
     }catch(error) {
         console.error("There was an error deleting the friend request", error) 
         throw error

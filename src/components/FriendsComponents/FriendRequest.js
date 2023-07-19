@@ -9,7 +9,6 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     const {index, setIndex, hoverStyle, setUnread, }  = useOutletContext()
     const loc = useLocation()
     const dispatch = useDispatch()
-    
     useEffect(() => {
         if (!increaseFrSocket) {
             setIncreaseFrSocket(true)
@@ -41,7 +40,6 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
 
     const addFriendRequest = async(user2, requestId) => {
         const response = await addFriend({token:token, user2: user2})
-        console.log(response)
         if(notifClass) {
             setCounter(0)
         }
@@ -55,7 +53,6 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
             userId: user2,
             requestId: requestId
         })
-        console.log(response)
         socket.emit('accept_friend', {
             message: "Request accepted",
             userId: user2,

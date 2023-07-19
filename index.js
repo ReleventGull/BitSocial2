@@ -47,50 +47,58 @@ io.on('connection', (socket) => {
         io.to(socket.id).emit('success', 'I was successful in delete')
     })
     socket.on('friend_request', ({recieving}) => {
-        const user_recieving = users[`${recieving}`]
-        if(user_recieving) {
-            console.log(user_recieving)
-            io.to(user_recieving.socketId).emit('notifyFr', {
+        const user_receiving = users[`${recieving}`]
+        if(user_receiving) {
+            console.log(user_receiving)
+            io.to(user_receiving.socketId).emit('notifyFr', {
                 userId: user.id,
-                path: user_recieving.path
+                path: user_receiving.path
             })
-            if(user_recieving.path == '/friend/request') {
-                io.to(user_recieving.socketId).emit('increaseFr', {
+            if(user_receiving.path == '/friend/request') {
+                io.to(user_receiving.socketId).emit('increaseFr', {
                     message: "IncreaseFriendRequest",
                     userId: user.id,
-                    path: user_recieving.path
+                    path: user_receiving.path
                 })
             }
         }
     })
    socket.on('delete_pending_request', ({recieving, requestId}) => {
-        const user_recieving = users[`${recieving}`]
-        if (user_recieving) {
-            io.to(user_recieving.socketId).emit('decreaseFr',
-            {message: "Delete friend request", requestId: requestId, path: user_recieving.path})
+        const user_receiving = users[`${recieving}`]
+        if (user_receiving) {
+            io.to(user_receiving.socketId).emit('decreaseFr',
+            {message: "Delete friend request", requestId: requestId, path: user_receiving.path})
         }
     })
     socket.on('delete_friend_request', ({userId, requestId}) => {
-        const user_recieving = users[`${userId}`]
-        if (user_recieving) {
-            io.to(user_recieving.socketId).emit('delete_pending', {
+        const user_receiving = users[`${userId}`]
+        if (user_receiving) {
+            io.to(user_receiving.socketId).emit('delete_pending', {
                 requestId: requestId,
-                path: user_recieving.path
+                path: user_receiving.path
             })
         }
     })
     socket.on('accept_friend', ({userId, friendId}) => {
-        console.log("I'm on friend bro", userId)
-        const user_recieving = users[`${userId}`]
-        console.log(user_recieving)
-        if(user_recieving) {
-            io.to(user_recieving.socketId).emit('add_friend', {
-                path: user_recieving.path,
+        const user_receiving = users[`${userId}`]
+        if(user_receiving) {
+            io.to(user_receiving.socketId).emit('add_friend', {
+                path: user_receiving.path,
                 friendId: friendId
             })
         }
     })
-
+    socket.on('delete_friend', ({userId, friendId}) => {
+        const user_receiving = users[`${userId}`]
+        console.log('user recieving', user_receiving)
+            if(user_receiving) {
+                io.to(user_receiving.socketId).emit('remove_friend', {
+                    message: "You've been unfriended",
+                    removedId: friendId,
+                    path: user_receiving.path
+                })
+            }
+    })
     socket.on('disconnect', () => {
         delete users[`${user.id}`]
     })
