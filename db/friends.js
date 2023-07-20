@@ -274,7 +274,7 @@ const getRequestById = async(id) => {
 const searchPending = async({id, searchQuery}) => {
     try {
         const {rows: pending} = await client.query(`
-        SELECT friend_request.*, users.username AS usersent
+        SELECT friend_request.*, users.username
         FROM friend_request
         JOIN users ON 
         friend_request.user_recieved_id=users.id

@@ -166,9 +166,10 @@ friendRouter.get('/frCount', requireUser, async(req, res, next) => {
     }
 })
 
-friendRouter.post('/pending/search', async(req, res, next) => {
+friendRouter.post('/pending/search', requireUser, async(req, res, next) => {
     try {
-        const {searchQuery, id} = req.body
+        const {searchQuery} = req.body
+        const {id} = req.user
         const result = await searchPending({searchQuery: searchQuery, id: id})
         res.send(result)
     }catch(error) {
