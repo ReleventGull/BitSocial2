@@ -1,7 +1,7 @@
 const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
-const {searchFriendsByQuery, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const {searchPending, searchFriendsByQuery, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -162,6 +162,18 @@ friendRouter.get('/frCount', requireUser, async(req, res, next) => {
         res.send({count : Number(count.count)})
     }catch(error) {
         console.error("There was an error getting the fr count", error)
+        throw error
+    }
+})
+
+friendRouter.post('/pending/search', requireUser, async(req, res, next) => {
+    try {
+        const {searchQuery} = req.body
+        const {id} = req.user
+        const result = await searchPending({searchQuery: searchQuery, id: id})
+        res.send(result)
+    }catch(error) {
+        console.error("There was an error searching for friends", error)
         throw error
     }
 })
