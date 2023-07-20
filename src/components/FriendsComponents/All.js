@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
 import FriendItem from './FriendItem'
 const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
-    const {index, setIndex, hoverStyle, setMessage} = useOutletContext()
+    const {index, setIndex, hoverStyle, setMessage, searchValue} = useOutletContext()
     const {arr, count} = useSelector((state) => state.friendCount)
     const dispatch = useDispatch()
     const loc = useLocation()
@@ -25,7 +25,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             setAddFriendSocket(true)
         } 
     }, [])
-    
+
     
     const fetchFriends = async () => {
         const response = await getFriends(token)
@@ -35,7 +35,13 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
         }
         dispatch(setRequest(obj))
     }
-    
+    useEffect(() => {
+        if (!searchValue) {
+            fetchFriends()
+        }else {
+            console.log("Result goes here")
+        }
+    }, [])
     const removeFriend = async (id) => {
         const response = await deleteFriend({id: id, token:token})
         dispatch(removeRequest(response.id))

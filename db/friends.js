@@ -103,6 +103,25 @@ const getFriendsByUserId = async(userId) => {
     }
 }
 
+const searchFriendsByQuery = async({id, searchQuery}) => {
+    try {
+        const {rows: friends} = await client.query(`
+        SELECT friends.*, users.username
+        FROM friends
+        JOIN users ON 
+            CASE
+                WHEN friends.user_1_id=$1 THEN friends.user_2_id=users.id
+                ELSE friends.user_1_id=users.id
+            END
+        WHERE LOWER(users.username) LIKE LOWER('%${searchQuery}%')
+        `, [id])
+        return friends
+    }catch(error) {
+        console.error("There was an error searching friends by query" , error) 
+        throw error
+    }
+}
+
 const getFriendById = async({id, userId}) => {
     try {
         const {rows: [friend]} = await client.query(`
@@ -252,6 +271,8 @@ const getRequestById = async(id) => {
         throw error
     }
 }
+
+
 module.exports = {
     createFriend,
     createFriendRequest,
@@ -271,5 +292,6 @@ module.exports = {
     getFriendById,
     deleteFriendById,
     updateReadStatus,
-    getRequestById
+    getRequestById,
+    searchFriendsByQuery
 }
