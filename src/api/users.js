@@ -207,3 +207,22 @@ export const getFriendById = async(id, token) => {
     }
 }
 
+export const searchFriends = async({searchQuery, token}) => {
+    try {
+        const response = await fetch(`${BASE_URL}/friends/search/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                searchQuery: searchQuery
+            })
+        })
+        .then(result => result.json())
+        return response
+    }catch(error) {
+        console.error("There was an error getting friend by id", error)
+        throw error
+    }
+}
