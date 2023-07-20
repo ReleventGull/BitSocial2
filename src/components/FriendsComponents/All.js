@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {getFriends, deleteFriend, getFriendById} from '../../api/users'
+import {getFriends, deleteFriend, getFriendById, searchFriends} from '../../api/users'
 import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
@@ -29,9 +29,19 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     
     const fetchFriends = async () => {
         const response = await getFriends(token)
+        console.log(response)
         const obj = {
             requests: response.friends,
             count: response.count
+        }
+        dispatch(setRequest(obj))
+    }
+
+    const searchForFriends = async() => {
+        const response = await searchFriends({searchQuery:searchValue, token: token })
+        const obj = {
+            requests: response,
+            count: response.length
         }
         dispatch(setRequest(obj))
     }
@@ -40,8 +50,9 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             fetchFriends()
         }else {
             console.log("Result goes here")
+            searchForFriends()
         }
-    }, [])
+    }, [searchValue])
     const removeFriend = async (id) => {
         const response = await deleteFriend({id: id, token:token})
         dispatch(removeRequest(response.id))
