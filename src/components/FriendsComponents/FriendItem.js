@@ -10,7 +10,7 @@ const FriendItem = ({user, i, setIndex, index, hoverStyle, removeFriend}) => {
                                     <img onClick={() => setViewMenu((pre) => !pre)} className="userBodyIconImage menu" src='/images/Menu.png'/>
                                     { !viewMenu ? null : 
                                         <ul className='dropDownFriendMenu'>
-                                            <li onClick={() => removeFriend(user.id)}className='removeFriendButton'>Remove Friend</li>
+                                            <li onClick={() => {removeFriend(user.id), setViewMenu(false)}}className='removeFriendButton'>Remove Friend</li>
                                         </ul>
                                     }
                                         
