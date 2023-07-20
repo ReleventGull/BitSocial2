@@ -71,13 +71,14 @@ io.on('connection', (socket) => {
             {message: "Delete friend request", 
             requestId: requestId, 
             path: user_receiving.path}
-            )}
+            )
             io.to(user_receiving.socketId).emit('notifyFr', {
                 requestId: requestId,
                 path: user_receiving.path,
                 unread: unread,
                 action: 'decrease',
             })
+        }
     })
     socket.on('delete_friend_request', ({userId, requestId}) => {
         const user_receiving = users[`${userId}`]
