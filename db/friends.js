@@ -287,6 +287,21 @@ const searchPending = async({id, searchQuery}) => {
     }
 }
 
+const searchRequest = async({id, searchQuery}) => {
+    try {
+        const {rows: pending} = await client.query(`
+        SELECT friend_request.*, users.username AS usersent
+        FROM friend_request
+        JOIN users ON 
+        friend_request.user_sent_id=users.id
+        WHERE friend_request.user_recieved_id=$1 AND LOWER(users.username) LIKE LOWER('%${searchQuery}%')
+        `, [id])
+        return pending
+    }catch(error) {
+        console.error("There was an error getting searching pending by query", error)
+        throw error
+    }
+}
 
 module.exports = {
     createFriend,
@@ -309,5 +324,6 @@ module.exports = {
     updateReadStatus,
     getRequestById,
     searchFriendsByQuery,
-    searchPending
+    searchPending,
+    searchRequest
 }

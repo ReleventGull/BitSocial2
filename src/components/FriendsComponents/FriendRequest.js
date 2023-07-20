@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useOutletContext, useLocation } from "react-router-dom"
-import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest} from '../../api/users'
+import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest, searchRequest} from '../../api/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
 import { deleteCount } from '../../redux/Unread'
 const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
     const { arr, count} = useSelector((state) => state.friendCount)
     const {count: bubbleCount} = useSelector(state => state.unreadCount)
-    const {index, setIndex, hoverStyle}  = useOutletContext()
+    const {index, setIndex, hoverStyle, searchValue}  = useOutletContext()
     const loc = useLocation()
     const dispatch = useDispatch()
     
@@ -38,9 +38,25 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
+        console.log(response)
         dispatch(setRequest(response))
         
     }
+    const searchForRequests = async() => {
+        const response = await searchRequest({searchQuery:searchValue, token: token})
+        const obj = {
+            requests: response,
+            count: response.length
+        }
+        dispatch(setRequest(obj))
+}
+useEffect(() => {
+    if (!searchValue) {
+        fetchRequest()
+    }else {
+        searchForRequests()
+    }
+}, [searchValue])
 
     const addFriendRequest = async(user2, requestId) => {
         const response = await addFriend({token:token, user2: user2})
