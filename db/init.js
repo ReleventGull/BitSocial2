@@ -6,7 +6,8 @@ const buildTables = async() => {
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
             username VARCHAR(15) NOT NULL,
-            password VARCHAR(20) NOT NULL
+            password VARCHAR(20) NOT NULL,
+            date_joined VARCHAR(255) NOT NULL
         );
         CREATE TABLE chat (
             id SERIAL PRIMARY KEY,

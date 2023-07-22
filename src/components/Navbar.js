@@ -39,15 +39,11 @@ useEffect(() => {
     <>
         <div className="navBar">
             <div className="navBarBox">
-                <Link to='home' className={"imageBox" + (loc.pathname == '/home' ? ' active' : '')} >
+                <Link to='home' className={"imageBox" + ' navbar' + (loc.pathname == '/home' ? ' active' : '')} >
                         <img src='/images/home.png'/>
                         <h3>Home</h3>
                 </Link>
-                <Link to='profile' className={"imageBox" + (loc.pathname == '/profile' ? ' active' : '')}>
-                        <img src='/images/Profile.png'/>
-                        <h3>Profile</h3>
-                </Link>
-                <Link to='friend' className={"imageBox" + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
+                <Link to='friend' className={"imageBox" + ' navbar' + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
                         {count > 0 ? 
                             <div className="frBubble">
                             {count}
@@ -60,7 +56,11 @@ useEffect(() => {
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
-                <Link to='settings' className={"imageBox" + (loc.pathname == '/settings' ? ' active' : '')}>
+                <Link to='account' className={"imageBox" + ' navbar' + (loc.pathname == '/account' ? ' active' : '')}>
+                        <img src='/images/Profile.png'/>
+                        <h3>Account</h3>
+                </Link>
+                <Link to='settings' className={"imageBox" + ' navbar' + (loc.pathname == '/settings' ? ' active' : '')}>
                         <img src='/images/Gear.png'/>
                         <h3>Settings</h3>
                 </Link>

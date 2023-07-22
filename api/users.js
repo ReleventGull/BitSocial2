@@ -5,9 +5,12 @@ const {JWT_SECRET} = process.env
 const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch, getUserById} = require('../db/users')
 const requireUser = require('./requireUser')
 
-userRouter.get('/me', requireUser, (req, res, next) => {
+userRouter.get('/me', requireUser, async(req, res, next) => {
     try {
-        res.send(req.user)
+        console.log("In me")
+        const user = await getUserById(req.user.id)
+        
+        res.send(user)
     }catch(error) {
         console.error("There was an error getting the user", error)
         throw error
