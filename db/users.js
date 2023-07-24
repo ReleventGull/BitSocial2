@@ -3,10 +3,10 @@ const client = require('./index')
 const createUser = async({username, password}) => {
     try {
         const {rows: [user]} = await client.query(`
-        INSERT INTO users (username, password)
-        VALUES ($1, $2)
+        INSERT INTO users (username, password, date_joined)
+        VALUES ($1, $2, $3)
         RETURNING id, username
-        `, [username, password])
+        `, [username, password, new Date()])
         return user
     }catch(error) {
         console.error("There was an error creating user", error)
@@ -75,8 +75,8 @@ const getUsersFromSearch = async({searchQuery, userId, pagination}) => {
 const getUserById = async(id) => {
     try {
         const {rows: [user]} = await client.query(`
-        SELECT users.id, users.username
-        users
+        SELECT users.id, users.username, users.date_joined
+        FROM users
         WHERE id=$1
         `, [id])
         return user

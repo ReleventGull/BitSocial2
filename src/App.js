@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
-import {Login, NavBar, Home, Chat, Profile, Settings, Friend} from './components/index'
+import {Login, NavBar, Home, Chat, Account, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
 import {io} from 'socket.io-client'
 
@@ -74,7 +74,7 @@ const App = () => {
                     <Route path='request' element={<FriendRequest increaseFrSocket={increaseFrSocket} setIncreaseFrSocket={setIncreaseFrSocket} socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='search' element={<SearchFriends socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                 </Route>
-            <Route path='profile' element={<Profile socket={socket}/>}/>
+            <Route path='account' element={<Account token={token} setToken={setToken} socket={socket}/>}/>
             <Route path='settings' element={<Settings setIncreaseFrSocket={setIncreaseFrSocket}socket={socket} setToken={setToken}/>}/>
         </Route>
             }
