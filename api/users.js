@@ -9,8 +9,15 @@ userRouter.get('/me', requireUser, async(req, res, next) => {
     try {
         console.log("In me")
         const user = await getUserById(req.user.id)
-        
-        res.send(user)
+        if (user) {
+            res.send(user)
+        }else {
+            res.send({
+                error: "InvalidToken",
+                message: "Token is expired"
+            })
+        }
+
     }catch(error) {
         console.error("There was an error getting the user", error)
         throw error

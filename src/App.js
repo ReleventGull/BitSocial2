@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
 import {Login, NavBar, Home, Chat, Account, Settings, Friend} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
+import {getMe} from './api/users'
 import {io} from 'socket.io-client'
+
 
 const App = () => {
     const [token, setToken] = useState(window.localStorage.getItem('token') || '')
@@ -18,24 +20,31 @@ const App = () => {
     const navigate = useNavigate()
     const loc = useLocation()
 
-    useEffect(() => {
-        if(!token) {
+
+    const checkMe = async() => {
+        const response = await getMe(token)
+        console.log(response)
+        if (response.error) {
+            console.log("I triggered")
             navigate('/login')
             setIncreaseFrSocket(false)
             setPendingSocket(false)
             setAddFriendSocket(false)
-        }
-    }, [token])
-
+            window.localStorage.removeItem('token')
+        }else {
+            setSocket(
+                io.connect('http://localhost:3000', {
+                auth: {
+                token: token
+                }
+            })
+         )}   
+    }
     useEffect(() => {
         if(token){
-                 setSocket(
-                    io.connect('http://localhost:3000', {
-                    auth: {
-                    token: token
-                    }
-                })
-            ) 
+            checkMe()
+        }else {
+            navigate('/login')
         }
     }, [token])
 
