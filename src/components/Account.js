@@ -55,8 +55,17 @@ const Account = ({socket, token, setToken}) => {
                             </div>
                         </div>
                     </div>
-
-                
+                    <h2 className="passwordAccountHeading">Password and Authentication</h2>
+                    <div className="passwordBox">
+                        <button className="changePasswordButton">Change Password</button>
+                    </div>
+                    <div>
+                        <div className="passwordAccountHeading">
+                            <h4 x>Account Deletion</h4>
+                            <p className="deleteWarning">Deleting your account is an action that can not be undone</p>
+                        </div>
+                        <button className="deleteAccountButton">Delete Account</button>
+                    </div>
             </div>
             }
         </div>
