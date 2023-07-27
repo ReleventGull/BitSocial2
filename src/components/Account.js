@@ -28,27 +28,35 @@ const Account = ({socket, token, setToken}) => {
             {
             !user ? null :
                 <div className="profileContainer">
-                  <div className="profileTop">
-                    <h2>{user.username}</h2>
-                    <p className="memberSince">Member Since: {createDate()}</p>
-                 </div>
-                 <div className="aboutBox">
-                    <div>
-                      <p>About</p>
-                      <button>Change</button>
+                    <h2 className="myAccountHeading">My Account</h2>
+                    <div className="profileInformation">
+                        <h3 className="usernameProfileBox">{user.username}</h3>
+                        <div className="informationContainer">
+                            <div className="profileBox one">
+                                <div className="profileLabelBox">
+                                <label className="profileLabel">NAME</label>
+                                <p>{user.username}</p>
+                                </div>
+                                <button className="editProfileButton">Edit</button>
+                            </div>
+                            <div className="profileBox one">
+                                <div className="profileLabelBox">
+                                <label className="profileLabel">EMAIL</label>
+                                <p>none</p>
+                                </div>
+                                <button className="editProfileButton">Edit</button>
+                            </div>
+                            <div className="profileBox one">
+                                <div className="profileLabelBox">
+                                <label className="profileLabel">PHONE NUMBER</label>
+                                <p>none</p>
+                                </div>
+                                <button className="editProfileButton">Edit</button>
+                            </div>
+                        </div>
                     </div>
-                    <p className="aboutDesc">dwajkldwajkla;wdjklawdjklawjdlkawdjklawdjkl;awdjkl;awdkjlawdjkawdkjladwkjawdkjawdkjkjdawjkawdq</p>
-                  </div>
-                  <div className="accountMenu">
-                  <div className="imageBox profile">
-                        <img src='/images/Profile.png'/>
-                        <h3>Account</h3>
-                     </div>
-                    <div onClick={() => {window.localStorage.removeItem('token'), setToken('')}} className="imageBox profile">
-                        <img src='/images/Logout.png'/>
-                        <h3>Logout</h3>
-                     </div>
-                  </div>
+
+                
             </div>
             }
         </div>
