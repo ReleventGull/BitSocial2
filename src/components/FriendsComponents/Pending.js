@@ -24,7 +24,7 @@ const Pending = ({token, setCounter, setSentMessage, setNotifClass, notifClass, 
         if (!pendingSocket) {
             setPendingSocket(true)
             socket.on('delete_pending', ({requestId, path}) => {
-                if(path == '/friend/pending') {
+                if(path == '/app/friend/pending') {
                     dispatch(removeRequest(requestId))
                 }
             })

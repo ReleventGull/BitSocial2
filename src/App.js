@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
-import {Login, NavBar, Chat, Account, Settings, Friend, Random} from './components/index'
+import {Login, NavBar, Chat, Account, Friend, } from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
 import {getMe} from './api/users'
 import {io} from 'socket.io-client'
