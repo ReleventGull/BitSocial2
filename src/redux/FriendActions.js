@@ -24,8 +24,6 @@ export const friendRequestSlice = createSlice({
             }
             state.count -= 1
         },
-        //delete
-        //accept
     }
 })
 export const {setRequest, addRequest, removeRequest} = friendRequestSlice.actions

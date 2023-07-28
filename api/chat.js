@@ -8,7 +8,12 @@ chatRouter.post('/create', requireUser, async(req, res, next) => {
     try {
         
         const {id} = req.user
-        const {user2} = req.body
+        let {user1, user2} = req.body
+        
+        if(id == user2) {
+            user2 = user1
+        }
+        
         if(id == user2 || !user2) {
             res.status(401).send({
                 error: "InvalidStatement",
