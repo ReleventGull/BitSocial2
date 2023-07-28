@@ -1,9 +1,20 @@
 const express = require('express')
 const chatRouter = express.Router()
-const {checkForExistingChat, createChat} = require('../db/chat')
+const {checkForExistingChat, createChat, getChatsByUserId} = require('../db/chat')
 const {getUserById} = require('../db/users')
 const requireUser = require('./requireUser')
 
+
+chatRouter.get('/all', requireUser, async(req, res, next) => {
+    try {
+        const {id} = req.user
+        const response = await getChatsByUserId(id)
+        res.send(response)
+    }catch(error) {
+        console.error("There was an erro getting chats", error)
+        throw error
+    }
+})
 chatRouter.post('/create', requireUser, async(req, res, next) => {
     try {
         
@@ -48,5 +59,7 @@ chatRouter.post('/create', requireUser, async(req, res, next) => {
         throw error
     }
 })
+
+
 
 module.exports = chatRouter
