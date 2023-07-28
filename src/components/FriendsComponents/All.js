@@ -3,6 +3,7 @@ import {getFriends, deleteFriend, getFriendById, searchFriends} from '../../api/
 import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
+import { createChat } from '../../api/chat'
 import FriendItem from './FriendItem'
 const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     const {index, setIndex, hoverStyle, setMessage, searchValue} = useOutletContext()
@@ -75,7 +76,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             {
                 arr.length < 1 ? null : 
                 arr.map((user, i) => 
-                    <FriendItem removeFriend={removeFriend} key={i} user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
+                    <FriendItem token={token} removeFriend={removeFriend} key={i} user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
                 )
             }
         </div>
