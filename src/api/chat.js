@@ -21,3 +21,18 @@ export const createChat = async({token, user1, user2}) => {
         throw error
     }
 }
+
+export const getUserChats = async(token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/chat/all`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            }
+        }).then(result => result.json())
+        return response 
+    }catch(error) {
+        console.error("There was an error creating the chat", error)
+        throw error
+    }
+}
