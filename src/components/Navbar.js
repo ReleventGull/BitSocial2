@@ -38,12 +38,7 @@ useEffect(() => {
     return(
     <>
         <div className="navBar">
-        <button onClick={() => navigate('/settings')}>heloow</button>
             <div className="navBarBox">
-                <Link to='home' className={"imageBox" + ' navbar' + (loc.pathname == '/app/home' ? ' active' : '')} >
-                        <img src='/images/home.png'/>
-                        <h3>Home</h3>
-                </Link>
                 <Link to='friend' className={"imageBox" + ' navbar' + (loc.pathname == '/app/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
                         {count > 0 ? 
                             <div className="frBubble">
@@ -61,12 +56,14 @@ useEffect(() => {
                         <img src='/images/Profile.png'/>
                         <h3>Account</h3>
                 </Link>
-                <Link to='settings' className={"imageBox" + ' navbar' + (loc.pathname == '/app/settings' ? ' active' : '')}>
-                        <img src='/images/Gear.png'/>
-                        <h3>Settings</h3>
-                </Link>
             </div>
-
+                <div className="navbarProfileBox">
+                    <p>Jaron</p>
+                    <div className="settingsNavbar">
+                        <img className='settingsNavbarIcon' src='./images/Gear.png'/>
+                    </div>
+                    
+                </div>
         </div>
 
        <div className="outDiv">

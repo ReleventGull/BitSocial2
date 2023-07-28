@@ -61,6 +61,7 @@ h1, h2, h3, h4, p {
 /****************** ROOT ***************/
 :root {
     --primary: #1e2124;
+    --dark-primary: #121415;
     --second-primary: #282b30;
     --third-primary: #36393e;
     --sixth-primary: #50545a;
@@ -549,30 +550,6 @@ h1, h2, h3, h4, p {
 }
 
 @media only screen and (max-width: 600px) {
-    .navBar {
-        height: 6rem;
-        width: 100%;
-        z-index: 1000;
-
-        bottom: 0;
-    }
-    .navBarBox a h3 {
-        display: none;
-    }
-    .navBarBox {
-        flex-direction: row;
-        height: 100%;
-        justify-content: space-around;
-        margin: 0;
-    }
-    .outDiv {
-        width: 100%;
-        margin: 0;
-        margin-bottom: 6rem;
-    }
-    .imageBox.navbar {
-        width: auto
-    }
     .searchFriendOptions {
         gap: 0;
         justify-content: space-around;
@@ -740,4 +717,36 @@ h1, h2, h3, h4, p {
 .deleteWarning {
     color: var(--fifth-primary);
     font-size: .8rem;
+}
+
+.navbarProfileBox {
+    background-color: var(--dark-primary);
+    width: 100%;
+    color: var(--third);
+    height: 4rem;
+    box-sizing: border-box;
+    padding: .4rem .8rem .4rem .8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.settingsNavbar {
+    height: 2rem;
+    width: 2rem;
+    box-sizing: border-box;
+    padding: .3rem;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+}
+
+.settingsNavbar:hover {
+    background-color: var(--second-primary);
+}
+
+.settingsNavbarIcon {
+    height: 100%;
+    width: 100%;
 }
