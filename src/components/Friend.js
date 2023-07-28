@@ -34,7 +34,7 @@ const Friend = ({socket}) => {
                 {
                     searchStates.map((state, i) => 
                         
-                        <Link key={i} onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>
+                        <Link key={i} onClick={() => setSearchValue('')} to={`${state.split(' ').join('').toLowerCase()}`}  className={'searchStateOptions ' + (loc.pathname == `/app/friend/${state.split(' ').join('').toLowerCase()}` ? 'active' : '' )}>
                             {state == 'Request' && count > 0? 
                             <div className='frBubble2'>
                                 {count} 

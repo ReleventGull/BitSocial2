@@ -39,7 +39,7 @@ useEffect(() => {
     <>
         <div className="navBar">
             <div className="navBarBox">
-                <Link to='friend' className={"imageBox" + ' navbar' + (loc.pathname == '/app/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
+                <Link to='friend' className={"imageBox" + ' navbar' + (loc.pathname == '/app/friend' || loc.pathname == '/app/friend/all' || loc.pathname == '/app/friend/pending' || loc.pathname == '/app/friend/request' || loc.pathname == '/app/friend/search' ? ' active' : '')}>
                         {count > 0 ? 
                             <div className="frBubble">
                             {count}
@@ -48,17 +48,21 @@ useEffect(() => {
                             null
                     
                         }
-                        
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
+                <div className="navChatContainer">
+                    <div className="chatHeader">
+                        <h4>DIRECT MESSAGES</h4>
+                    </div>
+                    
+                </div>
             </div>
                 <div className="navbarProfileBox">
                     <p>Jaron</p>
                     <Link to='/settings' className="settingsNavbar">
                         <img className='settingsNavbarIcon' src='./images/Gear.png'/>
                     </Link>
-                    
                 </div>
         </div>
 
