@@ -14,15 +14,24 @@ const createChat = async({user1, user2}) => {
     }
 }
 
-const getUserChatByUserId = async(userId) => {
+const getChatsByUserId = async(userId) => {
     try {
-        const {rows} = await client.query(`
+        const {rows: chats} = await client.query(`
         SELECT chat.*, users.username
         FROM chat
-        JOIN users ON users.id=chat.user_id_2
-        WHERE chat.user_id_1=$1
+        JOIN users ON CASE
+            WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
+            ELSE chat.user_id_1 = users.id
+        END
         `, [userId])
-        return rows
+        for(let i = 0; i < chats.length; i++) {
+            if(chats[i].user_id_1 == userId) {
+                delete chats[i].user_id_1
+            }else {
+                delete chats[i].user_id_2
+            }
+        }
+        return chats
     }catch(error) {
         console.error("There was an error getting the user chats by the user id", error)
         throw error
@@ -46,7 +55,7 @@ const checkForExistingChat = async({user1Id, user2Id}) => {
 
 module.exports = {
     createChat,
-    getUserChatByUserId,
+    getChatsByUserId,
     checkForExistingChat,
     createChat
 }

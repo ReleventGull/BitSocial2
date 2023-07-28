@@ -1,5 +1,6 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import { friendRequestCount, getRequestById } from "../api/users"
+import {getUserChats} from '../api/chat'
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
@@ -29,10 +30,16 @@ useEffect(() => {
     const frCount = async() => {
         const response = await friendRequestCount(token)
         dispatch(setCount(response.count))
-
     }
+
+    const getChats = async() => {
+        const response = await getUserChats(token)
+        console.log(response)
+    }
+    
     useEffect(() => {
         frCount()
+        getChats()
     }, [])
 
     return(
