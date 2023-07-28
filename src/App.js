@@ -75,7 +75,7 @@ const App = () => {
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
 
-            <Route path='settings' element={<Random />}/>
+            <Route path='settings' element={<Account token={token} setToken={setToken} socket={socket}/>}/>
         
         {!socket ? null : 
         <Route path='/app' element={<NavBar socket={socket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
@@ -86,7 +86,6 @@ const App = () => {
                     <Route path='request' element={<FriendRequest increaseFrSocket={increaseFrSocket} setIncreaseFrSocket={setIncreaseFrSocket} socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                     <Route path='search' element={<SearchFriends socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>
                 </Route>
-            <Route path='account' element={<Account token={token} setToken={setToken} socket={socket}/>}/>
         </Route>
             }
         </Routes>

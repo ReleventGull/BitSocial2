@@ -52,16 +52,12 @@ useEffect(() => {
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
-                <Link to='account' className={"imageBox" + ' navbar' + (loc.pathname == '/app/account' ? ' active' : '')}>
-                        <img src='/images/Profile.png'/>
-                        <h3>Account</h3>
-                </Link>
             </div>
                 <div className="navbarProfileBox">
                     <p>Jaron</p>
-                    <div className="settingsNavbar">
+                    <Link to='/settings' className="settingsNavbar">
                         <img className='settingsNavbarIcon' src='./images/Gear.png'/>
-                    </div>
+                    </Link>
                     
                 </div>
         </div>
