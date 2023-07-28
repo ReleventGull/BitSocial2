@@ -12,13 +12,13 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     useEffect(() => {
         if(!addFriendSocket) {
             socket.on('add_friend', async(args) => {
-                if(args.path === '/friend/all') {
+                if(args.path === '/app/friend/all') {
                     const friendObj = await getFriendById(args.friendId, token)
                     dispatch(addRequest(friendObj))
                 }
             })
             socket.on('remove_friend', async(args) => {
-                if(args.path === '/friend/all') {
+                if(args.path === '/app/friend/all') {
                     dispatch(removeRequest(args.removedId))
                 }
             })

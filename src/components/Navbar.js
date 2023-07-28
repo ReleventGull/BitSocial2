@@ -12,9 +12,9 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
 
 useEffect(() => {
     socket.on('notifyFr' , async(args) => {
-        if(args.path !== '/friend/request' && args.action == 'increase') {
+        if(args.path !== '/app/friend/request' && args.action == 'increase') {
             dispatch(increaseCount())
-        }else if(args.action == 'decrease' && args.unread == true && args.path !== '/friend/request'){
+        }else if(args.action == 'decrease' && args.unread == true && args.path !== '/app/friend/request'){
             dispatch(decreaseCount())
         }
     })
