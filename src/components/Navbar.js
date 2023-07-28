@@ -38,12 +38,13 @@ useEffect(() => {
     return(
     <>
         <div className="navBar">
+        <button onClick={() => navigate('/settings')}>heloow</button>
             <div className="navBarBox">
-                <Link to='home' className={"imageBox" + ' navbar' + (loc.pathname == '/home' ? ' active' : '')} >
+                <Link to='home' className={"imageBox" + ' navbar' + (loc.pathname == '/app/home' ? ' active' : '')} >
                         <img src='/images/home.png'/>
                         <h3>Home</h3>
                 </Link>
-                <Link to='friend' className={"imageBox" + ' navbar' + (loc.pathname == '/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
+                <Link to='friend' className={"imageBox" + ' navbar' + (loc.pathname == '/app/friend' || loc.pathname == '/friend/all' || loc.pathname == '/friend/pending' || loc.pathname == '/friend/request' || loc.pathname == '/friend/search' ? ' active' : '')}>
                         {count > 0 ? 
                             <div className="frBubble">
                             {count}
@@ -56,17 +57,18 @@ useEffect(() => {
                         <img src='/images/Friend.png'/>
                         <h3>Friends</h3>
                 </Link>
-                <Link to='account' className={"imageBox" + ' navbar' + (loc.pathname == '/account' ? ' active' : '')}>
+                <Link to='account' className={"imageBox" + ' navbar' + (loc.pathname == '/app/account' ? ' active' : '')}>
                         <img src='/images/Profile.png'/>
                         <h3>Account</h3>
                 </Link>
-                <Link to='settings' className={"imageBox" + ' navbar' + (loc.pathname == '/settings' ? ' active' : '')}>
+                <Link to='settings' className={"imageBox" + ' navbar' + (loc.pathname == '/app/settings' ? ' active' : '')}>
                         <img src='/images/Gear.png'/>
                         <h3>Settings</h3>
                 </Link>
             </div>
+
         </div>
-       
+
        <div className="outDiv">
         <Outlet />
         <div className={"notifPortal " + notifClass}>
