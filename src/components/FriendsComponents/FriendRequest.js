@@ -12,22 +12,27 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     const dispatch = useDispatch()
     
     useEffect(() => {
+        console.log(increaseFrSocket)
         if (!increaseFrSocket) {
-            setIncreaseFrSocket(true)
-            socket.on('decreaseFr', (args) => {
-                if(args.path == '/friend/request') {
-                dispatch(removeRequest(args.requestId))
-                }
-            })
             socket.on('increaseFr', async(args) => {
-                if(args.path == '/friend/request') {
+                console.log("I'M INCREASING")
+                if(args.path == '/app/friend/request') {
                     const friendRequest = await retrieveSingleRequest(token, args.userId)
+                    console.log(friendRequest)
                     dispatch(addRequest(friendRequest))
                 }
             })
+            socket.on('decreaseFr', (args) => {
+                console.log("Im cecreasing")
+                if(args.path == '/app/friend/request') {
+                dispatch(removeRequest(args.requestId))
+                }
+            })
+           
+            setIncreaseFrSocket(true)
         }
     }, [])
-    
+
     useEffect(() => {
         socket.emit('pathname', {
             path: loc.pathname

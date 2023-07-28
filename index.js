@@ -34,28 +34,29 @@ const io = new Server(server, {
 let users = {}
 
 io.on('connection', (socket) => {
-    console.log(users)
     const user = jwt.verify(socket.handshake.auth.token, JWT_SECRET)
     users[`${user.id}`] = {
         socketId: socket.id,
         username: user.username
     }
     socket.on('pathname', (args) => {
+        console.log(args)
         users[`${user.id}`]['path'] = args.path
     })
     socket.on('delete', (arg) => {
         io.to(socket.id).emit('success', 'I was successful in delete')
     })
     socket.on('friend_request', ({recieving}) => {
+
         const user_receiving = users[`${recieving}`]
         if(user_receiving) {
-            console.log(user_receiving)
             io.to(user_receiving.socketId).emit('notifyFr', {
                 userId: user.id,
                 path: user_receiving.path,
                 action: 'increase'
             })
-            if(user_receiving.path == '/friend/request') {
+            if(user_receiving.path == '/app/friend/request') {
+                console.log(user_receiving)
                 io.to(user_receiving.socketId).emit('increaseFr', {
                     message: "IncreaseFriendRequest",
                     userId: user.id,
@@ -118,12 +119,9 @@ io.on('connection', (socket) => {
 
 
 const {PORT = 3000} = process.env
-
 server.listen(PORT, () => {
     console.log("I'm listening on port", PORT)
 })
-
 const router = require('./api/index')
-
 app.use('/api', router)
 
