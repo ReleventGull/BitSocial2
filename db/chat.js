@@ -5,7 +5,7 @@ const createChat = async({user1, user2}) => {
         const {rows: [chat]} = await client.query(`
             INSERT INTO chat (user_id_1, user_id_2)
             VALUES($1, $2)
-            RETURNING *;
+            RETURNING *
         `, [user1, user2])  
         return chat
     }catch(error) {
@@ -16,7 +16,6 @@ const createChat = async({user1, user2}) => {
 
 const getChatsByUserId = async(userId) => {
     try {
-        console.log(userId)
         const {rows: chats} = await client.query(`
         SELECT chat.*, users.username
         FROM chat
@@ -41,9 +40,25 @@ const getChatsByUserId = async(userId) => {
     }
 }
 
+const getChatById = async({userId, id}) => {
+    try {
+        const {rows: [chat]} = await client.query(`
+        SELECT chat.*, users.username
+        FROM chat
+        JOIN users ON CASE
+            WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
+            ELSE chat.user_id_1 = users.id
+        END
+        WHERE chat.id=$2
+        `, [userId, id])
+        return chat
+    }catch(error) {
+        console.error("There was an error getting the user chats by the user id", error)
+        throw error
+    }
+}
 const checkForExistingChat = async({user1Id, user2Id}) => {
     try {
-        console.log(user1Id, user2Id)
         const {rows: [chat]} = await client.query(`
             SELECT id FROM chat
             WHERE user_id_1=$1 AND user_id_2=$2
@@ -91,5 +106,6 @@ module.exports = {
     checkForExistingChat,
     createChat,
     deleteChatById,
-    deleteMessageByChatId
+    deleteMessageByChatId,
+    getChatById
 }

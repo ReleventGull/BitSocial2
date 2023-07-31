@@ -1,13 +1,18 @@
 import { useState } from 'react'
-import {createChat} from '../../api/chat'
-
+import {createChat, getChatById} from '../../api/chat'
+import { addChat } from '../../redux/ChatAction'
+import { useDispatch } from 'react-redux'
 
 const FriendItem = ({user, i, setIndex, index, hoverStyle, removeFriend, token}) => {
     const [viewMenu, setViewMenu] = useState(false)
-
+    const dispatch = useDispatch()
+    
     const initiateChat = async() => {
         const response = await createChat({token: token, user1: user.user_1_id, user2: user.user_2_id})
-        console.log(response)
+        if(!response.error) {
+            const chat = await getChatById({token: token, chatId: response.id})
+            dispatch(addChat(chat))
+        }
 
     }
 

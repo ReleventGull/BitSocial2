@@ -1,6 +1,6 @@
 const express = require('express')
 const chatRouter = express.Router()
-const {checkForExistingChat, createChat, getChatsByUserId} = require('../db/chat')
+const {checkForExistingChat, createChat, getChatsByUserId, getChatById} = require('../db/chat')
 const {getUserById} = require('../db/users')
 const requireUser = require('./requireUser')
 
@@ -15,6 +15,20 @@ chatRouter.get('/all', requireUser, async(req, res, next) => {
         throw error
     }
 })
+
+chatRouter.get('/:id', requireUser, async (req, res, next) => {
+    try {
+        const {id} = req.user
+        const chatId = req.params.id
+        const chat = await getChatById({userId: id, id:chatId})
+        res.send(chat)
+    }catch(error) {
+        console.error("There was an error getting chat by id", error)
+        throw error
+    }
+})
+
+
 chatRouter.post('/create', requireUser, async(req, res, next) => {
     try {
         
@@ -45,10 +59,10 @@ chatRouter.post('/create', requireUser, async(req, res, next) => {
                         message: 'Use already has an open chat with said user2'
                     })
                 }else { 
-                    await createChat({user1: id, user2: user2})
-                    res.send({
-                        message: "Success"
-                    })
+                    const chat = await createChat({user1: id, user2: user2})
+                    res.send(
+                        chat
+                    )
                 }
                 
             }
