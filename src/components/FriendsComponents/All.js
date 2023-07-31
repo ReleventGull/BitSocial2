@@ -3,7 +3,7 @@ import {getFriends, deleteFriend, getFriendById, searchFriends} from '../../api/
 import { useOutletContext, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
-import { createChat } from '../../api/chat'
+import { removeChat } from '../../redux/ChatAction'
 import FriendItem from './FriendItem'
 const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     const {index, setIndex, hoverStyle, setMessage, searchValue} = useOutletContext()
@@ -49,6 +49,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
         }
         dispatch(setRequest(obj))
     }
+
     useEffect(() => {
         if (!searchValue) {
             fetchFriends()
@@ -57,11 +58,13 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             searchForFriends()
         }
     }, [searchValue])
+    
     const removeFriend = async (id) => {
-        console.log("I am the remove friend function")
         const response = await deleteFriend({id: id, token:token})
         dispatch(removeRequest(response.id))
-        console.log("Remvoe after dispatch")
+        if(response.chatId) {
+            dispatch(removeChat(response.chatId))
+        }
         socket.emit('delete_friend', {
             userId: response.userId,
             friendId: response.id

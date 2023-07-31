@@ -127,17 +127,20 @@ friendRouter.delete('/delete/friend/:id', requireUser, async(req, res, next) => 
             })
         }else {
             let userId2
+            let chatId = ''
             const deletedFriend = await deleteFriendById(id)
             deletedFriend.user_1_id == userId ? userId2 = deletedFriend.user_2_id : userId2 = deletedFriend.user_1_id
             const chatCheck = await checkForExistingChat({user1Id: userId, user2Id: userId2})
             if (chatCheck) {
+                chatId = chatCheck.id
                 await deleteChatById(chatCheck.id)
                 await deleteMessageByChatId(chatCheck.id)
             }
             res.send({
                 message: "Success! Friend Deleted",
                 id: deletedFriend.id,
-                userId: userId2
+                userId: userId2,
+                chatId: chatId
             })
         }
     }catch(error) {
