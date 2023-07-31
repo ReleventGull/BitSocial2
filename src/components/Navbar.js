@@ -4,12 +4,17 @@ import {getUserChats} from '../api/chat'
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
+import { setChats } from "../redux/ChatAction"
+import ChatItem from './ChatItem'
+
 const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const navigate = useNavigate()
     const loc = useLocation()
     const dispatch = useDispatch()
     const {count} = useSelector((state) => state.unreadCount)
-
+    const {name} = useSelector((state) => state.user)
+    const {arr}  = useSelector(state => state.chat)
+    console.log(arr)
 
 useEffect(() => {
     socket.on('notifyFr' , async(args) => {
@@ -34,7 +39,7 @@ useEffect(() => {
 
     const getChats = async() => {
         const response = await getUserChats(token)
-        console.log(response)
+        dispatch(setChats(response))
     }
     
     useEffect(() => {
@@ -61,12 +66,20 @@ useEffect(() => {
                 <div className="navChatContainer">
                     <div className="chatHeader">
                         <h4>DIRECT MESSAGES</h4>
+                            <div className="chatNav">
+                                {arr.length > 0 ? arr.map(i => 
+                                        <ChatItem username={i.username} id={i.id}/>
+                                    )
+                                    :
+                                    null
+                                }
+                                
+                            </div>
                     </div>
-                    
                 </div>
             </div>
                 <div className="navbarProfileBox">
-                    <p>Jaron</p>
+                    <p>{name}</p>
                     <Link to='/settings' className="settingsNavbar">
                         <img className='settingsNavbarIcon' src='./images/Gear.png'/>
                     </Link>
