@@ -68,12 +68,17 @@ useEffect(() => {
                 <div className="navChatContainer">
                     <div className="chatHeader">
                         <h4>DIRECT MESSAGES</h4>
-                            <div className="chatNav">
+                            <div style={{gap: (arr.length > 0 ? '.1rem' : '.6rem')}}className="chatNav">
                                 {arr.length > 0 ? arr.map(i => 
                                         <ChatItem username={i.username} id={i.id}/>
                                     )
                                     :
-                                    null
+                                    new Array(10).fill(10).map((a, i) => 
+                                        <div style={{opacity: `${1 - (i / 10)}`}} className="noChatItem">
+                                                <div className="noChatCircle"/>
+                                                <div className="noChatBar"/>
+                                        </div>
+                                    )
                                 }
                                 
                             </div>

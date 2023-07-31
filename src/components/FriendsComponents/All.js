@@ -79,10 +79,19 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     }, [])
 
     return (
-        <div className="searchBody">
-            <p className='countFriends'>Friends - {count}</p>
+        <div style={
+        {display: (arr.length < 1 ? 'grid' : 'block'),
+        placeItems: (arr.length < 1 ? 'center' : '')
+        }} className="searchBody">
+            { arr.length > 0 ? <p className='countFriends'>Friends - {count}</p> : null}
             {
-                arr.length < 1 ? null : 
+                arr.length < 1 ? 
+                <div className='noFriendBox'>
+                    <img src='/images/Patrick.png'/> 
+                    <p>You have no friends!</p>
+                </div>
+                    
+                    : 
                 arr.map((user, i) => 
                     <FriendItem token={token} removeFriend={removeFriend} key={i} user={user} i={i} setIndex={setIndex} index={index} hoverStyle={hoverStyle}/>
                 )
