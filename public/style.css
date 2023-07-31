@@ -61,7 +61,7 @@ h1, h2, h3, h4, p {
 /****************** ROOT ***************/
 :root {
     --primary: #1e2124;
-    --dark-primary: #121415;
+    --dark-primary: #1b1e1f;
     --second-primary: #282b30;
     --third-primary: #36393e;
     --sixth-primary: #50545a;
@@ -770,9 +770,9 @@ h1, h2, h3, h4, p {
 .chatItemContainer {
     padding: .3rem;
     display: flex;
-    gap: 1rem;
+    gap: .7rem;
     align-items: center;
-    font-size: 1.6em;
+    font-size: 1.1em;
     border-radius: 5px;
     transition: .2s;
     color: var(--third);
@@ -789,7 +789,6 @@ h1, h2, h3, h4, p {
 .chatNav {
     display: flex;
     flex-direction: column;
-    gap: .1rem;
 }
 .chatItemContainer .circleChat{
     padding: .2rem;
@@ -810,4 +809,30 @@ h1, h2, h3, h4, p {
     white-space: nowrap; /* Prevent text from wrapping to the next line */
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.noChatItem {
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+}
+.noChatCircle {
+    height: 2.4rem;
+    width: 2.4rem;
+    background-color: var(--second-primary);
+    border-radius: 50%;
+}
+
+.noChatBar {
+    background-color: var(--second-primary);
+    flex-grow: 1;
+    height: 1.2rem;
+    border-radius: 500px;
+}
+
+.noFriendBox {
+    display: grid; 
+    place-items: center;
+    font-size: 1.4rem;
+    gap: 1.3rem;
+    color: var(--third)
 }
