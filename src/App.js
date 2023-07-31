@@ -81,7 +81,7 @@ const App = () => {
         
         {!socket ? null : 
         <Route path='/app' element={<NavBar socket={socket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
-            <Route path='chat' element={<Chat socket={socket} token={token}/>}/>
+            <Route path='chat/:id' element={<Chat socket={socket} token={token}/>}/>
                 <Route path="friend" element={<Friend socket={socket} />}>
                     <Route path='all' element={<All addFriendSocket={addFriendSocket} setAddFriendSocket={setAddFriendSocket} socket={socket} token={token} />}/>
                     <Route path='pending' element={<Pending pendingSocket={pendingSocket} setPendingSocket={setPendingSocket} socket={socket} setCounter={setCounter} notifClass={notifClass} setSentMessage={setSentMessage} setNotifClass={setNotifClass} token={token}/>}/>

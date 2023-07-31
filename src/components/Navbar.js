@@ -14,7 +14,8 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const {count} = useSelector((state) => state.unreadCount)
     const {name} = useSelector((state) => state.user)
     const {arr}  = useSelector(state => state.chat)
-    console.log(arr)
+
+
 
 useEffect(() => {
     socket.on('notifyFr' , async(args) => {
