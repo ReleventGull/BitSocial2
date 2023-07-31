@@ -15,5 +15,5 @@ export const chatStateSlice = createSlice({
     }
 })
 
-export const {setChats} = chatStateSlice
+export const {setChats} = chatStateSlice.actions
 export default chatStateSlice.reducer

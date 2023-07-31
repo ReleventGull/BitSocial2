@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
 import {Login, NavBar, Chat, Account, Friend, } from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
+import { useDispatch } from 'react-redux'
+import {setState} from './redux/UserAction'
 import {getMe} from './api/users'
 import {io} from 'socket.io-client'
 
@@ -19,11 +21,10 @@ const App = () => {
     const [addFriendSocket, setAddFriendSocket] = useState(false)
     const navigate = useNavigate()
     const loc = useLocation()
-
+    const dispatch = useDispatch()
 
     const checkMe = async() => {
         const response = await getMe(token)
-        console.log(response)
         if (response.error) {
             console.log("I triggered")
             navigate('/login')
@@ -32,6 +33,7 @@ const App = () => {
             setAddFriendSocket(false)
             window.localStorage.removeItem('token')
         }else {
+            dispatch(setState(response))
             navigate('/app')
             setSocket(
                 io.connect('http://localhost:3000', {
