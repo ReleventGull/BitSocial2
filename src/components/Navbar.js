@@ -39,6 +39,7 @@ useEffect(() => {
 
     const getChats = async() => {
         const response = await getUserChats(token)
+        console.log(response)
         dispatch(setChats(response))
     }
     

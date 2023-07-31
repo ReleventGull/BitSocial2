@@ -2,6 +2,7 @@ const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
 const {searchRequest, searchPending, searchFriendsByQuery, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
+const { checkForExistingChat, deleteChatById, deleteMessageByChatId } = require('../db/chat')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -128,6 +129,11 @@ friendRouter.delete('/delete/friend/:id', requireUser, async(req, res, next) => 
             let userId2
             const deletedFriend = await deleteFriendById(id)
             deletedFriend.user_1_id == userId ? userId2 = deletedFriend.user_2_id : userId2 = deletedFriend.user_1_id
+            const chatCheck = await checkForExistingChat({user1Id: userId, user2Id: userId2})
+            if (chatCheck) {
+                await deleteChatById(chatCheck.id)
+                await deleteMessageByChatId(chatCheck.id)
+            }
             res.send({
                 message: "Success! Friend Deleted",
                 id: deletedFriend.id,

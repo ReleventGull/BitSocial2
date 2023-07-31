@@ -5,7 +5,7 @@ const buildTables = async() => {
         await client.query(`
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
-            username VARCHAR(15) NOT NULL,
+            username VARCHAR(30) NOT NULL,
             password VARCHAR(20) NOT NULL,
             date_joined VARCHAR(255) NOT NULL
         );
