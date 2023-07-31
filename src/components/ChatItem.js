@@ -7,7 +7,7 @@ const ChatItem = ({username, id}) => {
                 <img src='/images/Person.png'/>
             </div>
             
-            {username}
+           <p className="navBarUserName">{username}</p> 
         </div>
     )
 }
