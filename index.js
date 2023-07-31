@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
    socket.on('delete_pending_request', ({recieving, requestId, unread}) => {
         const user_receiving = users.filter(u => u.id == recieving)
         if (user_receiving.length > 0) {
-            users.map(u => {
+            user_receiving.map(u => {
                 io.to(u.socketId).emit('decreaseFr',
                 {message: "Delete friend request", 
                 requestId: requestId, 
@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
     socket.on('delete_friend_request', ({userId, requestId}) => {
         const user_receiving = users.filter(u => u.id == userId)
         if (user_receiving.length > 0) {
-            users.map(u => {
+            user_receiving.map(u => {
                 io.to(u.socketId).emit('delete_pending', {
                     requestId: requestId,
                     path: u.path
@@ -103,11 +103,11 @@ io.on('connection', (socket) => {
     })
 
     socket.on('accept_friend', ({userId, friendId}) => {
-        const user_receiving = users.filter(u => u.id = userId)
+        const user_receiving = users.filter(u => u.id == userId)
         if(user_receiving.length > 0) {
-            users.map(u => {
+            user_receiving.map(u => {
                 io.to(u.socketId).emit('add_friend', {
-                    path: user_receiving.path,
+                    path: u.path,
                     friendId: friendId
                 })
             })
@@ -115,9 +115,10 @@ io.on('connection', (socket) => {
     })
 
     socket.on('delete_friend', ({userId, friendId}) => {
-        const user_receiving = users.filter(u => u.id = userId)
+        const user_receiving = users.filter(u => u.id == userId)
+        console.log(user_receiving, 'user receivingh here')
             if(user_receiving.length > 0) {
-                users.map(u => {
+                user_receiving.map(u => {
                     io.to(u.socketId).emit('remove_friend', {
                         message: "You've been unfriended",
                         removedId: friendId,
