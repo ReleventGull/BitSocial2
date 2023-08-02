@@ -1,9 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState, } from "react"
+import { useLocation } from "react-router-dom"
 
 
+const Chat = ({token, socket}) => {
+const loc = useLocation()
 
-const Chat = ({token}) => {
-
+useEffect(() => {
+    socket.emit('pathname', {
+        path: loc.pathname
+    })
+}, [])
 
 
 
