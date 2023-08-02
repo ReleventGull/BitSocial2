@@ -3,7 +3,9 @@ import { useOutletContext, useLocation } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest, searchRequest} from '../../api/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
+import {addChat} from '../../redux/ChatAction'
 import { deleteCount } from '../../redux/Unread'
+import { getChatById } from '../../api/chat'
 const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
     const { arr, count} = useSelector((state) => state.friendCount)
     const {count: bubbleCount} = useSelector(state => state.unreadCount)
@@ -81,8 +83,12 @@ useEffect(() => {
         socket.emit('accept_friend', {
             message: "Request accepted",
             userId: user2,
-            friendId: response.friend.id
+            friendId: response.friend.id,
+            chatId: response.chat.id
         })
+
+        const chat = await getChatById({token: token, chatId: response.chat.id})
+        dispatch(addChat(chat))
     }
     
 
