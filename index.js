@@ -120,7 +120,7 @@ io.on('connection', (socket) => {
 
     
 
-    socket.on('delete_friend', ({userId, friendId}) => {
+    socket.on('delete_friend', ({userId, friendId, chatId}) => {
         const user_receiving = users.filter(u => u.id == userId)
         console.log(user_receiving, 'user receivingh here')
             if(user_receiving.length > 0) {
@@ -130,7 +130,10 @@ io.on('connection', (socket) => {
                         removedId: friendId,
                         path: u.path
                     })
-             })
+                    io.to(u.socketId).emit('remove_chat', {
+                        chatId: chatId
+                    })
+                })
         }
     })
     socket.on('disconnect', () => {

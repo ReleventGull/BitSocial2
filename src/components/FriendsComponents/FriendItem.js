@@ -13,7 +13,7 @@ const FriendItem = ({user, i, setIndex, index, hoverStyle, removeFriend, token})
         <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => {setIndex(null), setViewMenu(false)}}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">
                         <h2>{user.username}</h2>
                             <div className="userBodyIconBox">
-                            <img onClick={initiateChat}className="userBodyIconImage" src='/images/Chat.png'/>
+                            <img className="userBodyIconImage" src='/images/Chat.png'/>
                                 <div className='friendMenuBox'>
                                     <img onClick={() => setViewMenu((pre) => !pre)} className="userBodyIconImage menu" src='/images/Menu.png'/>
                                     { !viewMenu ? null : 

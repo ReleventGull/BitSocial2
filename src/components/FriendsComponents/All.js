@@ -62,7 +62,8 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
         }
         socket.emit('delete_friend', {
             userId: response.userId,
-            friendId: response.id
+            friendId: response.id,
+            chatId: response.chatId
         })
     }
 
