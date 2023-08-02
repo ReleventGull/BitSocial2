@@ -1,10 +1,10 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import { friendRequestCount, getRequestById } from "../api/users"
-import {getUserChats} from '../api/chat'
+import {getUserChats, getChatById} from '../api/chat'
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
-import { setChats } from "../redux/ChatAction"
+import { setChats, addChat } from "../redux/ChatAction"
 import ChatItem from './ChatItem'
 
 const NavBar = ({notifClass, sentMessage, token, socket}) => {
@@ -25,6 +25,10 @@ useEffect(() => {
             dispatch(decreaseCount())
         }
     })
+    socket.on('create_chat', async({chatId}) => {
+        const chat = await getChatById({token: token, chatId: chatId})
+        dispatch(addChat(chat))
+    })
 }, [])
 
     useEffect(() => {
@@ -40,7 +44,6 @@ useEffect(() => {
 
     const getChats = async() => {
         const response = await getUserChats(token)
-        console.log(response)
         dispatch(setChats(response))
     }
     

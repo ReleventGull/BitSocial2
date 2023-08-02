@@ -7,9 +7,7 @@ const FriendItem = ({user, i, setIndex, index, hoverStyle, removeFriend, token})
     const [viewMenu, setViewMenu] = useState(false)
     const dispatch = useDispatch()
     
-    const initiateChat = async() => {
-        console.log('retrieving chat')
-    }
+
 
     return (
         <div key={i} style={i == index ? hoverStyle : null} onMouseLeave={() => {setIndex(null), setViewMenu(false)}}  onMouseOver={() => setIndex(i + 1)} className="searchUserBody">

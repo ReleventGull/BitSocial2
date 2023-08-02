@@ -109,11 +109,16 @@ io.on('connection', (socket) => {
                 io.to(u.socketId).emit('add_friend', {
                     path: u.path,
                     friendId: friendId,
+                })
+                io.to(u.socketId).emit('create_chat', {
+                    path: u.path,
                     chatId: chatId
                 })
             })
         }
     })
+
+    
 
     socket.on('delete_friend', ({userId, friendId}) => {
         const user_receiving = users.filter(u => u.id == userId)
