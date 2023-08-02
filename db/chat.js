@@ -100,6 +100,49 @@ const deleteMessageByChatId = async (id) => {
         throw error
     }
 }
+
+const createMessage = async ({chatId, userId, message}) => {
+    try {
+        const {rows: [msg]} = await client.query(`
+            INSERT INTO message (chat_id, user_id, message, date)
+             VALUES($1, $2, $3, $4)
+             RETURNING id
+        `, [chatId, userId, message, new Date()])
+        return msg
+    }catch(error) {
+        console.error("ther was an error creating  message", error)
+        throw error
+    }
+}
+const getMessagesByChatId = async(id) => {
+    try {
+        const {rows: messages} = await client.query(`
+            SELECT message.*, users.username
+            FROM message
+            JOIN users ON users.id=message.user_id
+            WHERE message.chat_id=$1
+        `, [id])
+        return messages
+    }catch(error) {
+        console.error("There was an error getting message by id", error)
+        throw error
+    }
+}
+
+const getMessageById = async(id) => {
+    try {
+        const {rows: [message]} = await client.query(`
+        SELECT message.*, users.username
+        FROM message
+        JOIN users ON users.id=message.user_id
+        WHERE message.id=$1
+        `, [id])
+        return message
+    }catch(error) {
+        console.error("There was an error getting message by id", error)
+        throw error
+    }
+}
 module.exports = {
     createChat,
     getChatsByUserId,
@@ -107,5 +150,8 @@ module.exports = {
     createChat,
     deleteChatById,
     deleteMessageByChatId,
-    getChatById
+    getChatById,
+    createMessage,
+    getMessageById,
+    getMessagesByChatId
 }
