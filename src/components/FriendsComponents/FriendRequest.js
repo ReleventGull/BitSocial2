@@ -3,7 +3,9 @@ import { useOutletContext, useLocation } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest, searchRequest} from '../../api/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
+import {addChat} from '../../redux/ChatAction'
 import { deleteCount } from '../../redux/Unread'
+import { getChatById } from '../../api/chat'
 const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, notifClass, setCounter, socket, setIncreaseFrSocket}) => {
     const { arr, count} = useSelector((state) => state.friendCount)
     const {count: bubbleCount} = useSelector(state => state.unreadCount)
@@ -12,23 +14,18 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     const dispatch = useDispatch()
     
     useEffect(() => {
-        console.log(increaseFrSocket)
         if (!increaseFrSocket) {
             socket.on('increaseFr', async(args) => {
-                console.log("I'M INCREASING")
                 if(args.path == '/app/friend/request') {
                     const friendRequest = await retrieveSingleRequest(token, args.userId)
-                    console.log(friendRequest)
                     dispatch(addRequest(friendRequest))
                 }
             })
             socket.on('decreaseFr', (args) => {
-                console.log("Im cecreasing")
                 if(args.path == '/app/friend/request') {
                 dispatch(removeRequest(args.requestId))
                 }
             })
-           
             setIncreaseFrSocket(true)
         }
     }, [])
@@ -38,12 +35,10 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
             path: loc.pathname
             })
         dispatch(deleteCount())
-        
     }, [])
     
     const fetchRequest = async() => {
         const response = await getUserFriendRequests(token)
-        console.log(response)
         dispatch(setRequest(response))
         
     }
@@ -55,6 +50,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
         }
         dispatch(setRequest(obj))
 }
+
 useEffect(() => {
     if (!searchValue) {
         fetchRequest()
@@ -81,8 +77,11 @@ useEffect(() => {
         socket.emit('accept_friend', {
             message: "Request accepted",
             userId: user2,
-            friendId: response.friend.id
+            friendId: response.friend.id,
+            chatId: response.chat.id
         })
+        const chat = await getChatById({token: token, chatId: response.chat.id})
+        dispatch(addChat(chat))
     }
     
 

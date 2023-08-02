@@ -102,17 +102,23 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('accept_friend', ({userId, friendId}) => {
+    socket.on('accept_friend', ({userId, friendId, chatId}) => {
         const user_receiving = users.filter(u => u.id == userId)
         if(user_receiving.length > 0) {
             user_receiving.map(u => {
                 io.to(u.socketId).emit('add_friend', {
                     path: u.path,
-                    friendId: friendId
+                    friendId: friendId,
+                })
+                io.to(u.socketId).emit('create_chat', {
+                    path: u.path,
+                    chatId: chatId
                 })
             })
         }
     })
+
+    
 
     socket.on('delete_friend', ({userId, friendId}) => {
         const user_receiving = users.filter(u => u.id == userId)

@@ -13,15 +13,12 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     useEffect(() => {
         if(!addFriendSocket) {
             socket.on('add_friend', async(args) => {
-                console.log("I was instated", args)
                 if(args.path === '/app/friend/all') {
                     const friendObj = await getFriendById(args.friendId, token)
-                    console.log(friendObj)
                     dispatch(addRequest(friendObj))
                 }
             })
             socket.on('remove_friend', async(args) => {
-                console.log("I got hit with remove friend", args)
                 if(args.path === '/app/friend/all') {
                     dispatch(removeRequest(args.removedId))
                 }
@@ -33,7 +30,6 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     
     const fetchFriends = async () => {
         const response = await getFriends(token)
-        console.log(response)
         const obj = {
             requests: response.friends,
             count: Number(response.count)
@@ -54,7 +50,6 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
         if (!searchValue) {
             fetchFriends()
         }else {
-            console.log("Result goes here")
             searchForFriends()
         }
     }, [searchValue])
