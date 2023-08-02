@@ -22,7 +22,7 @@ const App = () => {
     const navigate = useNavigate()
     const loc = useLocation()
     const dispatch = useDispatch()
-
+    console.log(loc)
     const checkMe = async() => {
         const response = await getMe(token)
         if (response.error) {
