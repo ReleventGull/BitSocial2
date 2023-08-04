@@ -883,9 +883,10 @@ h1, h2, h3, h4, p {
 .usernameMessage {
     margin-top: auto;
     margin-left: 1rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     gap: .5rem;
+    align-items: baseline;
 }
 
 .usernameMessage h3 {
@@ -895,3 +896,16 @@ h1, h2, h3, h4, p {
 .message {
     font-size: 1.2em;
 }
+
+.messageUsernameBox {
+    display: flex;
+    align-items: flex-end;
+    gap: .5rem
+
+}
+
+.userDate {
+    font-size: .75em;
+    color: var(--fifth-primary);
+}
+

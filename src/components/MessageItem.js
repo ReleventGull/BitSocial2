@@ -15,7 +15,10 @@ const MessageItem = ({item, i, arr}) => {
                     </div>
                 </div>
                 <div className="usernameMessage">
-                    <h3>{item.username}</h3>
+                    <div className="messageUsernameBox">
+                        <p className="userName">{item.username} </p>
+                        <p className="userDate">{item.date}</p>
+                    </div>
                     <p className="message">{item.message}</p>
                 </div>
                 </>
