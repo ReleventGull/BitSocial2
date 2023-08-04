@@ -136,6 +136,25 @@ io.on('connection', (socket) => {
                 })
         }
     })
+
+    socket.on('send_message', (args) => {
+        const user_receiving = users.filter(u => u.id == args.userReceiving)
+        console.log(user_receiving)
+        user_receiving.map(u => {
+            io.to(u.socketId).emit('receive_message', {
+                message: {
+                    id: args.id,
+                    date: args.date,
+                    user_id: args.userId,
+                    username: args.username,
+                    chat_id: args.chatId,
+                    message: args.message,
+                },
+                path: u.path,
+            })
+        })
+    })
+
     socket.on('disconnect', () => {
         users.map((u, i, arr) => {
             if (u.socketId == socket.id) {
@@ -145,6 +164,7 @@ io.on('connection', (socket) => {
         })
     })
 })
+
 
 
 

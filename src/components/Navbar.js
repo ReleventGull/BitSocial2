@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
 import { setChats, addChat, removeChat } from "../redux/ChatAction"
+import {addMessage} from '../redux/MessageAction'
 import ChatItem from './ChatItem'
 
 const NavBar = ({notifClass, sentMessage, token, socket}) => {
@@ -31,6 +32,12 @@ useEffect(() => {
     })
     socket.on('remove_chat', ({chatId}) => {
         dispatch(removeChat(chatId))
+    })
+    socket.on('receive_message', (args) => {
+
+        if(args.path = `/app/chat${args.chatId}`){
+            dispatch(addMessage(args.message))
+        }
     })
 }, [])
 
