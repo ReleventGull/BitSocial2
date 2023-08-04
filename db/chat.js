@@ -121,6 +121,7 @@ const getMessagesByChatId = async(id) => {
             FROM message
             JOIN users ON users.id=message.user_id
             WHERE message.chat_id=$1
+            ORDER BY message.id ASC
         `, [id])
         return messages
     }catch(error) {

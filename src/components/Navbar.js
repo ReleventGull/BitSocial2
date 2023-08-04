@@ -34,8 +34,9 @@ useEffect(() => {
         dispatch(removeChat(chatId))
     })
     socket.on('receive_message', (args) => {
-
-        if(args.path = `/app/chat${args.chatId}`){
+        console.log(args)
+        if(args.path == `/app/chat/${args.message.chat_id}`){
+            console.log("Did I trigger")
             dispatch(addMessage(args.message))
         }
     })

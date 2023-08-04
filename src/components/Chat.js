@@ -24,7 +24,7 @@ useEffect(() => {
         path: loc.pathname
     })
     fetchMessage()
-}, [])
+}, [params.id])
 
 useEffect(() => {
     if(containerRef.current) {
