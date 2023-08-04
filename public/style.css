@@ -329,7 +329,7 @@ h1, h2, h3, h4, p {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-rows: .9fr 7fr .6fr;
+    grid-template-rows: .1fr 7fr .4fr;
     background-color: var(--second-primary);
 }
 
@@ -337,11 +337,8 @@ h1, h2, h3, h4, p {
     width: 100%;
     box-sizing: border-box
 }
+ 
 
-
-.interface.two {
-
-}
 
 .interface.three {
     display: flex;
@@ -836,3 +833,79 @@ h1, h2, h3, h4, p {
     gap: 1.3rem;
     color: var(--third)
 }
+
+.messageBox {
+    color: var(--third);
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    padding: .5rem;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.messageBox:hover {
+    background-color: var(--primary);
+}
+
+.interface.two {
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.circleMessageBox {
+    height: auto;
+    width: auto;
+    display: grid;
+    place-items: center;
+
+}
+
+.cirlce { 
+    padding: .3rem;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    background-color: var(--fifth);
+    display: grid;
+    place-items: center;
+}
+
+.cirlce img{
+    height: 100%;
+    width: 100%;
+}
+
+.singleMessage {
+    margin-left: 4rem;
+}
+
+.usernameMessage {
+    margin-top: auto;
+    margin-left: 1rem;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: .5rem;
+    align-items: baseline;
+}
+
+.usernameMessage h3 {
+    font-size: 1.3em;
+}
+
+.message {
+    font-size: 1.2em;
+}
+
+.messageUsernameBox {
+    display: flex;
+    align-items: flex-end;
+    gap: .5rem
+
+}
+
+.userDate {
+    font-size: .75em;
+    color: var(--fifth-primary);
+}
+
