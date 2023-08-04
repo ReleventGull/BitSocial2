@@ -1,7 +1,7 @@
 import { useEffect, useState, } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import {sendMessage, getMessages} from '../api/chat'
-import { setMessages } from "../redux/MessageAction"
+import { setMessages, addMessage } from "../redux/MessageAction"
 import { useDispatch, useSelector } from "react-redux"
 import MessageItem from './MessageItem'
 
@@ -26,8 +26,13 @@ useEffect(() => {
 
 const emitMessage = async(e) => {
     e.preventDefault()
-    const respones = await sendMessage({token: token, message: message, chatId: params.id})
-    console.log(respones)
+    if(!message) return
+    const response = await sendMessage({token: token, message: message, chatId: params.id})
+    if(!response.error) {
+        console.log(response)
+        dispatch(addMessage(response))
+        setMessage('')
+    }
 }
 
     return (
