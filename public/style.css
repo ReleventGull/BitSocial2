@@ -841,14 +841,13 @@ h1, h2, h3, h4, p {
     display: flex;
     padding: .5rem;
     box-sizing: border-box;
-    border-radius: 5px;
 }
+
 .messageBox:hover {
     background-color: var(--primary);
 }
 
 .interface.two {
-    padding: 1rem;
     box-sizing: border-box;
     overflow-y: auto;
 }
