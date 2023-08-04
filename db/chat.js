@@ -129,14 +129,25 @@ const getMessagesByChatId = async(id) => {
     }
 }
 
-const getMessageById = async(id) => {
+const getMessageById = async({id}) => {
     try {
         const {rows: [message]} = await client.query(`
-        SELECT message.*, users.username
+        SELECT message.id AS "message_id", message.chat_id, message.message, message.user_id AS "user_id", message.date, users.username, chat.user_id_1, chat.user_id_2
         FROM message
         JOIN users ON users.id=message.user_id
+        JOIN chat ON message.chat_id=chat.id
         WHERE message.id=$1
         `, [id])
+
+        let userReceiving
+        if(message.user_id == message.user_id_1) {
+            userReceiving = message.user_id_2
+        }else {
+            userReceiving = message.user_id_1
+        }
+        message['user_receiving'] = userReceiving
+        delete message.user_id_1
+        delete message.user_id_2
         return message
     }catch(error) {
         console.error("There was an error getting message by id", error)

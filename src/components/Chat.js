@@ -1,7 +1,7 @@
-import { useEffect, useState, } from "react"
+import { useEffect, useReducer, useState, useRef } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import {sendMessage, getMessages} from '../api/chat'
-import { setMessages } from "../redux/MessageAction"
+import { setMessages, addMessage } from "../redux/MessageAction"
 import { useDispatch, useSelector } from "react-redux"
 import MessageItem from './MessageItem'
 
@@ -10,10 +10,12 @@ const [ message, setMessage ] = useState('')
 const loc = useLocation()
 const params = useParams()
 const dispatch = useDispatch()
+const containerRef = useRef(null)
 const {arr} = useSelector(state => state.messages)
 
 const fetchMessage = async() => {
     const response = await getMessages({token: token, chatId: params.id})
+    console.log(response)
         dispatch(setMessages(response))
 }
 
@@ -24,10 +26,29 @@ useEffect(() => {
     fetchMessage()
 }, [])
 
+useEffect(() => {
+    if(containerRef.current) {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+}, [arr])
+
 const emitMessage = async(e) => {
     e.preventDefault()
-    const respones = await sendMessage({token: token, message: message, chatId: params.id})
-    console.log(respones)
+    if(!message) return
+    const response = await sendMessage({token: token, message: message, chatId: params.id})
+    if(!response.error) {
+        dispatch(addMessage(response))
+        setMessage('')
+    }
+    socket.emit('send_message', {
+        id: response.message_id,
+        chatId: response.chat_id,
+        userId: response.user_id,
+        userReceiving: response.user_receiving,
+        message: response.message,
+        date: response.date,
+        username: response.username
+    })
 }
 
     return (
@@ -35,7 +56,7 @@ const emitMessage = async(e) => {
             <div className="chatInterface">
                 <div className="interface one">
                 </div>
-                <div className="interface two">
+                <div ref={containerRef} className="interface two">
                     {
                         arr.length < 1 ?
                             null
