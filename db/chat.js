@@ -1,4 +1,5 @@
 const client = require('./index')
+const {getUnreadMessageCount} = require('./message')
 
 const createChat = async({user1, user2}) => {
     try {
@@ -32,7 +33,10 @@ const getChatsByUserId = async(userId) => {
                 delete chats[i].user_id_2
             }
         }
-        console.log("Chat in database", chats)
+        for(let i = 0; i < chats.length; i++) {
+            let count = await getUnreadMessageCount({userId: userId, chatId: chats[i].id})
+            chats[i]['count'] = count.count
+        }
         return chats
     }catch(error) {
         console.error("There was an error getting the user chats by the user id", error)

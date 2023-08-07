@@ -19,7 +19,8 @@ const buildTables = async() => {
             chat_id INTEGER REFERENCES chat(id) NOT NULL,
             user_id INTEGER REFERENCES users(id) NOT NULL,
             message VARCHAR(255) NOT NULL,
-            date VARCHAR(255) NOT NULL
+            date VARCHAR(255) NOT NULL,
+            unread BOOLEAN NOT NULL
         );
         CREATE TABLE friends (
             id SERIAL PRIMARY KEY,
