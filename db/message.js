@@ -40,9 +40,25 @@ const getUnreadMessageCount = async({userId, chatId}) =>{
     }
 }
 
+const setMessageToRead = async({userId, chatId}) =>{
+    try {
+        const {rows: [count]} = await client.query(`
+            UPDATE message
+            SET unread=false
+            WHERE user_id!=$1 AND chat_id=$2
+            RETURNING *;
+        `, [userId, chatId])
+        return count
+    }catch(error) {
+        console.error("There was an error gettin un read message count by id", error)
+        throw error
+    }
+}
+
 
 module.exports = {
     createMessage,
     getChatMessagesByChatId,
-    getUnreadMessageCount
+    getUnreadMessageCount,
+    setMessageToRead,
 }

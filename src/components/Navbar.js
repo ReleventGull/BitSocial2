@@ -1,6 +1,6 @@
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
 import { friendRequestCount, getRequestById } from "../api/users"
-import {getUserChats, getChatById} from '../api/chat'
+import {getUserChats, getChatById, updateMessage} from '../api/chat'
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
@@ -33,10 +33,10 @@ useEffect(() => {
     socket.on('remove_chat', ({chatId}) => {
         dispatch(removeChat(chatId))
     })
-    socket.on('receive_message', (args) => {
+    socket.on('receive_message', async (args) => {
         console.log(args)
         if(args.path == `/app/chat/${args.message.chat_id}`){
-            console.log("Did I trigger")
+            const response = await updateMessage({token: token, chatId: args.message.chat_id})
             dispatch(addMessage(args.message))
         }
     })
