@@ -136,8 +136,9 @@ friendRouter.delete('/delete/friend/:id', requireUser, async(req, res, next) => 
             const chatCheck = await checkForExistingChat({user1Id: userId, user2Id: userId2})
             if (chatCheck) {
                 chatId = chatCheck.id
-                await deleteChatById(chatCheck.id)
                 await deleteMessageByChatId(chatCheck.id)
+                await deleteChatById(chatCheck.id)
+                
             }
             res.send({
                 message: "Success! Friend Deleted",

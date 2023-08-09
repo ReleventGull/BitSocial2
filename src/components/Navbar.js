@@ -4,7 +4,7 @@ import {getUserChats, getChatById, updateMessage} from '../api/chat'
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
-import { setChats, addChat, removeChat } from "../redux/ChatAction"
+import { setChats, addChat, removeChat, increaseUnreadMessage } from "../redux/ChatAction"
 import {addMessage} from '../redux/MessageAction'
 import ChatItem from './ChatItem'
 
@@ -36,8 +36,10 @@ useEffect(() => {
     socket.on('receive_message', async (args) => {
         console.log(args)
         if(args.path == `/app/chat/${args.message.chat_id}`){
-            const response = await updateMessage({token: token, chatId: args.message.chat_id})
             dispatch(addMessage(args.message))
+        }else {
+            console.log("Am I receiving this?", args)
+            dispatch(increaseUnreadMessage(args.message.chat_id))
         }
     })
 }, [])
@@ -55,6 +57,7 @@ useEffect(() => {
 
     const getChats = async() => {
         const response = await getUserChats(token)
+        console.log(response)
         dispatch(setChats(response))
     }
     
@@ -84,7 +87,7 @@ useEffect(() => {
                         <h4>DIRECT MESSAGES</h4>
                             <div style={{gap: (arr.length > 0 ? '.1rem' : '.6rem')}}className="chatNav">
                                 {arr.length > 0 ? arr.map(i => 
-                                        <ChatItem username={i.username} id={i.id}/>
+                                        <ChatItem count={i.count} username={i.username} id={i.id}/>
                                     )
                                     :
                                     new Array(10).fill(10).map((a, i) => 

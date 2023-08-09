@@ -54,11 +54,9 @@ chatRouter.post('/send/:id', requireUser, async(req, res, next) => {
         const {id} = req.params
         const {id: userId} = req.user
         const {message} = req.body
-        const chat = getChatById(id)
         const obj = await createMessage({chatId:id, userId: userId, message: message})
         const msg = await getMessageById({id: obj.id, userId: userId})
         console.log(msg)
-
         res.send(msg)
     }catch(error) {
         console.error('There was an error sending a message', error)

@@ -1,8 +1,9 @@
 import { useEffect, useReducer, useState, useRef } from "react"
 import { useLocation, useParams } from "react-router-dom"
-import {sendMessage, getMessages} from '../api/chat'
+import {sendMessage, getMessages, updateMessage} from '../api/chat'
 import { setMessages, addMessage } from "../redux/MessageAction"
 import { useDispatch, useSelector } from "react-redux"
+import {setToRead} from '../redux/ChatAction'
 import MessageItem from './MessageItem'
 
 const Chat = ({token, socket}) => {
@@ -19,12 +20,20 @@ const fetchMessage = async() => {
         dispatch(setMessages(response))
 }
 
+const updateToRead = async() => {
+    const response = await updateMessage({token: token, chatId: params.id})
+}
 useEffect(() => {
     socket.emit('pathname', {
         path: loc.pathname
     })
     fetchMessage()
 }, [params.id])
+
+useEffect(() => {
+    updateToRead()
+    dispatch(setToRead(params.id))
+}, [arr])
 
 useEffect(() => {
     if(containerRef.current) {
