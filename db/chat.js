@@ -15,7 +15,18 @@ const createChat = async({user1, user2}) => {
         throw error
     }
 }
-
+const createChatView = async({userId, chatId}) => {
+    try {
+        const {rows: [view]} = await client.query(`
+            INSERT INTO chatView(user_id, chat_id)
+            VALUES($1, $2)
+        `, [userId])
+        return view
+    }catch(error) {
+        console.error("There was an error setting chat to view", error)
+        throw error
+    }
+}
 const getChatsByUserId = async(userId) => {
     try {
         const {rows: chats} = await client.query(`

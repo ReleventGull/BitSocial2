@@ -14,6 +14,12 @@ const buildTables = async() => {
             user_id_1 INTEGER REFERENCES users(id),
             user_id_2 INTEGER REFERENCES users(id)
         );
+        CREATE TABLE chatView  (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            view BOOLEAN DEFAULT TRUE,
+            chat_id INTEGER REFERENCES chat(id)
+        );
         CREATE TABLE message (
             id SERIAL PRIMARY KEY,
             chat_id INTEGER REFERENCES chat(id) NOT NULL,
