@@ -17,8 +17,8 @@ const Friend = ({socket}) => {
     const loc = useLocation()
 
     useEffect(() => {
-        if(loc.pathname == '/friend'){
-            navigate('/friend/all')
+        if(loc.pathname == '/app/friend'){
+            navigate('/app/friend/all')
             socket.emit('pathname', {
                 path: loc.pathname
             })

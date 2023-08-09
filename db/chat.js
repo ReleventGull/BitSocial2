@@ -8,6 +8,7 @@ const createChat = async({user1, user2}) => {
             VALUES($1, $2)
             RETURNING *
         `, [user1, user2])  
+
         return chat
     }catch(error) {
         console.error("There was an error creating chat", error)
@@ -35,7 +36,7 @@ const getChatsByUserId = async(userId) => {
         }
         for(let i = 0; i < chats.length; i++) {
             let count = await getUnreadMessageCount({userId: userId, chatId: chats[i].id})
-            chats[i]['count'] = count.count
+            chats[i]['count'] = Number(count.count)
         }
         return chats
     }catch(error) {
@@ -55,6 +56,8 @@ const getChatById = async({userId, id}) => {
         END
         WHERE chat.id=$2
         `, [userId, id])
+        console.log(userId, id)
+        chat['count'] = 0
         return chat
     }catch(error) {
         console.error("There was an error getting the user chats by the user id", error)

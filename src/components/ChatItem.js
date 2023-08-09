@@ -1,7 +1,7 @@
     import { Link, useParams} from "react-router-dom"
 
 
-const ChatItem = ({username, id, paramId}) => {
+const ChatItem = ({username, id, paramId, count}) => {
     const params = useParams()
 
     return (
@@ -9,8 +9,10 @@ const ChatItem = ({username, id, paramId}) => {
             <div className="circleChat">
                 <img src='/images/Person.png'/>
             </div>
-            
-           <p className="navBarUserName">{username}</p> 
+            <p className="navBarUserName">{username}</p> 
+            {
+                count > 0 ? <p>{count} </p>: null
+            }
         </Link>
     )
 }
