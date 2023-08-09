@@ -32,9 +32,17 @@ export const chatStateSlice = createSlice({
                     state.arr[i].count = 0 
                 }
             }
+        },
+        shiftToTop: (state, action) => {
+            for(let i = 0; i < state.arr.length; i++) {
+                if(action.payload == state.arr[i].id) {
+                    const chat = state.arr.splice(i, 1)
+                    state.arr.unshift(chat[0])
+                }
+            }
         }
     }
 })
 
-export const {setChats, addChat, removeChat, increaseUnreadMessage, setToRead} = chatStateSlice.actions
+export const {setChats, addChat, removeChat, increaseUnreadMessage, setToRead, shiftToTop} = chatStateSlice.actions
 export default chatStateSlice.reducer
