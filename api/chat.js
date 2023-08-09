@@ -3,6 +3,7 @@ const chatRouter = express.Router()
 const {getMessagesByChatId, getChatsByUserId, getChatById, createMessage, getMessageById} = require('../db/chat')
 const {getUserById} = require('../db/users')
 const requireUser = require('./requireUser')
+const { setMessageToRead } = require('../db/message')
 
 
 chatRouter.get('/all', requireUser, async(req, res, next) => {
@@ -35,6 +36,19 @@ chatRouter.get('/messages/:chatId', requireUser, async (req, res, next) => {
     }
 })
 
+chatRouter.post('/update/:id', async(req, res, next) => {
+    try {
+        const {id} = req.user
+        const {id: chatId} = req.params
+        const response = setMessageToRead({userId: id, chatId: chatId})
+        res.send({
+            message:"Success",
+        })
+    }catch(error) {
+        console.error("There was an error updating the unread", error)
+        throw error
+    }
+})
 chatRouter.post('/send/:id', requireUser, async(req, res, next) => {
     try {
         const {id} = req.params
