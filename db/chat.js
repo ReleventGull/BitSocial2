@@ -20,7 +20,7 @@ const createChatView = async({userId, chatId}) => {
         const {rows: [view]} = await client.query(`
             INSERT INTO chatView(user_id, chat_id)
             VALUES($1, $2)
-        `, [userId])
+        `, [userId, chatId])
         return view
     }catch(error) {
         console.error("There was an error setting chat to view", error)
@@ -30,14 +30,16 @@ const createChatView = async({userId, chatId}) => {
 const getChatsByUserId = async(userId) => {
     try {
         const {rows: chats} = await client.query(`
-        SELECT chat.*, users.username
+        SELECT chat.*, users.username, chatView.view
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
             ELSE chat.user_id_1 = users.id
         END
-        WHERE chat.user_id_1 = $1 OR chat.user_id_2 = $1
-        `, [userId])
+        JOIN chatView ON chat.id=chatView.chat_id AND chatView.user_id = $1
+        WHERE chatView.view=$2 AND chat.user_id_1 = $1 OR chat.user_id_2 = $1  
+        `, [userId, true])
+        console.log(chats)
         for(let i = 0; i < chats.length; i++) {
             if(chats[i].user_id_1 == userId) {
                 delete chats[i].user_id_1
@@ -183,5 +185,6 @@ module.exports = {
     getChatById,
     createMessage,
     getMessageById,
-    getMessagesByChatId
+    getMessagesByChatId,
+    createChatView
 }

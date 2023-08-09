@@ -51,6 +51,7 @@ const buildTables = async() => {
 const dropTables = async() => {
     try {
         await client.query(`
+        DROP TABLE IF EXISTS chatView;
         DROP TABLE IF EXISTS friend_request;
         DROP TABLE IF EXISTS friends;
         DROP TABLE IF EXISTS message;
