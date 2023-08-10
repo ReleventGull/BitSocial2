@@ -19,6 +19,7 @@ const App = () => {
     const [increaseFrSocket, setIncreaseFrSocket] = useState(false)
     const [pendingSocket, setPendingSocket] = useState(false)
     const [addFriendSocket, setAddFriendSocket] = useState(false)
+    const [navBarSocket, setNavBarSocket] = useState(false)
     const navigate = useNavigate()
     const loc = useLocation()
     const dispatch = useDispatch()
@@ -31,6 +32,7 @@ const App = () => {
             setIncreaseFrSocket(false)
             setPendingSocket(false)
             setAddFriendSocket(false)
+            setNavBarSocket(false)
             window.localStorage.removeItem('token')
         }else {
             dispatch(setState(response))
@@ -80,7 +82,7 @@ const App = () => {
             <Route path='settings' element={<Account token={token} setToken={setToken} socket={socket}/>}/>
         
         {!socket ? null : 
-        <Route path='/app' element={<NavBar socket={socket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
+        <Route path='/app' element={<NavBar socket={socket} navBarSocket={navBarSocket} setNavBarSocket={setNavBarSocket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>
             <Route path='chat/:id' element={<Chat socket={socket} token={token}/>}/>
                 <Route path="friend" element={<Friend socket={socket} />}>
                     <Route path='all' element={<All addFriendSocket={addFriendSocket} setAddFriendSocket={setAddFriendSocket} socket={socket} token={token} />}/>
