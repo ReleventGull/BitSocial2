@@ -128,7 +128,8 @@ io.on('connection', (socket) => {
                     io.to(u.socketId).emit('remove_friend', {
                         message: "You've been unfriended",
                         removedId: friendId,
-                        path: u.path
+                        path: u.path,
+                        chatId: chatId
                     })
                     io.to(u.socketId).emit('remove_chat', {
                         chatId: chatId

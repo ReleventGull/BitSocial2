@@ -47,6 +47,11 @@ useEffect(() => {
             }
         }
     })
+    socket.on('remove_friend', async(args) => {
+            if(args.path == `/app/chat/${args.chatId}`) {
+                navigate('/app/friend/all')
+            }
+    })
     setNavBarSocket(true)
     }
 }, [])

@@ -2,7 +2,7 @@ const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
 const {searchRequest, searchPending, searchFriendsByQuery, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
-const { checkForExistingChat, deleteChatById, deleteMessageByChatId, createChat, createChatView, getChatIdByUserIds} = require('../db/chat')
+const { checkForExistingChat, deleteChatById, deleteMessageByChatId, createChat, createChatView, getChatIdByUserIds, deleteChatView} = require('../db/chat')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -144,6 +144,7 @@ friendRouter.delete('/delete/friend/:id', requireUser, async(req, res, next) => 
             if (chatCheck) {
                 chatId = chatCheck.id
                 await deleteMessageByChatId(chatCheck.id)
+                await deleteChatView(chatCheck.id)
                 await deleteChatById(chatCheck.id)
                 
             }

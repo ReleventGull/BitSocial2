@@ -83,9 +83,9 @@ chatRouter.get('/:id', requireUser, async (req, res, next) => {
         const chatId = req.params.id
         const view = await getChatView({userId: id, chatId: chatId})
         const chat = await getChatById({userId: id, id: chatId})
+        console.log("I'm the chat HERE!")
         console.log(view)
         if (view.view == false) {
-
             const result = await setView({userId: id, chatId: chatId})
             console.log("I hit here", result, id, chatId)
             res.send(chat)

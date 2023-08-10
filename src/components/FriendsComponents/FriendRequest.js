@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useOutletContext, useLocation } from "react-router-dom"
+import { useOutletContext, useLocation, useNavigate } from "react-router-dom"
 import {getUserFriendRequests, deleteRequest, addFriend, retrieveSingleRequest, searchRequest} from '../../api/users'
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest, addRequest, removeRequest } from '../../redux/FriendActions'
@@ -12,7 +12,7 @@ const FriendRequest = ({token, increaseFrSocket, setNotifClass, setSentMessage, 
     const {index, setIndex, hoverStyle, searchValue}  = useOutletContext()
     const loc = useLocation()
     const dispatch = useDispatch()
-    
+    const navigate = useNavigate()
     useEffect(() => {
         if (!increaseFrSocket) {
             socket.on('increaseFr', async(args) => {
@@ -82,6 +82,7 @@ useEffect(() => {
         })
         const chat = await getChatById({token: token, chatId: response.chat.id})
         dispatch(addChat(chat))
+        navigate(`/app/chat/${response.chat.id}`)
     }
     
 
