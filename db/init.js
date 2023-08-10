@@ -14,6 +14,12 @@ const buildTables = async() => {
             user_id_1 INTEGER REFERENCES users(id),
             user_id_2 INTEGER REFERENCES users(id)
         );
+        CREATE TABLE chatView  (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            view BOOLEAN DEFAULT TRUE,
+            chat_id INTEGER REFERENCES chat(id)
+        );
         CREATE TABLE message (
             id SERIAL PRIMARY KEY,
             chat_id INTEGER REFERENCES chat(id) NOT NULL,
@@ -45,6 +51,7 @@ const buildTables = async() => {
 const dropTables = async() => {
     try {
         await client.query(`
+        DROP TABLE IF EXISTS chatView;
         DROP TABLE IF EXISTS friend_request;
         DROP TABLE IF EXISTS friends;
         DROP TABLE IF EXISTS message;

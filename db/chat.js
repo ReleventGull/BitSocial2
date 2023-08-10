@@ -15,18 +15,31 @@ const createChat = async({user1, user2}) => {
         throw error
     }
 }
-
+const createChatView = async({userId, chatId}) => {
+    try {
+        const {rows: [view]} = await client.query(`
+            INSERT INTO chatView(user_id, chat_id)
+            VALUES($1, $2)
+        `, [userId, chatId])
+        return view
+    }catch(error) {
+        console.error("There was an error setting chat to view", error)
+        throw error
+    }
+}
 const getChatsByUserId = async(userId) => {
     try {
         const {rows: chats} = await client.query(`
-        SELECT chat.*, users.username
+        SELECT chat.*, users.username, chatView.view
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
             ELSE chat.user_id_1 = users.id
         END
-        WHERE chat.user_id_1 = $1 OR chat.user_id_2 = $1
-        `, [userId])
+        JOIN chatView ON chat.id=chatView.chat_id AND chatView.user_id = $1
+        WHERE chatView.view=$2 AND chat.user_id_1 = $1 OR chat.user_id_2 = $1  
+        `, [userId, true])
+        console.log(chats)
         for(let i = 0; i < chats.length; i++) {
             if(chats[i].user_id_1 == userId) {
                 delete chats[i].user_id_1
@@ -56,8 +69,14 @@ const getChatById = async({userId, id}) => {
         END
         WHERE chat.id=$2
         `, [userId, id])
-        console.log(userId, id)
-        chat['count'] = 0
+        let count = await getUnreadMessageCount({userId: userId, chatId: chat.id})
+        if(!count) {
+            chat['count'] = 0
+        }else {
+            chat['count'] = count.count
+        }
+        
+        
         return chat
     }catch(error) {
         console.error("There was an error getting the user chats by the user id", error)
@@ -162,6 +181,35 @@ const getMessageById = async({id}) => {
         throw error
     }
 }
+
+const getChatView = async({userId, chatId}) => {
+    try {
+        const {rows: [view]} = await client.query(`
+            SELECT * FROM chatView
+            WHERE user_id=$1 AND chat_id = $2
+        `, [userId, chatId])
+        return view
+    }catch(error) {
+        console.error("There was an error getting message by id", error)
+        throw error
+    }
+}
+
+const setView = async({userId, chatId}) => {
+    try {
+        const {rows: [view]} = await client.query(`
+            UPDATE chatView
+            SET view=true
+            WHERE user_id=$1 AND chat_id = $2
+            RETURNING *
+        `, [userId, chatId])
+        return view
+    }catch(error) {
+        console.error("There was an error getting message by id", error)
+        throw error
+    }
+}
+
 module.exports = {
     createChat,
     getChatsByUserId,
@@ -172,5 +220,8 @@ module.exports = {
     getChatById,
     createMessage,
     getMessageById,
-    getMessagesByChatId
+    getMessagesByChatId,
+    createChatView,
+    getChatView,
+    setView
 }

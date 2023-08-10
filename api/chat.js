@@ -1,6 +1,6 @@
 const express = require('express')
 const chatRouter = express.Router()
-const {getMessagesByChatId, getChatsByUserId, getChatById, createMessage, getMessageById} = require('../db/chat')
+const {getMessagesByChatId, getChatsByUserId, getChatById, createMessage, getMessageById, getChatView, setView} = require('../db/chat')
 const {getUserById} = require('../db/users')
 const requireUser = require('./requireUser')
 const { setMessageToRead } = require('../db/message')
@@ -67,8 +67,21 @@ chatRouter.get('/:id', requireUser, async (req, res, next) => {
     try {
         const {id} = req.user
         const chatId = req.params.id
-        const chat = await getChatById({userId: id, id:chatId})
-        res.send(chat)
+        const view = await getChatView({userId: id, chatId: chatId})
+        const chat = await getChatById({userId: id, id: chatId})
+        console.log(view)
+        if (view.view == false) {
+
+            const result = await setView({userId: id, chatId: chatId})
+            console.log("I hit here", result, id, chatId)
+            res.send(chat)
+        }else {
+            res.send({
+                code:"AlreadyExists",
+                message:"Chat already there",
+            })
+        }
+
     }catch(error) {
         console.error("There was an error getting chat by id", error)
         throw error

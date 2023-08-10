@@ -4,7 +4,7 @@ import {getUserChats, getChatById, updateMessage} from '../api/chat'
 import {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { increaseCount, setCount, decreaseCount } from "../redux/Unread"
-import { setChats, addChat, removeChat, increaseUnreadMessage } from "../redux/ChatAction"
+import { setChats, addChat, removeChat, increaseUnreadMessage, shiftToTop, checkForExisting} from "../redux/ChatAction"
 import {addMessage} from '../redux/MessageAction'
 import ChatItem from './ChatItem'
 
@@ -15,8 +15,6 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const {count} = useSelector((state) => state.unreadCount)
     const {name} = useSelector((state) => state.user)
     const {arr}  = useSelector(state => state.chat)
-
-
 
 useEffect(() => {
     socket.on('notifyFr' , async(args) => {
@@ -34,12 +32,18 @@ useEffect(() => {
         dispatch(removeChat(chatId))
     })
     socket.on('receive_message', async (args) => {
-        console.log(args)
         if(args.path == `/app/chat/${args.message.chat_id}`){
             dispatch(addMessage(args.message))
         }else {
-            console.log("Am I receiving this?", args)
-            dispatch(increaseUnreadMessage(args.message.chat_id))
+            const chat = await getChatById({token: token, chatId: args.message.chat_id})
+            console.log(chat)
+            if(chat.code) {
+                console.log("I'm also incrementing")
+                dispatch(increaseUnreadMessage(args.message.chat_id))
+            }else {
+                console.log("I'm adding the chat")
+                dispatch(addChat(chat))
+            }
         }
     })
 }, [])
