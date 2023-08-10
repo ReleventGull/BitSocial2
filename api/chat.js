@@ -17,6 +17,20 @@ chatRouter.get('/all', requireUser, async(req, res, next) => {
     }
 })
 
+chatRouter.post('/view/:id', requireUser, async(req, res, next) => {
+    try {
+        const {id: userId} = req.id
+        const {id} = req.params
+        const view = await getChatView({userId: userId, chatId: id})
+        if(view.view == false) {
+            await setView({userId: userId, chatId: id, boolean: true})
+        }else {
+            await setView({userId: userId, chatId: id, boolean: false})
+        }
+    }catch(error) {
+    }
+})
+
 chatRouter.get('/messages/:chatId', requireUser, async (req, res, next) => {
     try {
         const {id} = req.user

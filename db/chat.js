@@ -131,8 +131,8 @@ const createMessage = async ({chatId, userId, message}) => {
     try {
         const {rows: [msg]} = await client.query(`
             INSERT INTO message (chat_id, user_id, message, date)
-             VALUES($1, $2, $3, $4)
-             RETURNING id
+            VALUES($1, $2, $3, $4)
+            RETURNING id
         `, [chatId, userId, message, new Date()])
         return msg
     }catch(error) {
@@ -195,20 +195,37 @@ const getChatView = async({userId, chatId}) => {
     }
 }
 
-const setView = async({userId, chatId}) => {
+const setView = async({userId, chatId, boolean}) => {
     try {
         const {rows: [view]} = await client.query(`
             UPDATE chatView
-            SET view=true
+            SET view=$3
             WHERE user_id=$1 AND chat_id = $2
             RETURNING *
-        `, [userId, chatId])
+        `, [userId, chatId, boolean])
         return view
     }catch(error) {
         console.error("There was an error getting message by id", error)
         throw error
     }
 }
+
+
+const getChatIdByUserIds = async({user1, user2}) => {
+    try {
+        console.log(user1, user2, 'am I getting hit!@?')
+        const {rows: [id]} = await client.query(`
+            SELECT id from chat
+            WHERE user_id_1=$1 AND user_id_2=$2 OR user_id_1=$2 AND user_id_2=$1
+        `, [user1, user2])
+        console.log("ID after query", id)
+        return id
+    }catch(error) {
+        console.error("There was an error getting chat by user ids")
+        throw error
+    }
+}
+
 
 module.exports = {
     createChat,
@@ -223,5 +240,6 @@ module.exports = {
     getMessagesByChatId,
     createChatView,
     getChatView,
-    setView
+    setView,
+    getChatIdByUserIds,
 }

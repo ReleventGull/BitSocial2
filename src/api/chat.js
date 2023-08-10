@@ -83,3 +83,19 @@ export const updateMessage = async({token, chatId})=> {
         throw error
     }
 }
+
+const changeView = async(chatId) =>{
+    try {
+        const response = await fetch(`${BASE_URL}/chat/view/${chatId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            },
+        }).then(result => result.json())
+        return response 
+    }catch(error) {
+        console.error("There was an error creating the chat", error)
+        throw error
+    }
+}

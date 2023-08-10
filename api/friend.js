@@ -2,7 +2,7 @@ const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
 const {searchRequest, searchPending, searchFriendsByQuery, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
-const { checkForExistingChat, deleteChatById, deleteMessageByChatId, createChat, createChatView} = require('../db/chat')
+const { checkForExistingChat, deleteChatById, deleteMessageByChatId, createChat, createChatView, getChatIdByUserIds} = require('../db/chat')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -100,6 +100,11 @@ friendRouter.get('/retrieve', requireUser, async(req, res, next) => {
     try {
         const {id} = req.user
         const friends = await getFriendsByUserId(id)
+        for(let i = 0; i < friends.length; i++) {
+            const chatId = await getChatIdByUserIds({user1: friends[i].user_1_id, user2: friends[i].user_2_id})
+            friends[i]['chatId'] = chatId.id
+            console.log(chatId, 'chatId here bro')
+        }
         const [count] = await getFriendsCount(id)
         res.send({friends: friends, count: Number(count.count)})
     }catch(error) {
