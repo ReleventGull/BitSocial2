@@ -10,7 +10,6 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     const {arr, count} = useSelector((state) => state.friendCount)
     const dispatch = useDispatch()
     const loc = useLocation()
-    console.log(arr)
     useEffect(() => {
         if(!addFriendSocket) {
             socket.on('add_friend', async(args) => {
@@ -21,6 +20,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
             })
             socket.on('remove_friend', async(args) => {
                 if(args.path === '/app/friend/all') {
+                    console.log(args)
                     dispatch(removeRequest(args.removedId))
                 }
             })
@@ -55,7 +55,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
         }
     }, [searchValue])
     
-    const removeFriend = async (id) => {
+    const removeFriend = async (id, chatId) => {
         const response = await deleteFriend({id: id, token:token})
         dispatch(removeRequest(response.id))
         if(response.chatId) {

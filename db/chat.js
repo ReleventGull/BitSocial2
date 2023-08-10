@@ -226,6 +226,19 @@ const getChatIdByUserIds = async({user1, user2}) => {
     }
 }
 
+const deleteChatView = async(id) => {
+    try {
+        const {rows: deleted} = await client.query(`
+        DELETE FROM chatView 
+        WHERE chat_id=$1 
+        RETURNING *
+        `, [id])
+        return deleted
+    }catch(error) {
+        console.error("There was an error deleting chatView", error)
+        throw error
+    }
+}
 
 module.exports = {
     createChat,
@@ -242,4 +255,5 @@ module.exports = {
     getChatView,
     setView,
     getChatIdByUserIds,
+    deleteChatView
 }
