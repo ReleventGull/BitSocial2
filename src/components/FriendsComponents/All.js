@@ -10,6 +10,7 @@ const All = ({token, socket, addFriendSocket, setAddFriendSocket}) => {
     const {arr, count} = useSelector((state) => state.friendCount)
     const dispatch = useDispatch()
     const loc = useLocation()
+    console.log(arr)
     useEffect(() => {
         if(!addFriendSocket) {
             socket.on('add_friend', async(args) => {
