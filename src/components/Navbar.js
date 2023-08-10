@@ -8,7 +8,7 @@ import { setChats, addChat, removeChat, increaseUnreadMessage, shiftToTop, check
 import {addMessage} from '../redux/MessageAction'
 import ChatItem from './ChatItem'
 
-const NavBar = ({notifClass, sentMessage, token, socket}) => {
+const NavBar = ({notifClass, sentMessage, token, socket, navBarSocket, setNavBarSocket}) => {
     const navigate = useNavigate()
     const loc = useLocation()
     const dispatch = useDispatch()
@@ -17,6 +17,7 @@ const NavBar = ({notifClass, sentMessage, token, socket}) => {
     const {arr}  = useSelector(state => state.chat)
 
 useEffect(() => {
+    if (!navBarSocket) {
     socket.on('notifyFr' , async(args) => {
         if(args.path !== '/app/friend/request' && args.action == 'increase') {
             dispatch(increaseCount())
@@ -46,6 +47,8 @@ useEffect(() => {
             }
         }
     })
+    setNavBarSocket(true)
+    }
 }, [])
 
     useEffect(() => {
