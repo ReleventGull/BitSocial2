@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { getChatById } from '../api/chat'
 export const chatStateSlice = createSlice({
     name: "chatState",
     initialState: {
@@ -40,9 +40,9 @@ export const chatStateSlice = createSlice({
                     state.arr.unshift(chat[0])
                 }
             }
-        }
+        },
     }
 })
 
-export const {setChats, addChat, removeChat, increaseUnreadMessage, setToRead, shiftToTop} = chatStateSlice.actions
+export const {checkForExisting, setChats, addChat, removeChat, increaseUnreadMessage, setToRead, shiftToTop} = chatStateSlice.actions
 export default chatStateSlice.reducer
