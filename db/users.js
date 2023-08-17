@@ -86,7 +86,7 @@ const getUserById = async(id) => {
     }
 }
 
-const generateProfileColor = async({userId}) => {
+const generateProfileColor = async(userId) => {
     try {
         const {rows: [color]} = await client.query(`
             INSERT INTO user_profile_color (user_id, color_code)

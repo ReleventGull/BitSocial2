@@ -27,12 +27,10 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
             if(checkRequest) {
                 let newFriend = await createFriend({user1: user1, user2: user2})
                 const newChat = await createChat({user1: user1, user2: user2})
-            
                 await createChatView({userId: user1, chatId: newChat.id})
                 await createChatView({userId: user2, chatId: newChat.id})
                 await deleteFriendRequest(checkRequest.id)
                 const currentChat = await getChatById({userId: user1, id: newChat.id})
-                console.log(currentChat)
                 res.send({
                     message: "You are now friends",
                     friend: newFriend,

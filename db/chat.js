@@ -31,23 +31,28 @@ const createChatView = async({userId, chatId}) => {
 const getChatsByUserId = async(userId) => {
     try {
         const {rows: chats} = await client.query(`
-        SELECT chat.*, users.username, chatView.view
+        SELECT chat.*, users.username, chatView.view, user_profile_color.color_code
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
             ELSE chat.user_id_1 = users.id
+        END
+        JOIN user_profile_color ON CASE
+            WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = user_profile_color.user_id
+            ELSE chat.user_id_1 = user_profile_color.user_id
         END
         JOIN chatView ON chat.id=chatView.chat_id AND chatView.user_id = $1
         WHERE 
             (
             chat.user_id_1 = $1 OR chat.user_id_2 = $1
             )
-            AND (
-                chatView.view=true
-                )
+            AND 
+            (
+            chatView.view=true
+            )
             
         `, [userId])
-        console.log('chats here', chats)
+        console.log('chats here', chats[0])
         for(let i = 0; i < chats.length; i++) {
             if(chats[i].user_id_1 == userId) {
                 delete chats[i].user_id_1
@@ -69,11 +74,15 @@ const getChatsByUserId = async(userId) => {
 const getChatById = async({userId, id}) => {
     try {
         const {rows: [chat]} = await client.query(`
-        SELECT chat.*, users.username
+        SELECT chat.*, users.username, user_profile_color.color_code
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
             ELSE chat.user_id_1 = users.id
+        END
+        JOIN user_profile_color ON CASE
+            WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = user_profile_color.user_id
+            ELSE chat.user_id_1 = user_profile_color.user_id
         END
         WHERE chat.id=$2
         `, [userId, id])
