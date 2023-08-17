@@ -75,13 +75,27 @@ const getUsersFromSearch = async({searchQuery, userId, pagination}) => {
 const getUserById = async(id) => {
     try {
         const {rows: [user]} = await client.query(`
-        SELECT users.id, users.username, users.date_joined
+        SELECT users.id, users.username, users.date_joined, user_profile_color.color_code AS color
         FROM users
-        WHERE id=$1
+        JOIN user_profile_color ON user_profile_color.user_id = users.id
+        WHERE users.id=$1
         `, [id])
         return user
     }catch(error){
         console.error("There was an error getting the user by the id", error)
+        throw error
+    }
+}
+
+const generateProfileColor = async(userId) => {
+    try {
+        const {rows: [color]} = await client.query(`
+            INSERT INTO user_profile_color (user_id, color_code)
+            VALUES($1, $2)
+        `, [userId, Math.floor(Math.random()*16777215).toString(16)])
+        return color
+    }catch(error) {
+        console.error("There was an error generating random profile color", error)
         throw error
     }
 }
@@ -91,5 +105,6 @@ module.exports = {
     checkPassword,
     getUserByUsername,
     getUsersFromSearch,
-    getUserById
+    getUserById,
+    generateProfileColor
 }

@@ -20,6 +20,7 @@ const createChatView = async({userId, chatId}) => {
         const {rows: [view]} = await client.query(`
             INSERT INTO chatView(user_id, chat_id)
             VALUES($1, $2)
+            RETURNING *
         `, [userId, chatId])
         return view
     }catch(error) {
@@ -30,16 +31,28 @@ const createChatView = async({userId, chatId}) => {
 const getChatsByUserId = async(userId) => {
     try {
         const {rows: chats} = await client.query(`
-        SELECT chat.*, users.username, chatView.view
+        SELECT chat.*, users.username, chatView.view, user_profile_color.color_code AS color
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
             ELSE chat.user_id_1 = users.id
         END
+        JOIN user_profile_color ON CASE
+            WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = user_profile_color.user_id
+            ELSE chat.user_id_1 = user_profile_color.user_id
+        END
         JOIN chatView ON chat.id=chatView.chat_id AND chatView.user_id = $1
-        WHERE chatView.view=$2 AND chat.user_id_1 = $1 OR chat.user_id_2 = $1  
-        `, [userId, true])
-        console.log(chats)
+        WHERE 
+            (
+            chat.user_id_1 = $1 OR chat.user_id_2 = $1
+            )
+            AND 
+            (
+            chatView.view=true
+            )
+            
+        `, [userId])
+        console.log('chats here', chats[0])
         for(let i = 0; i < chats.length; i++) {
             if(chats[i].user_id_1 == userId) {
                 delete chats[i].user_id_1
@@ -61,11 +74,15 @@ const getChatsByUserId = async(userId) => {
 const getChatById = async({userId, id}) => {
     try {
         const {rows: [chat]} = await client.query(`
-        SELECT chat.*, users.username
+        SELECT chat.*, users.username, user_profile_color.color_code AS color
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
             ELSE chat.user_id_1 = users.id
+        END
+        JOIN user_profile_color ON CASE
+            WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = user_profile_color.user_id
+            ELSE chat.user_id_1 = user_profile_color.user_id
         END
         WHERE chat.id=$2
         `, [userId, id])
@@ -203,6 +220,7 @@ const setView = async({userId, chatId, boolean}) => {
             WHERE user_id=$1 AND chat_id = $2
             RETURNING *
         `, [userId, chatId, boolean])
+        console.log("Set view got called for some fucking reason", view, boolean)
         return view
     }catch(error) {
         console.error("There was an error getting message by id", error)

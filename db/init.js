@@ -9,6 +9,11 @@ const buildTables = async() => {
             password VARCHAR(20) NOT NULL,
             date_joined VARCHAR(255) NOT NULL
         );
+        CREATE TABLE user_profile_color (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            color_code VARCHAR(40) UNIQUE NOT NULL
+        );
         CREATE TABLE chat (
             id SERIAL PRIMARY KEY,
             user_id_1 INTEGER REFERENCES users(id),
@@ -51,6 +56,7 @@ const buildTables = async() => {
 const dropTables = async() => {
     try {
         await client.query(`
+        DROP TABLE IF EXISTS user_profile_color;
         DROP TABLE IF EXISTS chatView;
         DROP TABLE IF EXISTS friend_request;
         DROP TABLE IF EXISTS friends;
