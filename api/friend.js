@@ -2,7 +2,7 @@ const express = require('express')
 const friendRouter = express.Router()
 const requireUser = require('./requireUser')
 const {searchRequest, searchPending, searchFriendsByQuery, updateReadStatus, getFriendById, deleteFriendById, getRequestByBothIds, getUnreadFriendRequestByUserId, getRequestCount, getPendingCount, getFriendsCount, getRequestByUserId, getFriendByIds, createFriend, createFriendRequest, deleteFriendRequest, getFriendRequestById, getFriendsByUserId, getPendingRequest} = require('../db/friends')
-const { checkForExistingChat, deleteChatById, deleteMessageByChatId, createChat, createChatView, getChatIdByUserIds, deleteChatView} = require('../db/chat')
+const { checkForExistingChat, deleteChatById, deleteMessageByChatId, createChat, createChatView, getChatIdByUserIds, deleteChatView, getChatById} = require('../db/chat')
 
 
 friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
@@ -27,13 +27,16 @@ friendRouter.post('/sendRequest', requireUser, async(req, res, next) => {
             if(checkRequest) {
                 let newFriend = await createFriend({user1: user1, user2: user2})
                 const newChat = await createChat({user1: user1, user2: user2})
+            
                 await createChatView({userId: user1, chatId: newChat.id})
                 await createChatView({userId: user2, chatId: newChat.id})
                 await deleteFriendRequest(checkRequest.id)
+                const currentChat = await getChatById({userId: user1, id: newChat.id})
+                console.log(currentChat)
                 res.send({
                     message: "You are now friends",
                     friend: newFriend,
-                    chat : newChat
+                    chat : currentChat
                 })
             }else {
                 const checkDoubleRequest = await getRequestByUserId({user1: user1, user2: user2})

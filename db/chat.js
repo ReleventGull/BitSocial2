@@ -20,6 +20,7 @@ const createChatView = async({userId, chatId}) => {
         const {rows: [view]} = await client.query(`
             INSERT INTO chatView(user_id, chat_id)
             VALUES($1, $2)
+            RETURNING *
         `, [userId, chatId])
         return view
     }catch(error) {
@@ -37,9 +38,16 @@ const getChatsByUserId = async(userId) => {
             ELSE chat.user_id_1 = users.id
         END
         JOIN chatView ON chat.id=chatView.chat_id AND chatView.user_id = $1
-        WHERE chatView.view=$2 AND chat.user_id_1 = $1 OR chat.user_id_2 = $1  
-        `, [userId, true])
-        console.log(chats)
+        WHERE 
+            (
+            chat.user_id_1 = $1 OR chat.user_id_2 = $1
+            )
+            AND (
+                chatView.view=true
+                )
+            
+        `, [userId])
+        console.log('chats here', chats)
         for(let i = 0; i < chats.length; i++) {
             if(chats[i].user_id_1 == userId) {
                 delete chats[i].user_id_1
@@ -203,6 +211,7 @@ const setView = async({userId, chatId, boolean}) => {
             WHERE user_id=$1 AND chat_id = $2
             RETURNING *
         `, [userId, chatId, boolean])
+        console.log("Set view got called for some fucking reason", view, boolean)
         return view
     }catch(error) {
         console.error("There was an error getting message by id", error)

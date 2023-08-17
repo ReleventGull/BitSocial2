@@ -2,7 +2,7 @@ const express = require('express')
 const userRouter = express.Router()
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = process.env
-const {checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch, getUserById} = require('../db/users')
+const {generateProfileColor, checkExistingUserByUsername, createUser, checkPassword, getUserByUsername, getUsersFromSearch, getUserById} = require('../db/users')
 const requireUser = require('./requireUser')
 
 userRouter.get('/me', requireUser, async(req, res, next) => {
@@ -46,10 +46,12 @@ userRouter.post('/register', async(req, res, next) => {
             }else {
                 const user = await createUser({username: username, password: password})
                 const token = jwt.sign(user, JWT_SECRET)
+                const color = await generateProfileColor(user.id)
                 res.send({
                     message: "Success, Welcome!",
                     token: token,
-                    user: user
+                    user: user,
+                    color: color
                 })
             }
         }

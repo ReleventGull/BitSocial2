@@ -27,6 +27,7 @@ useEffect(() => {
     })
     socket.on('create_chat', async({chatId}) => {
         const chat = await getChatById({token: token, chatId: chatId})
+        console.log("CHat here after add", chat)
         dispatch(addChat(chat))
     })
     socket.on('remove_chat', ({chatId}) => {

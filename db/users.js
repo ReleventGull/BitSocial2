@@ -85,11 +85,25 @@ const getUserById = async(id) => {
         throw error
     }
 }
+
+const generateProfileColor = async({userId}) => {
+    try {
+        const {rows: [color]} = await client.query(`
+            INSERT INTO user_profile_color (user_id, color_code)
+            VALUES($1, $2)
+        `, [userId, Math.floor(Math.random()*16777215).toString(16)])
+        return color
+    }catch(error) {
+        console.error("There was an error generating random profile color", error)
+        throw error
+    }
+}
 module.exports = {
     createUser,
     checkExistingUserByUsername,
     checkPassword,
     getUserByUsername,
     getUsersFromSearch,
-    getUserById
+    getUserById,
+    generateProfileColor
 }
