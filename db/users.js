@@ -75,9 +75,10 @@ const getUsersFromSearch = async({searchQuery, userId, pagination}) => {
 const getUserById = async(id) => {
     try {
         const {rows: [user]} = await client.query(`
-        SELECT users.id, users.username, users.date_joined
+        SELECT users.id, users.username, users.date_joined, user_profile_color.color_code AS color
         FROM users
-        WHERE id=$1
+        JOIN user_profile_color ON user_profile_color.user_id = users.id
+        WHERE users.id=$1
         `, [id])
         return user
     }catch(error){

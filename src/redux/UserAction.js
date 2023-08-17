@@ -5,7 +5,8 @@ const userReducer = createSlice({
     initialState: {
         name: '',
         id: '',
-        date_joined: ''
+        date_joined: '',
+        color: ''
     },
     reducers: {
         setState: (state, action) => {
@@ -13,6 +14,7 @@ const userReducer = createSlice({
             state.name = action.payload.username
             state.id = action.payload.id
             state.date_joined = action.payload.date_joined
+            state.color = action.payload.color
         }
     }
 })

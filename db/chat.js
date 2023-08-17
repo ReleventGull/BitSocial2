@@ -31,7 +31,7 @@ const createChatView = async({userId, chatId}) => {
 const getChatsByUserId = async(userId) => {
     try {
         const {rows: chats} = await client.query(`
-        SELECT chat.*, users.username, chatView.view, user_profile_color.color_code
+        SELECT chat.*, users.username, chatView.view, user_profile_color.color_code AS color
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id
@@ -74,7 +74,7 @@ const getChatsByUserId = async(userId) => {
 const getChatById = async({userId, id}) => {
     try {
         const {rows: [chat]} = await client.query(`
-        SELECT chat.*, users.username, user_profile_color.color_code
+        SELECT chat.*, users.username, user_profile_color.color_code AS color
         FROM chat
         JOIN users ON CASE
             WHEN chat.user_id_1 = $1 THEN chat.user_id_2 = users.id

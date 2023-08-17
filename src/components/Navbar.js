@@ -13,9 +13,9 @@ const NavBar = ({notifClass, sentMessage, token, socket, navBarSocket, setNavBar
     const loc = useLocation()
     const dispatch = useDispatch()
     const {count} = useSelector((state) => state.unreadCount)
-    const {name} = useSelector((state) => state.user)
+    const {name, color} = useSelector((state) => state.user)
     const {arr}  = useSelector(state => state.chat)
-
+    console.log(color)
 useEffect(() => {
     if (!navBarSocket) {
     socket.on('notifyFr' , async(args) => {
@@ -38,7 +38,6 @@ useEffect(() => {
             dispatch(addMessage(args.message))
         }else {
             const chat = await getChatById({token: token, chatId: args.message.chat_id})
-            console.log(chat)
             if(chat.code) {
                 console.log("I'm also incrementing")
                 dispatch(increaseUnreadMessage(args.message.chat_id))
@@ -100,7 +99,7 @@ useEffect(() => {
                         <h4>DIRECT MESSAGES</h4>
                             <div style={{gap: (arr.length > 0 ? '.1rem' : '.6rem')}}className="chatNav">
                                 {arr.length > 0 ? arr.map(i => 
-                                        <ChatItem count={i.count} username={i.username} id={i.id}/>
+                                        <ChatItem color={i.color} count={i.count} username={i.username} id={i.id}/>
                                     )
                                     :
                                     new Array(10).fill(10).map((a, i) => 
@@ -116,7 +115,12 @@ useEffect(() => {
                 </div>
             </div>
                 <div className="navbarProfileBox">
+                    <div className="profilePictureBox">
+                        <div style={{backgroundColor: `#${color}`}} className="profilePic">
+                        <img src='/images/Person.png'/>
+                        </div>
                     <p>{name}</p>
+                    </div>
                     <Link to='/settings' className="settingsNavbar">
                         <img className='settingsNavbarIcon' src='./images/Gear.png'/>
                     </Link>
