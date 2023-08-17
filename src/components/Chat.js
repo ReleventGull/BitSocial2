@@ -12,14 +12,12 @@ const loc = useLocation()
 const params = useParams()
 const dispatch = useDispatch()
 const containerRef = useRef(null)
-const {arr} = useSelector(state => state.messages)
+const {arr, color} = useSelector(state => state.messages)
 
 const fetchMessage = async() => {
     const response = await getMessages({token: token, chatId: params.id})
-    console.log(response)
-        dispatch(setMessages(response))
+    dispatch(setMessages(response))
 }
-
 const updateToRead = async() => {
     const response = await updateMessage({token: token, chatId: params.id})
 }
@@ -56,7 +54,7 @@ const emitMessage = async(e) => {
         userReceiving: response.user_receiving,
         message: response.message,
         date: response.date,
-        username: response.username
+        username: response.username,
     })
 }
 
@@ -71,7 +69,7 @@ const emitMessage = async(e) => {
                             null
                             :
                             arr.map((item, i, arr) =>
-                                <MessageItem item={item} i={i} arr={arr}/>
+                                <MessageItem color={color} item={item} i={i} arr={arr}/>
                             )
                     }
                 </div>

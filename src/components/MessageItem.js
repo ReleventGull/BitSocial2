@@ -1,16 +1,14 @@
+import { useSelector } from "react-redux"
 
-
-
-
-const MessageItem = ({item, i, arr}) => {
-
+const MessageItem = ({color, item, i, arr}) => {
+    const {color: userColor, id} = useSelector(state => state.user)
     return (
-        <div style={{marginTop : (i - 1 < 0  || arr[i].user_id !== arr[i-1].user_id ? '1rem': '0')}} className="messageBox">
+        <div style={{ marginTop : (i - 1 < 0  || arr[i].user_id !== arr[i-1].user_id ? '1rem': '0')}} className="messageBox">
             {
             i - 1 < 0  || arr[i].user_id !== arr[i-1].user_id ? 
                 <>
                 <div className="circleMessageBox">
-                    <div className="cirlce">
+                    <div style={{backgroundColor: `#${item.user_id==id ? userColor : color}`}} className="cirlce">
                     <img src='/images/Person.png'/>
                     </div>
                 </div>

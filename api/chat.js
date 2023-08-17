@@ -36,6 +36,7 @@ chatRouter.get('/messages/:chatId', requireUser, async (req, res, next) => {
         const {id} = req.user
         const {chatId} = req.params
         const checkPermission = await getChatById({userId: id, id: chatId})
+        console.log('permission here', checkPermission)
         if(checkPermission.user_id_1 !== id && checkPermission.user_id_2 !== id) {
             res.status(401).send({
                 error: "PermissionDenied",
@@ -43,7 +44,7 @@ chatRouter.get('/messages/:chatId', requireUser, async (req, res, next) => {
             })
         } 
         const messages = await getMessagesByChatId(chatId)
-        res.send(messages)
+        res.send({messages: messages, color: checkPermission.color})
     }catch(error) {
         console.error("There was an error fetching chat messages", error)
         throw error
