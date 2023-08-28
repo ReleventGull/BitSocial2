@@ -1,9 +1,20 @@
-import { Outlet } from "react-router-dom";
-
+import { Outlet, useLocation} from "react-router-dom";
+const settingsObj = ['Account', 'Privacy']
 const Settings = () => {
+    const loc = useLocation()
+    
     return (
         <div className="settingsPage">
-            <div>This is where shit goes</div>
+            <div className="settingOptions">
+                <p className="settingsTitle">USER SETTINGS</p>
+                <div className="settingsList">
+                    {settingsObj.map(i =>
+                        <div className={'optionSettings' + (`/settings/${i.toLowerCase()}` == loc.pathname ? ' active' : '')}>
+                            {i}
+                        </div>
+                        )}
+                </div>
+            </div>
 
 
 

@@ -934,3 +934,54 @@ h1, h2, h3, h4, p {
         display: none;
     }
 }
+
+.settingsPage {
+    height: 100%;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: .5fr 1fr;
+    background-color: var(--dark-primary);
+}
+
+.settingOptions {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.settingsTitle {
+    color: var(--fourt-primary);
+    font-size: .9em;
+    width: 10rem;
+    padding: .6rem
+}
+
+.settingsList {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 10rem;
+    padding: .3rem;
+    font-size: 1.2em;
+}
+
+.optionSettings {
+    color: var(--third);
+    width: 100%;
+    padding: .3rem
+}
+
+.optionSettings:hover {
+    background-color: var(--second-primary);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.optionSettings.active {
+    background-color: var(--sixth-primary);
+    border-radius: 5px;
+}
