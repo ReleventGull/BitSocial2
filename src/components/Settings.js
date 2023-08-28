@@ -17,15 +17,20 @@ const Settings = () => {
             </div>
 
 
-
-        <Outlet />
+        <div className="outletSettings">
+            <Outlet />
+        </div>
         
 
-
-
-
-
+        <div className="exitSettingsBox">
+            <div className="exitBox">
+                <div className="circleContainer">
+                    <p>X</p>
+                </div>
+                <h4>ESC</h4>
+            </div>
         </div>
+    </div>
     )
 }
 
