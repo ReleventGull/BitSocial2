@@ -1,8 +1,8 @@
-import { Outlet, useLocation} from "react-router-dom";
+import { Outlet, useLocation, useNavigate} from "react-router-dom";
 const settingsObj = ['Account', 'Privacy']
 const Settings = () => {
     const loc = useLocation()
-    
+    const nav = useNavigate()
     return (
         <div className="settingsPage">
             <div className="settingOptions">
@@ -24,7 +24,7 @@ const Settings = () => {
 
         <div className="exitSettingsBox">
             <div className="exitBox">
-                <div className="circleContainer">
+                <div onClick={() => nav('/app')}className="circleContainer">
                     <p>X</p>
                 </div>
                 <h4>ESC</h4>
