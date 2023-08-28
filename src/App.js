@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom'
-import {Login, NavBar, Chat, Account, Friend, } from './components/index'
+import {Login, NavBar, Chat, Account, Friend, Settings} from './components/index'
 import { All, Pending, FriendRequest, SearchFriends, } from './components/FriendsComponents'
 import { useDispatch } from 'react-redux'
 import {setState} from './redux/UserAction'
@@ -78,7 +78,9 @@ const App = () => {
         <Routes>
         <Route path='login' element={<Login token={token} setToken={setToken}/>}/>
 
-            <Route path='settings' element={<Account token={token} setToken={setToken} socket={socket}/>}/>
+            <Route path='settings' element={<Settings/>}>
+                <Route path='account' element={<Account token={token} setToken={setToken} socket={socket}/>}/>
+            </Route>
         
         {!socket ? null : 
         <Route path='/app' element={<NavBar socket={socket} navBarSocket={navBarSocket} setNavBarSocket={setNavBarSocket} token={token} sentMessage={sentMessage} notifClass={notifClass} setToken={setToken}/>}>

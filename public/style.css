@@ -604,11 +604,11 @@ h1, h2, h3, h4, p {
     gap: 1.8rem;
     padding: 1rem;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .profileInformation {
-    max-width: 50rem;
+    max-width: 70rem;
     min-width: 20rem;
     padding: 1rem;
     box-sizing: border-box;
@@ -674,7 +674,7 @@ h1, h2, h3, h4, p {
 }
 
 .passwordAccountHeading {
-    max-width: 50rem;
+    max-width: 70rem;
     min-width: 20rem;
     margin-top: 3rem;
     margin-bottom: 1rem;
@@ -933,4 +933,97 @@ h1, h2, h3, h4, p {
     .userDate {
         display: none;
     }
+}
+
+.settingsPage {
+    height: 100%;
+    display: flex;
+    background-color: var(--dark-primary);
+}
+
+.settingOptions {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-color: var(--primary)
+}
+
+.settingsTitle {
+    color: var(--fourt-primary);
+    font-size: .9em;
+    width: 10rem;
+    padding: .6rem
+}
+
+.settingsList {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 10rem;
+    padding: .3rem;
+    font-size: 1.2em;
+}
+
+.optionSettings {
+    color: var(--third);
+    width: 100%;
+    padding: .3rem
+}
+
+.optionSettings:hover {
+    background-color: var(--second-primary);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.optionSettings.active {
+    background-color: var(--sixth-primary);
+    border-radius: 5px;
+}
+
+.exitSettingsBox {
+    background-color: var(--second-primary);
+    padding: 1rem;
+    width: 10%;
+}
+
+.circleContainer {
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: .2rem;
+    border-radius: 50%;
+    border: 3px solid var(--fifth-primary);
+    display: grid;
+    place-items: center;
+    font-size: 1.5em;
+    color: var(--fifth-primary);
+}
+
+.circleContainer:hover {
+    border: 3px solid var(--third);
+    color: var(--third);
+    cursor: pointer;
+}
+
+.circleContainer:hover + h4 {
+    color: var(--third);
+}
+
+
+.exitBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    color: var(--fifth-primary);
+}
+
+.outletSettings{
+    flex-grow: 1;
+    width: 70%
 }

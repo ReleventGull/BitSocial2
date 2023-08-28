@@ -121,7 +121,7 @@ useEffect(() => {
                         </div>
                     <p>{name}</p>
                     </div>
-                    <Link to='/settings' className="settingsNavbar">
+                    <Link to='/settings/account' className="settingsNavbar">
                         <img className='settingsNavbarIcon' src='./images/Gear.png'/>
                     </Link>
                 </div>
