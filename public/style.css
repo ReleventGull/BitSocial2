@@ -947,7 +947,7 @@ h1, h2, h3, h4, p {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding: 1rem;
+    padding: .5rem;
     box-sizing: border-box;
     background-color: var(--primary)
 }
@@ -989,6 +989,8 @@ h1, h2, h3, h4, p {
     background-color: var(--second-primary);
     padding: 1rem;
     width: 10%;
+    display: flex;
+    
 }
 
 .circleContainer {
@@ -1015,6 +1017,8 @@ h1, h2, h3, h4, p {
 
 
 .exitBox {
+    height: 6rem;
+    width: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1026,4 +1030,34 @@ h1, h2, h3, h4, p {
 .outletSettings{
     flex-grow: 1;
     width: 70%
+}
+
+@media only screen and (max-width: 850px) {
+    .settingOptions {
+        display: none;
+    }
+    .circleContainer {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1em;
+    }
+    .exitBox {
+        width: 20%;
+    }
+    .outletSettings {
+        width: 80%;
+    }
+    .profileContainer {
+        padding: .2rem;
+        box-sizing: border-box;
+    }
+    .exitSettingsBox {
+        padding: .2rem;
+        display: flex;
+        justify-content: center;
+    }
+    .exitBox {
+        height: 6rem;
+        width: 6rem;
+    }
 }
